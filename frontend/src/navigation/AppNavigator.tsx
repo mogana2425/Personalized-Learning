@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { COLORS } from '../components/Theme';
-import { Platform, View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Platform, View, Text, TouchableOpacity, StyleSheet, Image, useWindowDimensions } from 'react-native';
 
 import { LayoutDashboard, BookOpen, MessageSquare, LineChart, UserCog, Zap, LogOut, Upload, Users } from 'lucide-react-native';
 
@@ -297,9 +297,11 @@ const AdminNavigator = () => (
 export const AppNavigator = () => {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const isWeb = Platform.OS === 'web';
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 768;
 
-  // On web with authenticated student → show sidebar layout directly (no Stack needed)
-  if (isWeb && isAuthenticated && user?.role === 'student') {
+  // On web with authenticated student → show sidebar layout on desktop, or mobile tabs on small screens
+  if (isWeb && isAuthenticated && user?.role === 'student' && isDesktop) {
     return <WebStudentNavigator />;
   }
 

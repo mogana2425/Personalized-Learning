@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
-  RefreshControl, Dimensions, Platform, Alert
+  RefreshControl, Dimensions, Platform, Alert, useWindowDimensions
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -101,6 +101,8 @@ const WeeklyBarChart: React.FC<{ data: number[]; quizCount: number }> = ({ data,
 };
 
 export const StudentDashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const { width: windowWidth } = useWindowDimensions();
+  const isSmallScreen = windowWidth < 768;
   const user = useSelector((state: RootState) => state.auth.user);
   const [metrics, setMetrics] = useState<DashboardMetrics>({
     overallProgress: 0,
@@ -223,11 +225,11 @@ export const StudentDashboardScreen: React.FC<{ navigation: any }> = ({ navigati
       )}
 
       {/* ── 3. AI LEARNING SCORE (HERO) ── */}
-      <View style={styles.heroCard}>
+      <View style={[styles.heroCard, isSmallScreen && { padding: 20 }]}>
         <View style={styles.blobTL} />
         <View style={styles.blobBR} />
-        <View style={styles.heroRow}>
-          <View style={styles.heroLeft}>
+        <View style={[styles.heroRow, isSmallScreen && { flexDirection: 'column', gap: 20 }]}>
+          <View style={[styles.heroLeft, isSmallScreen && { marginRight: 0 }]}>
             <Text style={styles.heroPreTitle}>AI Learning Score</Text>
             <CircularProgress
               progress={progress}
@@ -237,13 +239,13 @@ export const StudentDashboardScreen: React.FC<{ navigation: any }> = ({ navigati
               darkMode
             />
           </View>
-          <View style={styles.heroRight}>
-            <Text style={styles.heroRightTitle}>Great job, {firstName}!</Text>
-            <Text style={styles.heroRightDesc}>
+          <View style={[styles.heroRight, isSmallScreen && { alignItems: 'center' }]}>
+            <Text style={[styles.heroRightTitle, isSmallScreen && { textAlign: 'center', fontSize: 20 }]}>Great job, {firstName}!</Text>
+            <Text style={[styles.heroRightDesc, isSmallScreen && { textAlign: 'center', fontSize: 13 }]}>
               You are mastering your subjects. Keep completing your learning path to reach 100%.
             </Text>
             <TouchableOpacity 
-              style={styles.heroBtn}
+              style={[styles.heroBtn, isSmallScreen && { alignSelf: 'center' }]}
               onPress={() => navigation.navigate('MyLearning')}
             >
               <Text style={styles.heroBtnText}>Continue Learning</Text>
@@ -255,7 +257,7 @@ export const StudentDashboardScreen: React.FC<{ navigation: any }> = ({ navigati
 
       {/* ── 4. STRENGTHS & WEAKNESSES ── */}
       {skillEntries.length > 0 && (
-        <View style={styles.swGrid}>
+        <View style={[styles.swGrid, isSmallScreen && { flexDirection: 'column' }]}>
           <View style={[styles.swCard, { borderColor: '#dcfce7', backgroundColor: '#f0fdf4' }]}>
             <Text style={styles.swTitle}>Strengths</Text>
             {strengths.map(([skill]) => (
