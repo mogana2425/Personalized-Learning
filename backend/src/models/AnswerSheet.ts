@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IEvaluation {
   score: number;
@@ -10,7 +10,7 @@ export interface IEvaluation {
 }
 
 export interface IAnswerSheet extends Document {
-  studentId: Schema.Types.ObjectId;
+  studentId: Types.ObjectId;
   subject: string;
   topic?: string;
   fileUrl: string; // Cloudinary or local upload path

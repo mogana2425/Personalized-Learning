@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IResource {
   title: string;
@@ -14,7 +14,7 @@ export interface ISubTopic {
   description: string;
   status: 'locked' | 'active' | 'completed';
   resources: IResource[];
-  quizId?: Schema.Types.ObjectId; // Adaptive quiz for this subtopic
+  quizId?: Types.ObjectId; // Adaptive quiz for this subtopic
 }
 
 export interface IWeek {
@@ -25,7 +25,7 @@ export interface IWeek {
 }
 
 export interface ILearningPath extends Document {
-  studentId: Schema.Types.ObjectId;
+  studentId: Types.ObjectId;
   subject: string;
   currentWeek: number;
   active: boolean;

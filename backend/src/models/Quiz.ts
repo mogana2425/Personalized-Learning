@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IQuestion {
   questionText: string;
@@ -18,7 +18,7 @@ export interface IQuiz extends Document {
   questions: IQuestion[];
   isInitialAssessment: boolean;
   timeLimitMinutes: number; // For timed tests
-  creatorId?: Schema.Types.ObjectId; // If created by a teacher
+  creatorId?: Types.ObjectId; // If created by a teacher
   createdAt: Date;
   updatedAt: Date;
 }

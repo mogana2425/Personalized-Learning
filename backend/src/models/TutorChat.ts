@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IMessage {
   role: 'user' | 'model';
@@ -7,7 +7,7 @@ export interface IMessage {
 }
 
 export interface ITutorChat extends Document {
-  studentId: Schema.Types.ObjectId;
+  studentId: Types.ObjectId;
   messages: IMessage[];
   createdAt: Date;
   updatedAt: Date;

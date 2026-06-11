@@ -1,7 +1,7 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IProfile extends Document {
-  studentId: Schema.Types.ObjectId;
+  studentId: Types.ObjectId;
   avatar?: string;
   age?: number;
   class: string; // e.g. "Grade 10", "Year 12"

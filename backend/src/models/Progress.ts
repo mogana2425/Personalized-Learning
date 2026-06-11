@@ -1,7 +1,7 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IQuizLog {
-  quizId: Schema.Types.ObjectId;
+  quizId: Types.ObjectId;
   title: string;
   score: number;
   totalQuestions: number;
@@ -10,7 +10,7 @@ export interface IQuizLog {
 }
 
 export interface IProgress extends Document {
-  studentId: Schema.Types.ObjectId;
+  studentId: Types.ObjectId;
   overallProgress: number; // overall percentage (0 - 100)
   streak: number; // consecutive active learning days
   lastActiveDate?: Date;

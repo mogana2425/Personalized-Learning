@@ -1,7 +1,7 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IReply {
-  authorId: Schema.Types.ObjectId;
+  authorId: Types.ObjectId;
   authorName: string;
   body: string;
   upvotes: number;
@@ -9,14 +9,14 @@ export interface IReply {
 }
 
 export interface ICommunityPost extends Document {
-  authorId: Schema.Types.ObjectId;
+  authorId: Types.ObjectId;
   authorName: string;
   title: string;
   body: string;
   subject: string;
   tags: string[];
   upvotes: number;
-  upvotedBy: Schema.Types.ObjectId[];
+  upvotedBy: Types.ObjectId[];
   replies: IReply[];
   createdAt: Date;
   updatedAt: Date;
