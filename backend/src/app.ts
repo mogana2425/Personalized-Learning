@@ -1,0 +1,65 @@
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load Environment Variables first
+dotenv.config();
+
+import { connectDB } from './config/db';
+import { errorHandler } from './middleware/errorMiddleware';
+
+// Import Routes
+import authRoutes from './routes/authRoutes';
+import profileRoutes from './routes/profileRoutes';
+import pathRoutes from './routes/pathRoutes';
+import quizRoutes from './routes/quizRoutes';
+import tutorRoutes from './routes/tutorRoutes';
+import uploadRoutes from './routes/uploadRoutes';
+import dashboardRoutes from './routes/dashboardRoutes';
+import reportRoutes from './routes/reportRoutes';
+import notificationRoutes from './routes/notificationRoutes';
+import communityRoutes from './routes/communityRoutes';
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve Local Uploads Static Folder
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+// Routes mapping
+app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/path', pathRoutes);
+app.use('/api/quiz', quizRoutes);
+app.use('/api/tutor', tutorRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/report', reportRoutes);
+app.use('/api/notification', notificationRoutes);
+app.use('/api/community', communityRoutes);
+
+// Base route for server health check
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'healthy', timestamp: new Date() });
+});
+
+// Error Handling Middleware
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5001;
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`[PLIS Server] Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  });
+  connectDB().catch((err) => {
+    console.error('Initial database connection warning:', err.message);
+  });
+}
+
+export default app;
