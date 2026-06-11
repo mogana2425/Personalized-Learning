@@ -55,6 +55,7 @@ export type StudentTabParamList = {
   MyLearning: undefined;
   Upload: undefined;
   AITutor: undefined;
+  Community: undefined;
   Profile: undefined;
 };
 
@@ -246,6 +247,7 @@ const StudentTabNavigator = () => (
         if (route.name === 'MyLearning') return <BookOpen color={color} size={s} />;
         if (route.name === 'Upload') return <Upload color={color} size={s} />;
         if (route.name === 'AITutor') return <MessageSquare color={color} size={s} />;
+        if (route.name === 'Community') return <Users color={color} size={s} />;
         return <UserCog color={color} size={s} />;
       },
       tabBarActiveTintColor: COLORS.primaryLight,
@@ -267,6 +269,7 @@ const StudentTabNavigator = () => (
     <Tab.Screen name="MyLearning" component={LearningPathScreen} options={{ title: 'Learning Path' }} />
     <Tab.Screen name="Upload" component={AnswerSheetUploadScreen} options={{ title: 'Upload' }} />
     <Tab.Screen name="AITutor" component={AITutorScreen} options={{ title: 'AI Tutor Chat' }} />
+    <Tab.Screen name="Community" component={CommunityScreen} options={{ title: 'Community' }} />
     <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Student Profile' }} />
   </Tab.Navigator>
 );
