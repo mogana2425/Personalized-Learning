@@ -81,7 +81,7 @@ const AuthNavigator = () => (
 );
 
 // ─── Web Sidebar Student Navigator ───────────────────────────────────────────
-type WebRoute = 'Dashboard' | 'MyLearning' | 'Upload' | 'AITutor' | 'Community' | 'Profile' | 'AnalysisReport';
+type WebRoute = 'Dashboard' | 'MyLearning' | 'Upload' | 'AITutor' | 'Community' | 'Profile' | 'AnalysisReport' | 'Assessment';
 
 const webNavItems: { key: WebRoute; label: string; icon: React.ReactNode; activeIcon: React.ReactNode }[] = [
   {
@@ -131,7 +131,11 @@ const WebStudentNavigator: React.FC = () => {
 
   const fakeNavigation = {
     navigate: (screen: string, params?: any) => {
-      if (screen === 'Assessment') return;
+      if (screen === 'Assessment') {
+        setActiveRoute('Assessment');
+        setWebParams(params);
+        return;
+      }
       if (screen === 'AnalysisReport') {
         setActiveRoute('AnalysisReport');
         setWebParams(params);
@@ -146,7 +150,9 @@ const WebStudentNavigator: React.FC = () => {
       setWebParams(undefined);
       setActiveRoute(screen as WebRoute);
     },
-    goBack: () => {},
+    goBack: () => {
+      setActiveRoute('Dashboard');
+    },
   };
 
   const renderScreen = () => {
@@ -158,6 +164,7 @@ const WebStudentNavigator: React.FC = () => {
       case 'AITutor': return <AITutorScreen navigation={fakeNavigation} />;
       case 'Community': return <CommunityScreen navigation={fakeNavigation} />;
       case 'Profile': return <ProfileScreen navigation={fakeNavigation} />;
+      case 'Assessment': return <AssessmentScreen route={{ params: webParams }} navigation={fakeNavigation} />;
       default: return <StudentDashboardScreen navigation={fakeNavigation} />;
     }
   };
