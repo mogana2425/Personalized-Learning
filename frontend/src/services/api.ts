@@ -8,9 +8,7 @@ const getBaseUrl = () => {
   if (process.env.EXPO_PUBLIC_API_URL) {
     return process.env.EXPO_PUBLIC_API_URL;
   }
-  // For physical Android devices using adb reverse, localhost works.
-  // For emulators, localhost also works if adb reverse tcp:5001 tcp:5001 is run.
-  return 'http://localhost:5001/api';
+  return 'https://personalized-learning-2mb7.onrender.com/api';
 };
 
 const api = axios.create({
