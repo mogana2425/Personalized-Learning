@@ -1,10 +1,9 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
+import { supabase } from '../config/supabaseClient';
 import { GeminiService } from '../services/geminiService';
-import Notification from '../models/Notification';
-import Profile from '../models/Profile';
-import LearningPath from '../models/LearningPath';
-import TutorChat from '../models/TutorChat';
+import fs from 'fs';
+import path from 'path';
 
 export const getChatHistory = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
@@ -13,13 +12,18 @@ export const getChatHistory = async (req: AuthenticatedRequest, res: Response): 
       return;
     }
 
-    const tutorChat = await TutorChat.findOne({ studentId: req.user._id });
-    if (!tutorChat) {
+    const { data: tutorChat, error } = await supabase
+      .from('tutor_chats')
+      .select('*')
+      .eq('student_id', req.user.id)
+      .maybeSingle();
+
+    if (error || !tutorChat) {
       res.json({ success: true, history: [] });
       return;
     }
 
-    res.json({ success: true, history: tutorChat.messages });
+    res.json({ success: true, history: tutorChat.messages || [] });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -38,20 +42,36 @@ export const sendMessage = async (req: AuthenticatedRequest, res: Response): Pro
     let context = '';
 
     if (req.user) {
-      const profile = await Profile.findOne({ studentId: req.user._id });
-      const path = await LearningPath.findOne({ studentId: req.user._id, active: true });
+      const studentId = req.user.id;
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('student_id', studentId)
+        .maybeSingle();
+
+      const { data: pathData } = await supabase
+        .from('learning_paths')
+        .select('*')
+        .eq('student_id', studentId)
+        .eq('active', true)
+        .maybeSingle();
 
       if (profile) {
+        const goals = Array.isArray(profile.learning_goals) ? profile.learning_goals : [];
+        const preferredStyle = profile.preferred_learning_style || 'visual';
+        const skillScores = profile.skill_scores || {};
+        const weeks = pathData && Array.isArray(pathData.weeks) ? pathData.weeks : [];
+
         context = `
           You are tutoring a student named ${req.user.name}.
           You are a very friendly, enthusiastic, and approachable teacher. 
           CRITICAL INSTRUCTION: Teach in small, bite-sized chunks. Do NOT give long walls of text. 
           Make learning fun and occasionally use light humor or jokes.
           Provide answers that give a deep, "big picture" understanding of the concept, despite being short.
-          Their learning style: ${profile.preferredLearningStyle}.
-          Their goals: ${profile.learningGoals.join(', ')}.
-          Their skill scores (out of 100): ${JSON.stringify(profile.skillScores)}.
-          ${path && path.weeks ? `Their active learning path involves: ${path.weeks.map(w => w.title).join(', ')}` : ''}
+          Their learning style: ${preferredStyle}.
+          Their goals: ${goals.join(', ')}.
+          Their skill scores (out of 100): ${JSON.stringify(skillScores)}.
+          ${weeks.length > 0 ? `Their active learning path involves: ${weeks.map((w: any) => w.title).join(', ')}` : ''}
           Keep your responses highly personalized, actionable, short, and encouraging based on this profile.
         `;
       }
@@ -60,31 +80,38 @@ export const sendMessage = async (req: AuthenticatedRequest, res: Response): Pro
     // Call Gemini tutoring API
     const reply = await GeminiService.tutorChat(message, chatHistory, context);
 
-    // Save to database using atomic $push to avoid Mongoose subdocument array issues
+    // Save to database
     if (req.user && message && message.trim() && reply && reply.trim()) {
+      const studentId = req.user.id;
       const newMessages = [
-        { role: 'user' as const, text: message.trim(), createdAt: new Date() },
-        { role: 'model' as const, text: reply.trim(), createdAt: new Date() },
+        { role: 'user', text: message.trim(), createdAt: new Date().toISOString() },
+        { role: 'model', text: reply.trim(), createdAt: new Date().toISOString() },
       ];
 
-      const existing = await TutorChat.findOne({ studentId: req.user._id });
+      const { data: existingChat } = await supabase
+        .from('tutor_chats')
+        .select('*')
+        .eq('student_id', studentId)
+        .maybeSingle();
 
-      if (!existing) {
+      if (!existingChat) {
         // Create fresh record
-        await TutorChat.create({ studentId: req.user._id, messages: newMessages });
+        await supabase
+          .from('tutor_chats')
+          .insert({ student_id: studentId, messages: newMessages });
       } else {
-        // Atomically push only valid new messages (never rewrite the whole array)
-        await TutorChat.updateOne(
-          { studentId: req.user._id },
-          { $push: { messages: { $each: newMessages } } }
-        );
+        const updatedMessages = [...(existingChat.messages || []), ...newMessages];
+        await supabase
+          .from('tutor_chats')
+          .update({ messages: updatedMessages, updated_at: new Date().toISOString() })
+          .eq('student_id', studentId);
       }
     }
 
     // Create a notification record occasionally to encourage learning
     if (chatHistory.length === 0 && req.user) {
-      await Notification.create({
-        userId: req.user._id,
+      await supabase.from('notifications').insert({
+        user_id: req.user.id,
         title: 'AI Tutor Active',
         message: 'Your AI Tutor is ready to answer questions on any subject.',
         type: 'recommendation',
@@ -93,7 +120,14 @@ export const sendMessage = async (req: AuthenticatedRequest, res: Response): Pro
 
     res.json({ success: true, reply });
   } catch (error: any) {
-    require('fs').appendFileSync('/Users/kaveen/Documents/Personalized Learning/backend/tutor_error.log', new Date().toISOString() + ': ' + error.message + '\\n' + error.stack + '\\n');
+    try {
+      fs.appendFileSync(
+        path.join(__dirname, '../../tutor_error.log'),
+        new Date().toISOString() + ': ' + error.message + '\n' + error.stack + '\n'
+      );
+    } catch (logErr) {
+      console.error('Failed to log error to file:', logErr);
+    }
     res.status(500).json({ success: false, message: error.message });
   }
 };

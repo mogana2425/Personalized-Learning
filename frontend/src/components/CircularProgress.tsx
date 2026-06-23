@@ -35,15 +35,14 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
         <Defs>
           <LinearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             {darkMode ? (
-              <>
-                <Stop offset="0%" stopColor="#a5b4fc" />
-                <Stop offset="100%" stopColor="#e879f9" />
-              </>
+              <Stop offset="0%" stopColor="#a5b4fc" />
             ) : (
-              <>
-                <Stop offset="0%" stopColor={COLORS.primaryLight} />
-                <Stop offset="100%" stopColor={COLORS.secondary} />
-              </>
+              <Stop offset="0%" stopColor={COLORS.primaryLight} />
+            )}
+            {darkMode ? (
+              <Stop offset="100%" stopColor="#e879f9" />
+            ) : (
+              <Stop offset="100%" stopColor={COLORS.secondary} />
             )}
           </LinearGradient>
         </Defs>

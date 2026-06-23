@@ -8,15 +8,13 @@ services:
     envVars:
       - key: PORT
         value: "8000"
-      - key: MONGO_URI
+      - key: SUPABASE_KEY
         sync: false
       - key: GEMINI_API_KEY
         sync: false
       - key: JWT_SECRET
         sync: false
       - key: SUPABASE_URL
-        sync: false
-      - key: SUPABASE_SERVICE_KEY
         sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false

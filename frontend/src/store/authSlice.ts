@@ -28,12 +28,38 @@ interface AuthState {
   isAuthenticated: boolean;
 }
 
-// Load persisted auth state from localStorage
+// Safe storage helper for Web vs Native environments
+const safeStorage = {
+  getItem: (key: string): string | null => {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        return localStorage.getItem(key);
+      }
+    } catch (_) {}
+    return null;
+  },
+  setItem: (key: string, value: string): void => {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(key, value);
+      }
+    } catch (_) {}
+  },
+  removeItem: (key: string): void => {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem(key);
+      }
+    } catch (_) {}
+  }
+};
+
+// Load persisted auth state from safeStorage
 const loadAuthState = (): AuthState => {
   try {
-    const token = localStorage.getItem('plis_token');
-    const user = localStorage.getItem('plis_user');
-    const profile = localStorage.getItem('plis_profile');
+    const token = safeStorage.getItem('plis_token');
+    const user = safeStorage.getItem('plis_user');
+    const profile = safeStorage.getItem('plis_profile');
     if (token && user) {
       return {
         token,
@@ -56,24 +82,24 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.user = action.payload.user;
       state.isAuthenticated = true;
-      // Persist to localStorage
-      localStorage.setItem('plis_token', action.payload.token);
-      localStorage.setItem('plis_user', JSON.stringify(action.payload.user));
+      // Persist to safeStorage
+      safeStorage.setItem('plis_token', action.payload.token);
+      safeStorage.setItem('plis_user', JSON.stringify(action.payload.user));
     },
     logout: (state) => {
       state.token = null;
       state.user = null;
       state.profile = null;
       state.isAuthenticated = false;
-      // Clear localStorage
-      localStorage.removeItem('plis_token');
-      localStorage.removeItem('plis_user');
-      localStorage.removeItem('plis_profile');
+      // Clear safeStorage
+      safeStorage.removeItem('plis_token');
+      safeStorage.removeItem('plis_user');
+      safeStorage.removeItem('plis_profile');
     },
     setProfile: (state, action: PayloadAction<ProfileState>) => {
       state.profile = action.payload;
-      // Persist profile to localStorage
-      localStorage.setItem('plis_profile', JSON.stringify(action.payload));
+      // Persist profile to safeStorage
+      safeStorage.setItem('plis_profile', JSON.stringify(action.payload));
     },
     updateSkillScores: (state, action: PayloadAction<Record<string, number>>) => {
       if (state.profile) {

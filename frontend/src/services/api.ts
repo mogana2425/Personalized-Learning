@@ -8,9 +8,8 @@ const getBaseUrl = () => {
   if (process.env.EXPO_PUBLIC_API_URL) {
     return process.env.EXPO_PUBLIC_API_URL;
   }
-  if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:5001/api';
-  }
+  // For physical Android devices using adb reverse, localhost works.
+  // For emulators, localhost also works if adb reverse tcp:5001 tcp:5001 is run.
   return 'http://localhost:5001/api';
 };
 

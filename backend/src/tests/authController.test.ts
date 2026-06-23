@@ -1,20 +1,29 @@
-// Mocks MUST be defined at the very top of the file before any other imports
-jest.mock('../models/User', () => ({
-  __esModule: true,
-  default: {
-    findOne: jest.fn(),
-    create: jest.fn(),
-    findById: jest.fn(),
-  },
-}));
+import { Request, Response } from 'express';
 
-jest.mock('../models/Progress', () => ({
-  __esModule: true,
-  default: {
-    findOne: jest.fn(),
-    create: jest.fn(),
-  },
-}));
+// Create a holder for mock functions to bypass TDZ/hoisting issues in Jest
+const mockSupabaseActions = {
+  maybeSingle: jest.fn(),
+  single: jest.fn(),
+};
+
+jest.mock('../config/supabaseClient', () => {
+  return {
+    supabase: {
+      from: jest.fn().mockImplementation((table: string) => {
+        const chain: any = {
+          select: jest.fn().mockReturnThis(),
+          insert: jest.fn().mockReturnThis(),
+          update: jest.fn().mockReturnThis(),
+          delete: jest.fn().mockReturnThis(),
+          eq: jest.fn().mockReturnThis(),
+          maybeSingle: () => mockSupabaseActions.maybeSingle(),
+          single: () => mockSupabaseActions.single(),
+        };
+        return chain;
+      }),
+    },
+  };
+});
 
 jest.mock('bcryptjs', () => ({
   __esModule: true,
@@ -36,10 +45,7 @@ jest.mock('jsonwebtoken', () => ({
   sign: () => 'mock_jwt_token',
 }));
 
-import { Request, Response } from 'express';
 import { register, login } from '../controllers/authController';
-import User from '../models/User';
-import Progress from '../models/Progress';
 
 describe('Authentication Controller Unit Tests', () => {
   let mockRequest: Partial<Request>;
@@ -48,6 +54,19 @@ describe('Authentication Controller Unit Tests', () => {
   let statusMock: jest.Mock;
 
   beforeEach(() => {
+    const { supabase } = require('../config/supabaseClient');
+    supabase.from.mockImplementation((table: string) => {
+      const chain: any = {
+        select: jest.fn().mockReturnThis(),
+        insert: jest.fn().mockReturnThis(),
+        update: jest.fn().mockReturnThis(),
+        delete: jest.fn().mockReturnThis(),
+        eq: jest.fn().mockReturnThis(),
+        maybeSingle: () => mockSupabaseActions.maybeSingle(),
+        single: () => mockSupabaseActions.single(),
+      };
+      return chain;
+    });
     jsonMock = jest.fn();
     statusMock = jest.fn().mockReturnValue({ json: jsonMock });
     mockRequest = {};
@@ -67,26 +86,22 @@ describe('Authentication Controller Unit Tests', () => {
         role: 'student',
       };
 
-      // Mock user not existing in DB
-      (User.findOne as jest.Mock).mockResolvedValue(null);
-      
-      // Mock User.create returning user object
-      const mockCreatedUser = {
-        _id: 'mock_student_id',
-        name: 'Jane Doe',
-        email: 'jane@plis.com',
-        role: 'student',
-      };
-      (User.create as jest.Mock).mockResolvedValue(mockCreatedUser);
-      (Progress.create as jest.Mock).mockResolvedValue({});
+      // Mock email check: maybeSingle returns null (user doesn't exist)
+      mockSupabaseActions.maybeSingle.mockResolvedValue({ data: null, error: null });
+
+      // Mock user insert return
+      mockSupabaseActions.single.mockResolvedValue({
+        data: {
+          id: 'mock_student_id',
+          name: 'Jane Doe',
+          email: 'jane@plis.com',
+          role: 'student',
+        },
+        error: null,
+      });
 
       await register(mockRequest as Request, mockResponse as Response);
 
-      expect(User.findOne).toHaveBeenCalledWith({ email: 'jane@plis.com' });
-      expect(User.create).toHaveBeenCalled();
-      expect(Progress.create).toHaveBeenCalledWith(
-        expect.objectContaining({ studentId: 'mock_student_id' })
-      );
       expect(statusMock).toHaveBeenCalledWith(201);
       expect(jsonMock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -104,12 +119,14 @@ describe('Authentication Controller Unit Tests', () => {
         password: 'securePassword123',
       };
 
-      // Mock user existing in DB
-      (User.findOne as jest.Mock).mockResolvedValue({ email: 'jane@plis.com' });
+      // Mock email check: maybeSingle returns user data
+      mockSupabaseActions.maybeSingle.mockResolvedValue({
+        data: { id: 'existing_id', email: 'jane@plis.com' },
+        error: null,
+      });
 
       await register(mockRequest as Request, mockResponse as Response);
 
-      expect(User.findOne).toHaveBeenCalledWith({ email: 'jane@plis.com' });
       expect(statusMock).toHaveBeenCalledWith(400);
       expect(jsonMock).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -127,19 +144,20 @@ describe('Authentication Controller Unit Tests', () => {
         password: 'securePassword123',
       };
 
-      // Mock user in DB
-      const mockDBUser = {
-        _id: 'mock_student_id',
-        name: 'Jane Doe',
-        email: 'jane@plis.com',
-        password: 'hashed_password',
-        role: 'student',
-      };
-      (User.findOne as jest.Mock).mockResolvedValue(mockDBUser);
+      // Mock find user
+      mockSupabaseActions.maybeSingle.mockResolvedValue({
+        data: {
+          id: 'mock_student_id',
+          name: 'Jane Doe',
+          email: 'jane@plis.com',
+          password: 'hashed_password',
+          role: 'student',
+        },
+        error: null,
+      });
 
       await login(mockRequest as Request, mockResponse as Response);
 
-      expect(User.findOne).toHaveBeenCalledWith({ email: 'jane@plis.com' });
       expect(jsonMock).toHaveBeenCalledWith(
         expect.objectContaining({
           success: true,

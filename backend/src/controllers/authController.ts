@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
-import User from '../models/User';
-import Progress from '../models/Progress';
+import { supabase } from '../config/supabaseClient';
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
 
 const generateToken = (id: string): string => {
@@ -17,17 +15,29 @@ const generateToken = (id: string): string => {
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, email, password, phone, role, parentEmail, childEmails } = req.body;
+    const sanitizedEmail = email ? email.trim().toLowerCase() : '';
+    const sanitizedParentEmail = parentEmail ? parentEmail.trim().toLowerCase() : null;
 
-    // In development mode or if database is offline (and not in testing mode), allow repeating registrations of the same email
-    if (process.env.NODE_ENV !== 'test' && (mongoose.connection.readyState !== 1 || process.env.NODE_ENV === 'development')) {
-      const existingUser = await User.findOne({ email });
+    // In development mode, allow repeating registrations of the same email by deleting the old one
+    if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV === 'development') {
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('email', sanitizedEmail)
+        .maybeSingle();
+
       if (existingUser) {
-        await User.deleteOne({ email });
-        await Progress.deleteOne({ studentId: existingUser._id });
+        // Cascade delete on progress is handled by DB schema (ON DELETE CASCADE)
+        await supabase.from('users').delete().eq('id', existingUser.id);
       }
     }
 
-    const userExists = await User.findOne({ email });
+    const { data: userExists } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', sanitizedEmail)
+      .maybeSingle();
+
     if (userExists) {
       res.status(400).json({ success: false, message: 'User already exists with this email' });
       return;
@@ -35,45 +45,51 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     // Hash Password
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = password ? await bcrypt.hash(password, salt) : null;
 
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      phone,
-      role: role || 'student',
-      parentEmail: role === 'student' ? parentEmail : undefined,
-      childEmails: role === 'parent' ? childEmails : undefined,
-    });
+    const { data: user, error: createError } = await supabase
+      .from('users')
+      .insert({
+        name,
+        email: sanitizedEmail,
+        password: hashedPassword,
+        phone,
+        role: role || 'student',
+        parent_email: role === 'student' ? sanitizedParentEmail : null,
+        child_emails: role === 'parent' ? childEmails : null,
+      })
+      .select()
+      .single();
 
-    if (user) {
-      // If user is a student, automatically initialize their progress tracker document
-      if (user.role === 'student') {
-        await Progress.create({
-          studentId: user._id,
-          overallProgress: 0,
-          streak: 1,
-          lastActiveDate: new Date(),
-          weeklyHours: [0, 0, 0, 0, 0, 0, 0],
-          completedTopicsCount: 0,
-          quizzesTaken: [],
-          timeSpentMinutes: 0,
-        });
-      }
-
-      res.status(201).json({
-        success: true,
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        token: generateToken(user._id.toString()),
-      });
-    } else {
-      res.status(400).json({ success: false, message: 'Invalid user data' });
+    if (createError || !user) {
+      res.status(400).json({ success: false, message: createError?.message || 'Invalid user data' });
+      return;
     }
+
+    // If user is a student, automatically initialize their progress tracker document
+    if (user.role === 'student') {
+      await supabase.from('progress').insert({
+        student_id: user.id,
+        overall_progress: 0,
+        streak: 1,
+        last_active_date: new Date().toISOString(),
+        weekly_hours: [0, 0, 0, 0, 0, 0, 0],
+        completed_topics_count: 0,
+        quizzes_taken: [],
+        time_spent_minutes: 0,
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user.id),
+    });
   } catch (error: any) {
+    console.error('TESTING REGISTER ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -81,37 +97,49 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
+    const sanitizedEmail = email ? email.trim().toLowerCase() : '';
+    console.log(`[DEBUG LOGIN] [${new Date().toISOString()}] Attempting login for:`, sanitizedEmail);
 
-    const user = await User.findOne({ email });
-    if (!user || !user.password) {
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', sanitizedEmail)
+      .maybeSingle();
+
+    console.log('[DEBUG LOGIN] Database lookup user found:', !!user, 'error:', error);
+
+    if (error || !user || !user.password) {
+      console.log('[DEBUG LOGIN] Failure path: User not found or missing password in database.');
       res.status(401).json({ success: false, message: 'Invalid email or password' });
       return;
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log('[DEBUG LOGIN] password match result:', isMatch);
     if (!isMatch) {
+      console.log('[DEBUG LOGIN] Failure path: Password mismatch.');
       res.status(401).json({ success: false, message: 'Invalid email or password' });
       return;
     }
 
     // Update lastActiveDate if student
     if (user.role === 'student') {
-      const progress = await Progress.findOne({ studentId: user._id });
-      if (progress) {
-        progress.lastActiveDate = new Date();
-        await progress.save();
-      }
+      await supabase
+        .from('progress')
+        .update({ last_active_date: new Date().toISOString() })
+        .eq('student_id', user.id);
     }
 
     res.json({
       success: true,
-      _id: user._id,
+      _id: user.id,
       name: user.name,
       email: user.email,
       role: user.role,
-      token: generateToken(user._id.toString()),
+      token: generateToken(user.id),
     });
   } catch (error: any) {
+    console.error('TESTING LOGIN ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -119,48 +147,61 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 export const mobileOtpLogin = async (req: Request, res: Response): Promise<void> => {
   try {
     const { phone, otp } = req.body;
-    
-    // Simple mock verification: standard validation for demo
+
     if (!phone) {
       res.status(400).json({ success: false, message: 'Phone number is required' });
       return;
     }
-    
+
     if (otp !== '123456' && otp !== '654321') {
       res.status(400).json({ success: false, message: 'Invalid OTP code. Try 123456.' });
       return;
     }
 
-    // Try finding user by phone, or create mock student
-    let user = await User.findOne({ phone });
+    let { data: user } = await supabase
+      .from('users')
+      .select('*')
+      .eq('phone', phone)
+      .maybeSingle();
+
     if (!user) {
       const email = `otp_${phone.slice(-4)}@plis.com`;
-      user = await User.create({
-        name: `OTP User ${phone.slice(-4)}`,
-        email,
-        phone,
-        role: 'student',
-      });
+      const { data: newUser, error: createError } = await supabase
+        .from('users')
+        .insert({
+          name: `OTP User ${phone.slice(-4)}`,
+          email,
+          phone,
+          role: 'student',
+        })
+        .select()
+        .single();
 
-      await Progress.create({
-        studentId: user._id,
-        overallProgress: 0,
+      if (createError || !newUser) {
+        res.status(400).json({ success: false, message: createError?.message || 'Error creating user via OTP' });
+        return;
+      }
+      user = newUser;
+
+      await supabase.from('progress').insert({
+        student_id: user.id,
+        overall_progress: 0,
         streak: 1,
-        lastActiveDate: new Date(),
-        weeklyHours: [0, 0, 0, 0, 0, 0, 0],
-        completedTopicsCount: 0,
-        quizzesTaken: [],
-        timeSpentMinutes: 0,
+        last_active_date: new Date().toISOString(),
+        weekly_hours: [0, 0, 0, 0, 0, 0, 0],
+        completed_topics_count: 0,
+        quizzes_taken: [],
+        time_spent_minutes: 0,
       });
     }
 
     res.json({
       success: true,
-      _id: user._id,
+      _id: user.id,
       name: user.name,
       email: user.email,
       role: user.role,
-      token: generateToken(user._id.toString()),
+      token: generateToken(user.id),
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -169,40 +210,57 @@ export const mobileOtpLogin = async (req: Request, res: Response): Promise<void>
 
 export const googleLogin = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, name, googleId } = req.body;
+    const { email, name } = req.body;
 
     if (!email || !name) {
       res.status(400).json({ success: false, message: 'Email and name are required' });
       return;
     }
 
-    let user = await User.findOne({ email });
-    if (!user) {
-      user = await User.create({
-        name,
-        email,
-        role: 'student',
-      });
+    const sanitizedEmail = email.trim().toLowerCase();
 
-      await Progress.create({
-        studentId: user._id,
-        overallProgress: 0,
+    let { data: user } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', sanitizedEmail)
+      .maybeSingle();
+
+    if (!user) {
+      const { data: newUser, error: createError } = await supabase
+        .from('users')
+        .insert({
+          name,
+          email: sanitizedEmail,
+          role: 'student',
+        })
+        .select()
+        .single();
+
+      if (createError || !newUser) {
+        res.status(400).json({ success: false, message: createError?.message || 'Error creating user via Google' });
+        return;
+      }
+      user = newUser;
+
+      await supabase.from('progress').insert({
+        student_id: user.id,
+        overall_progress: 0,
         streak: 1,
-        lastActiveDate: new Date(),
-        weeklyHours: [0, 0, 0, 0, 0, 0, 0],
-        completedTopicsCount: 0,
-        quizzesTaken: [],
-        timeSpentMinutes: 0,
+        last_active_date: new Date().toISOString(),
+        weekly_hours: [0, 0, 0, 0, 0, 0, 0],
+        completed_topics_count: 0,
+        quizzes_taken: [],
+        time_spent_minutes: 0,
       });
     }
 
     res.json({
       success: true,
-      _id: user._id,
+      _id: user.id,
       name: user.name,
       email: user.email,
       role: user.role,
-      token: generateToken(user._id.toString()),
+      token: generateToken(user.id),
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -212,9 +270,13 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
 export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email } = req.body;
-    const user = await User.findOne({ email });
-    
-    // We send a success message anyway for security reasons
+    const sanitizedEmail = email ? email.trim().toLowerCase() : '';
+    await supabase
+      .from('users')
+      .select('id')
+      .eq('email', sanitizedEmail)
+      .maybeSingle();
+
     res.json({
       success: true,
       message: 'If the email exists, a password reset link has been dispatched.',

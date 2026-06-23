@@ -40,7 +40,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         console.warn('Failed to fetch profile after login:', profErr);
       }
     } catch (error: any) {
-      const msg = error.response?.data?.message || 'Login failed. Please verify credentials.';
+      console.error('[DEBUG FRONTEND LOGIN ERROR]:', error, 'Message:', error?.message, 'Response:', error?.response?.data);
+      const msg = error.response?.data?.message || error.message || 'Login failed. Please verify credentials.';
       if (Platform.OS === 'web') {
         alert('Authentication Error: ' + msg);
       } else {

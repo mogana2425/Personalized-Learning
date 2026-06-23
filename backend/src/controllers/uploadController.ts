@@ -3,14 +3,10 @@ import { AuthenticatedRequest } from '../middleware/authMiddleware';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import mongoose from 'mongoose';
 import { v2 as cloudinary } from 'cloudinary';
 import { OCRService } from '../services/ocrService';
 import { GeminiService } from '../services/geminiService';
-import AnswerSheet from '../models/AnswerSheet';
-import Progress from '../models/Progress';
-import Profile from '../models/Profile';
-import LearningPath from '../models/LearningPath';
+import { supabase } from '../config/supabaseClient';
 
 // Ensure local uploads directory exists
 const uploadDir = path.join(__dirname, '../../uploads');
@@ -60,12 +56,30 @@ if (cloudinaryConfigured) {
   });
 }
 
+const mapAnswerSheet = (s: any) => {
+  if (!s) return null;
+  return {
+    _id: s.id,
+    id: s.id,
+    studentId: s.student_id,
+    subject: s.subject,
+    topic: s.topic,
+    fileUrl: s.image_url,
+    fileName: s.file_name,
+    status: s.status,
+    extractedText: s.ocr_text,
+    evaluation: s.ai_feedback,
+    createdAt: s.created_at,
+    updatedAt: s.updated_at,
+  };
+};
+
 /**
  * Handles uploading an answer sheet, running OCR extraction, calling Gemini AI grading, and creating logs.
  */
 export const processAnswerSheet = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const studentId = req.user?._id;
+    const studentId = req.user?.id;
     if (!studentId) {
       res.status(401).json({ success: false, message: 'Unauthorized access' });
       return;
@@ -83,7 +97,7 @@ export const processAnswerSheet = async (req: AuthenticatedRequest, res: Respons
     }
 
     const localFilePath = req.file.path;
-    let fileUrl = `/uploads/${req.file.filename}`; // local path relative URL fallback
+    let fileUrl = `/uploads/${req.file.filename}`;
 
     // Attempt uploading to Cloudinary if configured
     if (cloudinaryConfigured) {
@@ -100,17 +114,24 @@ export const processAnswerSheet = async (req: AuthenticatedRequest, res: Respons
     }
 
     // Step 1: Create a pending AnswerSheet entry
-    const answerSheet = await AnswerSheet.create({
-      studentId,
-      subject,
-      topic: topic || 'General Practice',
-      fileUrl,
-      fileName: req.file.originalname,
-      status: 'processing',
-    });
+    const { data: dbAnswerSheet, error: createError } = await supabase
+      .from('answer_sheets')
+      .insert({
+        student_id: studentId,
+        subject,
+        topic: topic || 'General Practice',
+        image_url: fileUrl,
+        file_name: req.file.originalname,
+        status: 'processing',
+      })
+      .select()
+      .single();
 
-    // Run processing asynchronously so request returns fast or execute synchronously for simplicity
-    // We execute it inside the request, but wrap it cleanly so any errors don't crash
+    if (createError || !dbAnswerSheet) {
+      res.status(400).json({ success: false, message: createError?.message || 'Failed to create answer sheet record.' });
+      return;
+    }
+
     console.log('Step 2: Triggering OCR Text Extraction...');
     const extractedText = await OCRService.extractText(localFilePath);
 
@@ -118,14 +139,35 @@ export const processAnswerSheet = async (req: AuthenticatedRequest, res: Respons
     const evaluation = await GeminiService.evaluateAnswerSheet(extractedText, subject, topic);
 
     // Step 4: Update the AnswerSheet with evaluated scores
-    answerSheet.extractedText = extractedText;
-    answerSheet.evaluation = evaluation;
-    answerSheet.status = 'completed';
-    await answerSheet.save();
+    const { data: updatedSheet, error: updateError } = await supabase
+      .from('answer_sheets')
+      .update({
+        ocr_text: extractedText,
+        ai_feedback: evaluation,
+        status: 'completed',
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', dbAnswerSheet.id)
+      .select()
+      .single();
+
+    if (updateError || !updatedSheet) {
+      res.status(500).json({ success: false, message: updateError?.message || 'Failed to update answer sheet evaluation.' });
+      return;
+    }
 
     // Step 5: Log quiz metrics in Progress history and update Profile skills
-    const progress = await Progress.findOne({ studentId });
-    const profile = await Profile.findOne({ studentId });
+    const { data: progress } = await supabase
+      .from('progress')
+      .select('*')
+      .eq('student_id', studentId)
+      .maybeSingle();
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('student_id', studentId)
+      .maybeSingle();
 
     let roadmapData: any = null;
     let recommendationsData: string[] = [];
@@ -133,51 +175,59 @@ export const processAnswerSheet = async (req: AuthenticatedRequest, res: Respons
     if (progress) {
       try {
         const accuracy = Math.round((evaluation.score / evaluation.totalMarks) * 100);
+        const quizzesTaken = Array.isArray(progress.quizzes_taken) ? progress.quizzes_taken : [];
 
-        progress.quizzesTaken.push({
-          quizId: answerSheet._id || new mongoose.Types.ObjectId(),
+        quizzesTaken.push({
+          quizId: updatedSheet.id,
           title: `Sheet: ${topic || 'Workbook'}`,
           score: evaluation.score,
           totalQuestions: evaluation.totalMarks,
           accuracy,
-          date: new Date(),
+          date: new Date().toISOString(),
         });
         
         // Update overall progress slightly (just as an example heuristic)
-        progress.overallProgress = Math.min(100, Math.round(progress.overallProgress + (accuracy * 0.1)));
-        progress.lastActiveDate = new Date();
+        const currentOverall = progress.overall_progress || 0;
+        const newOverallProgress = Math.min(100, Math.round(currentOverall + (accuracy * 0.1)));
 
         // Update weeklyHours: increment today's slot (Mon=0, Sun=6)
         const todayIdx = (new Date().getDay() + 6) % 7; // JS Sunday=0 → map to Mon=0
-        if (!progress.weeklyHours || progress.weeklyHours.length < 7) {
-          progress.weeklyHours = [0, 0, 0, 0, 0, 0, 0];
-        }
-        progress.weeklyHours[todayIdx] = Math.round((progress.weeklyHours[todayIdx] || 0) + 1);
-        progress.markModified('weeklyHours');
+        const weeklyHours = Array.isArray(progress.weekly_hours) ? [...progress.weekly_hours] : [0, 0, 0, 0, 0, 0, 0];
+        weeklyHours[todayIdx] = Math.round((weeklyHours[todayIdx] || 0) + 1);
 
-        console.log('DEBUG: progress.quizzesTaken before save:', progress.quizzesTaken);
-        
-        // Clean up invalid quizzes that might exist from previous crashes
-        progress.quizzesTaken = progress.quizzesTaken.filter((q: any) => q.title && q.accuracy !== undefined) as any;
-        console.log('DEBUG: progress.quizzesTaken after cleanup:', progress.quizzesTaken);
+        const cleanedQuizzes = quizzesTaken.filter((q: any) => q.title && q.accuracy !== undefined);
 
-        await progress.save();
+        await supabase
+          .from('progress')
+          .update({
+            quizzes_taken: cleanedQuizzes,
+            overall_progress: newOverallProgress,
+            last_active_date: new Date().toISOString(),
+            weekly_hours: weeklyHours,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('student_id', studentId);
 
         // Update skill scores in profile
         if (profile) {
-          const scoresMap = profile.skillScores as any;
-          const currentScore = scoresMap.get(topic) || 0;
+          const scoresMap = profile.skill_scores ? { ...profile.skill_scores } : {};
+          const currentScore = scoresMap[topic] || 0;
           // Weighted average: old score * 0.6 + new score * 0.4
           const newScore = currentScore === 0 ? accuracy : Math.round((currentScore * 0.6) + (accuracy * 0.4));
           
-          scoresMap.set(topic, newScore);
+          scoresMap[topic] = newScore;
           
           // Generate new dynamic recommendations based on updated scores
-          const plainScores = Object.fromEntries(scoresMap);
-          recommendationsData = await GeminiService.generateRecommendations(plainScores);
-          profile.aiRecommendations = recommendationsData;
+          recommendationsData = await GeminiService.generateRecommendations(scoresMap);
           
-          await profile.save();
+          await supabase
+            .from('profiles')
+            .update({
+              skill_scores: scoresMap,
+              ai_recommendations: recommendationsData,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('student_id', studentId);
 
           // Generate a dynamic learning path based on new profile state
           console.log('Step 6: Triggering Gemini Learning Path Generation...');
@@ -185,25 +235,42 @@ export const processAnswerSheet = async (req: AuthenticatedRequest, res: Respons
             subject,
             {
               class: profile.class || 'Unknown',
-              preferredLearningStyle: profile.preferredLearningStyle || 'visual',
-              learningInterests: profile.learningInterests || [],
-              learningGoals: profile.learningGoals || [],
+              preferredLearningStyle: profile.preferred_learning_style || 'visual',
+              learningInterests: profile.learning_interests || [],
+              learningGoals: profile.learning_goals || [],
             },
-            plainScores
+            scoresMap
           );
 
           if (roadmapData && roadmapData.weeks) {
             // Check if one exists and update it, or create a new one
-            let lp = await LearningPath.findOne({ studentId, subject });
+            const { data: lp } = await supabase
+              .from('learning_paths')
+              .select('*')
+              .eq('student_id', studentId)
+              .eq('subject', subject)
+              .maybeSingle();
+
             if (!lp) {
-              lp = new LearningPath({ studentId, subject, active: true });
+              await supabase
+                .from('learning_paths')
+                .insert({
+                  student_id: studentId,
+                  subject,
+                  active: true,
+                  weeks: roadmapData.weeks,
+                });
+            } else {
+              await supabase
+                .from('learning_paths')
+                .update({
+                  weeks: roadmapData.weeks,
+                  updated_at: new Date().toISOString(),
+                })
+                .eq('id', lp.id);
             }
-            lp.weeks = roadmapData.weeks;
-            await lp.save();
           }
-
         }
-
       } catch (err) {
         console.warn('Failed to update progress metrics:', err);
       }
@@ -212,7 +279,7 @@ export const processAnswerSheet = async (req: AuthenticatedRequest, res: Respons
     res.json({
       success: true,
       message: 'File uploaded and graded successfully',
-      answerSheet,
+      answerSheet: mapAnswerSheet(updatedSheet),
       learningPath: roadmapData,
       recommendations: recommendationsData,
     });
@@ -227,9 +294,24 @@ export const processAnswerSheet = async (req: AuthenticatedRequest, res: Respons
  */
 export const getMyAnswerSheets = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const studentId = req.user?._id;
-    const sheets = await AnswerSheet.find({ studentId }).sort({ createdAt: -1 });
-    res.json({ success: true, sheets });
+    const studentId = req.user?.id;
+    if (!studentId) {
+      res.status(401).json({ success: false, message: 'Unauthorized access' });
+      return;
+    }
+
+    const { data: sheets, error } = await supabase
+      .from('answer_sheets')
+      .select('*')
+      .eq('student_id', studentId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      res.status(500).json({ success: false, message: error.message });
+      return;
+    }
+
+    res.json({ success: true, sheets: (sheets || []).map(mapAnswerSheet) });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }

@@ -1,6 +1,31 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
-import CommunityPost from '../models/CommunityPost';
+import { supabase } from '../config/supabaseClient';
+
+const mapCommunityPost = (p: any) => {
+  if (!p) return null;
+  return {
+    _id: p.id,
+    id: p.id,
+    authorId: p.author_id,
+    authorName: p.author_name,
+    title: p.title,
+    body: p.body,
+    subject: p.subject,
+    tags: p.tags || [],
+    upvotes: p.upvotes || 0,
+    upvotedBy: p.upvoted_by || [],
+    replies: (p.replies || []).map((r: any) => ({
+      authorId: r.authorId,
+      authorName: r.authorName,
+      body: r.body,
+      upvotes: r.upvotes || 0,
+      createdAt: r.createdAt,
+    })),
+    createdAt: p.created_at,
+    updatedAt: p.updated_at,
+  };
+};
 
 // GET /api/community - list all posts (newest first)
 export const getPosts = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
@@ -9,24 +34,33 @@ export const getPosts = async (req: AuthenticatedRequest, res: Response): Promis
     const limit = 20;
     const skip = (Number(page) - 1) * limit;
 
-    const filter: any = {};
-    if (subject && subject !== 'All') filter.subject = subject;
+    let query = supabase
+      .from('community_posts')
+      .select('*', { count: 'exact' });
+
+    if (subject && subject !== 'All') {
+      query = query.eq('subject', subject as string);
+    }
     if (search) {
-      filter.$or = [
-        { title: { $regex: search, $options: 'i' } },
-        { body: { $regex: search, $options: 'i' } },
-      ];
+      query = query.or(`title.ilike.%${search}%,body.ilike.%${search}%`);
     }
 
-    const posts = await CommunityPost.find(filter)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .lean();
+    const { data: posts, count, error } = await query
+      .order('created_at', { ascending: false })
+      .range(skip, skip + limit - 1);
 
-    const total = await CommunityPost.countDocuments(filter);
+    if (error) {
+      res.status(500).json({ success: false, message: error.message });
+      return;
+    }
 
-    res.json({ success: true, posts, total });
+    const mappedPosts = (posts || []).map(mapCommunityPost);
+
+    res.json({
+      success: true,
+      posts: mappedPosts,
+      total: count || 0,
+    });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -41,16 +75,28 @@ export const createPost = async (req: AuthenticatedRequest, res: Response): Prom
       return;
     }
 
-    const post = await CommunityPost.create({
-      authorId: req.user!._id,
-      authorName: req.user!.name,
-      title: title.trim(),
-      body: body.trim(),
-      subject: subject || 'General',
-      tags: tags || [],
-    });
+    const { data: post, error } = await supabase
+      .from('community_posts')
+      .insert({
+        author_id: req.user!.id,
+        author_name: req.user!.name,
+        title: title.trim(),
+        body: body.trim(),
+        subject: subject || 'General',
+        tags: tags || [],
+        upvotes: 0,
+        upvoted_by: [],
+        replies: [],
+      })
+      .select()
+      .single();
 
-    res.status(201).json({ success: true, post });
+    if (error || !post) {
+      res.status(400).json({ success: false, message: error?.message || 'Failed to create post.' });
+      return;
+    }
+
+    res.status(201).json({ success: true, post: mapCommunityPost(post) });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -65,22 +111,39 @@ export const addReply = async (req: AuthenticatedRequest, res: Response): Promis
       return;
     }
 
-    const post = await CommunityPost.findById(req.params.id);
-    if (!post) {
+    const { data: post, error } = await supabase
+      .from('community_posts')
+      .select('*')
+      .eq('id', req.params.id)
+      .maybeSingle();
+
+    if (error || !post) {
       res.status(404).json({ success: false, message: 'Post not found.' });
       return;
     }
 
-    post.replies.push({
-      authorId: req.user!._id as any,
+    const replies = Array.isArray(post.replies) ? post.replies : [];
+    replies.push({
+      authorId: req.user!.id,
       authorName: req.user!.name,
       body: body.trim(),
       upvotes: 0,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     });
-    await post.save();
 
-    res.json({ success: true, post });
+    const { data: updatedPost, error: updateError } = await supabase
+      .from('community_posts')
+      .update({ replies, updated_at: new Date().toISOString() })
+      .eq('id', req.params.id)
+      .select()
+      .single();
+
+    if (updateError || !updatedPost) {
+      res.status(400).json({ success: false, message: updateError?.message || 'Failed to add reply.' });
+      return;
+    }
+
+    res.json({ success: true, post: mapCommunityPost(updatedPost) });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -89,25 +152,49 @@ export const addReply = async (req: AuthenticatedRequest, res: Response): Promis
 // PUT /api/community/:id/upvote - toggle upvote on a post
 export const upvotePost = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const post = await CommunityPost.findById(req.params.id);
-    if (!post) {
+    const { data: post, error } = await supabase
+      .from('community_posts')
+      .select('*')
+      .eq('id', req.params.id)
+      .maybeSingle();
+
+    if (error || !post) {
       res.status(404).json({ success: false, message: 'Post not found.' });
       return;
     }
 
-    const userId = req.user!._id.toString();
-    const alreadyVoted = post.upvotedBy.map((id) => id.toString()).includes(userId);
+    const userId = req.user!.id;
+    const upvotedBy = Array.isArray(post.upvoted_by) ? post.upvoted_by : [];
+    const alreadyVoted = upvotedBy.includes(userId);
+    
+    let newUpvotedBy;
+    let newUpvotes;
 
     if (alreadyVoted) {
-      post.upvotedBy = post.upvotedBy.filter((id) => id.toString() !== userId) as any;
-      post.upvotes = Math.max(0, post.upvotes - 1);
+      newUpvotedBy = upvotedBy.filter((id: string) => id !== userId);
+      newUpvotes = Math.max(0, (post.upvotes || 0) - 1);
     } else {
-      post.upvotedBy.push(req.user!._id as any);
-      post.upvotes += 1;
+      newUpvotedBy = [...upvotedBy, userId];
+      newUpvotes = (post.upvotes || 0) + 1;
     }
 
-    await post.save();
-    res.json({ success: true, upvotes: post.upvotes, upvoted: !alreadyVoted });
+    const { data: updatedPost, error: updateError } = await supabase
+      .from('community_posts')
+      .update({
+        upvotes: newUpvotes,
+        upvoted_by: newUpvotedBy,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', req.params.id)
+      .select()
+      .single();
+
+    if (updateError || !updatedPost) {
+      res.status(400).json({ success: false, message: updateError?.message || 'Failed to update upvote.' });
+      return;
+    }
+
+    res.json({ success: true, upvotes: updatedPost.upvotes, upvoted: !alreadyVoted });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }

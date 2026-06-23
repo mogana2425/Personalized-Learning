@@ -1,8 +1,38 @@
 import PDFDocument from 'pdfkit';
 import ExcelJS from 'exceljs';
-import { IProgress } from '../models/Progress';
-import { IUser } from '../models/User';
-import { ILearningPath } from '../models/LearningPath';
+interface IUser {
+  name: string;
+  email: string;
+  role: string;
+}
+
+interface IProgress {
+  overallProgress: number;
+  streak: number;
+  timeSpentMinutes: number;
+  completedTopicsCount: number;
+  quizzesTaken: Array<{
+    title: string;
+    score: number;
+    totalQuestions: number;
+    accuracy: number;
+    date: string | Date;
+  }>;
+}
+
+interface ILearningPath {
+  subject: string;
+  currentWeek: number;
+  weeks: Array<{
+    weekNumber: number;
+    title: string;
+    status: string;
+    subtopics: Array<{
+      name: string;
+      status: string;
+    }>;
+  }>;
+}
 
 export class ReportService {
   /**

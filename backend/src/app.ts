@@ -6,7 +6,6 @@ import path from 'path';
 // Load Environment Variables first
 dotenv.config();
 
-import { connectDB } from './config/db';
 import { errorHandler } from './middleware/errorMiddleware';
 
 // Import Routes
@@ -25,6 +24,13 @@ const app = express();
 
 // Middleware
 app.use(cors());
+app.use((req, res, next) => {
+  console.log(`[HTTP REQUEST] [${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  res.on('finish', () => {
+    console.log(`[HTTP RESPONSE] [${new Date().toISOString()}] ${req.method} ${req.originalUrl} -> STATUS ${res.statusCode}`);
+  });
+  next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -56,9 +62,6 @@ const PORT = process.env.PORT || 5001;
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`[PLIS Server] Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-  });
-  connectDB().catch((err) => {
-    console.error('Initial database connection warning:', err.message);
   });
 }
 

@@ -1,13 +1,23 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
-import LearningPath from '../models/LearningPath';
-import Profile from '../models/Profile';
-import Progress from '../models/Progress';
+import { supabase } from '../config/supabaseClient';
 import { GeminiService } from '../services/geminiService';
+
+const mapLearningPath = (lp: any) => ({
+  _id: lp.id,
+  id: lp.id,
+  studentId: lp.student_id,
+  subject: lp.subject,
+  currentWeek: lp.current_week,
+  active: lp.active,
+  weeks: lp.weeks,
+  createdAt: lp.created_at,
+  updatedAt: lp.updated_at,
+});
 
 export const getPath = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const studentId = req.user?._id;
+    const studentId = req.user?.id;
     const { subject } = req.query;
 
     if (!studentId || !subject) {
@@ -15,34 +25,62 @@ export const getPath = async (req: AuthenticatedRequest, res: Response): Promise
       return;
     }
 
-    let learningPath = await LearningPath.findOne({ studentId, subject: subject as string, active: true });
+    const { data: dbPath, error } = await supabase
+      .from('learning_paths')
+      .select('*')
+      .eq('student_id', studentId)
+      .eq('subject', subject as string)
+      .eq('active', true)
+      .maybeSingle();
+
+    if (error) {
+      res.status(500).json({ success: false, message: error.message });
+      return;
+    }
+
+    let learningPath = dbPath;
 
     if (!learningPath) {
       // Automatically generate a new learning path
-      const profile = await Profile.findOne({ studentId });
-      const currentScores = profile ? (profile.skillScores as Record<string, number>) : {};
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('student_id', studentId)
+        .maybeSingle();
+
+      const currentScores = profile ? (profile.skill_scores as Record<string, number>) : {};
       
       const pathData = await GeminiService.generateLearningPath(
         subject as string,
         {
           class: profile?.class || 'Grade 10',
-          preferredLearningStyle: profile?.preferredLearningStyle || 'visual',
-          learningInterests: profile?.learningInterests || [],
-          learningGoals: profile?.learningGoals || [],
+          preferredLearningStyle: profile?.preferred_learning_style || 'visual',
+          learningInterests: profile?.learning_interests || [],
+          learningGoals: profile?.learning_goals || [],
         },
         currentScores
       );
 
-      learningPath = await LearningPath.create({
-        studentId,
-        subject: subject as string,
-        weeks: pathData.weeks,
-        currentWeek: 1,
-        active: true,
-      });
+      const { data: newPath, error: createError } = await supabase
+        .from('learning_paths')
+        .insert({
+          student_id: studentId,
+          subject: subject as string,
+          weeks: pathData.weeks,
+          current_week: 1,
+          active: true,
+        })
+        .select()
+        .single();
+
+      if (createError || !newPath) {
+        res.status(400).json({ success: false, message: createError?.message || 'Failed to create learning path' });
+        return;
+      }
+      learningPath = newPath;
     }
 
-    res.json({ success: true, learningPath });
+    res.json({ success: true, learningPath: mapLearningPath(learningPath) });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -50,7 +88,7 @@ export const getPath = async (req: AuthenticatedRequest, res: Response): Promise
 
 export const generatePath = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const studentId = req.user?._id;
+    const studentId = req.user?.id;
     const { subject } = req.body;
 
     if (!studentId || !subject) {
@@ -59,31 +97,50 @@ export const generatePath = async (req: AuthenticatedRequest, res: Response): Pr
     }
 
     // Deactivate previous active paths for this subject
-    await LearningPath.updateMany({ studentId, subject, active: true }, { active: false });
+    await supabase
+      .from('learning_paths')
+      .update({ active: false, updated_at: new Date().toISOString() })
+      .eq('student_id', studentId)
+      .eq('subject', subject)
+      .eq('active', true);
 
-    const profile = await Profile.findOne({ studentId });
-    const currentScores = profile ? (profile.skillScores as Record<string, number>) : {};
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('student_id', studentId)
+      .maybeSingle();
+
+    const currentScores = profile ? (profile.skill_scores as Record<string, number>) : {};
 
     const pathData = await GeminiService.generateLearningPath(
       subject,
       {
         class: profile?.class || 'Grade 10',
-        preferredLearningStyle: profile?.preferredLearningStyle || 'visual',
-        learningInterests: profile?.learningInterests || [],
-        learningGoals: profile?.learningGoals || [],
+        preferredLearningStyle: profile?.preferred_learning_style || 'visual',
+        learningInterests: profile?.learning_interests || [],
+        learningGoals: profile?.learning_goals || [],
       },
       currentScores
     );
 
-    const learningPath = await LearningPath.create({
-      studentId,
-      subject,
-      weeks: pathData.weeks,
-      currentWeek: 1,
-      active: true,
-    });
+    const { data: learningPath, error: createError } = await supabase
+      .from('learning_paths')
+      .insert({
+        student_id: studentId,
+        subject,
+        weeks: pathData.weeks,
+        current_week: 1,
+        active: true,
+      })
+      .select()
+      .single();
 
-    res.status(201).json({ success: true, message: 'New learning path generated', learningPath });
+    if (createError || !learningPath) {
+      res.status(400).json({ success: false, message: createError?.message || 'Failed to generate learning path' });
+      return;
+    }
+
+    res.status(201).json({ success: true, message: 'New learning path generated', learningPath: mapLearningPath(learningPath) });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -91,7 +148,7 @@ export const generatePath = async (req: AuthenticatedRequest, res: Response): Pr
 
 export const updateSubTopicStatus = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const studentId = req.user?._id;
+    const studentId = req.user?.id;
     const { pathId, weekNumber, subtopicName, status } = req.body;
 
     if (!studentId || !pathId || !weekNumber || !subtopicName || !status) {
@@ -99,8 +156,14 @@ export const updateSubTopicStatus = async (req: AuthenticatedRequest, res: Respo
       return;
     }
 
-    const learningPath = await LearningPath.findOne({ _id: pathId, studentId });
-    if (!learningPath) {
+    const { data: learningPath, error } = await supabase
+      .from('learning_paths')
+      .select('*')
+      .eq('id', pathId)
+      .eq('student_id', studentId)
+      .maybeSingle();
+
+    if (error || !learningPath) {
       res.status(404).json({ success: false, message: 'Learning path not found' });
       return;
     }
@@ -111,8 +174,10 @@ export const updateSubTopicStatus = async (req: AuthenticatedRequest, res: Respo
     let completedSubtopics = 0;
     let unlockNext = false;
 
-    for (let wIndex = 0; wIndex < learningPath.weeks.length; wIndex++) {
-      const w = learningPath.weeks[wIndex];
+    const weeks = learningPath.weeks as any[];
+
+    for (let wIndex = 0; wIndex < weeks.length; wIndex++) {
+      const w = weeks[wIndex];
       
       for (let sIndex = 0; sIndex < w.subtopics.length; sIndex++) {
         const s = w.subtopics[sIndex];
@@ -138,10 +203,10 @@ export const updateSubTopicStatus = async (req: AuthenticatedRequest, res: Respo
       }
 
       // Update week status based on subtopics
-      const allDone = w.subtopics.every((s) => s.status === 'completed');
+      const allDone = w.subtopics.every((s: any) => s.status === 'completed');
       if (allDone) {
         w.status = 'completed';
-      } else if (w.subtopics.some((s) => s.status === 'active' || s.status === 'completed')) {
+      } else if (w.subtopics.some((s: any) => s.status === 'active' || s.status === 'completed')) {
         w.status = 'active';
       }
     }
@@ -151,28 +216,45 @@ export const updateSubTopicStatus = async (req: AuthenticatedRequest, res: Respo
       return;
     }
 
-    // Explicitly mark 'weeks' array as modified to ensure Mongoose saves the nested status changes
-    learningPath.markModified('weeks');
     // Save path
-    await learningPath.save();
+    const { data: updatedPath, error: updateError } = await supabase
+      .from('learning_paths')
+      .update({ weeks, updated_at: new Date().toISOString() })
+      .eq('id', pathId)
+      .select()
+      .single();
+
+    if (updateError || !updatedPath) {
+      res.status(500).json({ success: false, message: updateError?.message || 'Error updating learning path weeks' });
+      return;
+    }
 
     // Calculate progress percentage
     const progressPercent = totalSubtopics > 0 ? Math.round((completedSubtopics / totalSubtopics) * 100) : 0;
 
     // Update overall Progress document
-    const progress = await Progress.findOne({ studentId });
+    const { data: progress } = await supabase
+      .from('progress')
+      .select('*')
+      .eq('student_id', studentId)
+      .maybeSingle();
+
     if (progress) {
-      progress.overallProgress = progressPercent;
-      progress.completedTopicsCount = completedSubtopics;
-      // Add mock study time increment
-      progress.timeSpentMinutes += 15; 
-      await progress.save();
+      await supabase
+        .from('progress')
+        .update({
+          overall_progress: progressPercent,
+          completed_topics_count: completedSubtopics,
+          time_spent_minutes: (progress.time_spent_minutes || 0) + 15,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('student_id', studentId);
     }
 
     res.json({
       success: true,
       message: 'Subtopic progress updated successfully',
-      learningPath,
+      learningPath: mapLearningPath(updatedPath),
       progressPercent,
     });
   } catch (error: any) {
@@ -182,7 +264,7 @@ export const updateSubTopicStatus = async (req: AuthenticatedRequest, res: Respo
 
 export const generateLessonContent = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const studentId = req.user?._id;
+    const studentId = req.user?.id;
     const { topic, subject, type } = req.body;
 
     if (!topic || !subject || !type) {
@@ -191,11 +273,16 @@ export const generateLessonContent = async (req: AuthenticatedRequest, res: Resp
     }
 
     // Determine adaptive difficulty from Profile skill scores
-    const profile = await Profile.findOne({ studentId });
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('student_id', studentId)
+      .maybeSingle();
+
     let score = 50;
-    if (profile && profile.skillScores) {
-      const scoresMap = profile.skillScores as any;
-      score = scoresMap.get(topic) || scoresMap.get(subject) || 50;
+    if (profile && profile.skill_scores) {
+      const scoresMap = profile.skill_scores as Record<string, number>;
+      score = scoresMap[topic] || scoresMap[subject] || 50;
     }
     const difficulty = score >= 80 ? 'Advanced' : score >= 60 ? 'Intermediate' : 'Beginner';
 

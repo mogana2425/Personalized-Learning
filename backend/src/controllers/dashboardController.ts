@@ -1,15 +1,7 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
-import User from '../models/User';
-import Profile from '../models/Profile';
-import Progress from '../models/Progress';
-import LearningPath from '../models/LearningPath';
-import Notification from '../models/Notification';
-import AnswerSheet from '../models/AnswerSheet';
+import { supabase } from '../config/supabaseClient';
 
-/**
- * Gets dashboard data depending on User's Role.
- */
 export const getDashboard = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const user = req.user;
@@ -34,33 +26,54 @@ export const getDashboard = async (req: AuthenticatedRequest, res: Response): Pr
   }
 };
 
-/**
- * Compile Student Dashboard Metrics
- */
 const getStudentDashboard = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-  const studentId = req.user?._id;
+  const studentId = req.user?.id;
+  if (!studentId) {
+    res.status(400).json({ success: false, message: 'Student ID missing' });
+    return;
+  }
 
-  const progress = await Progress.findOne({ studentId });
-  const profile = await Profile.findOne({ studentId });
-  const path = await LearningPath.findOne({ studentId, active: true });
-  const notifications = await Notification.find({ userId: studentId, read: false })
-    .sort({ createdAt: -1 })
+  const { data: progress } = await supabase
+    .from('progress')
+    .select('*')
+    .eq('student_id', studentId)
+    .maybeSingle();
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('student_id', studentId)
+    .maybeSingle();
+
+  const { data: path } = await supabase
+    .from('learning_paths')
+    .select('*')
+    .eq('student_id', studentId)
+    .eq('active', true)
+    .maybeSingle();
+
+  const { data: notifications } = await supabase
+    .from('notifications')
+    .select('*')
+    .eq('user_id', studentId)
+    .eq('read', false)
+    .order('created_at', { ascending: false })
     .limit(5);
 
-  // Fetch pending worksheets count
-  const pendingAnswerSheets = await AnswerSheet.countDocuments({ studentId, status: 'processing' });
+  const { count: pendingAnswerSheets } = await supabase
+    .from('answer_sheets')
+    .select('*', { count: 'exact', head: true })
+    .eq('student_id', studentId)
+    .eq('status', 'processing');
 
-  // Generate dynamic AI Recommendations based on weak areas
   const recommendations: string[] = [];
   let weakTopic = '';
   
-  if (profile && profile.skillScores) {
+  if (profile && profile.skill_scores) {
     let lowestScore = 100;
+    const scores = profile.skill_scores as Record<string, number>;
     
-    // skillScores is a Mongoose Map
-    const scoresMap = profile.skillScores as any;
-    
-    scoresMap.forEach((score: number, topic: string) => {
+    Object.entries(scores).forEach(([topic, score]) => {
       if (
         topic.startsWith('$') ||
         topic.startsWith('_') ||
@@ -75,8 +88,8 @@ const getStudentDashboard = async (req: AuthenticatedRequest, res: Response): Pr
       }
     });
 
-    if (profile.aiRecommendations && profile.aiRecommendations.length > 0) {
-      recommendations.push(...profile.aiRecommendations);
+    if (profile.ai_recommendations && profile.ai_recommendations.length > 0) {
+      recommendations.push(...profile.ai_recommendations);
     } else {
       if (weakTopic && lowestScore < 70) {
         recommendations.push(
@@ -92,19 +105,18 @@ const getStudentDashboard = async (req: AuthenticatedRequest, res: Response): Pr
     recommendations.push("Complete your Initial Diagnostic Skill Assessment to unlock personalized recommendations!");
   }
 
-  // Get Today's Learning Plan (extract first active subtopics)
   const todayPlan: any[] = [];
-  if (path && path.weeks) {
-    const activeWeek = path.weeks.find((w) => w.status === 'active') || path.weeks[0];
-    if (activeWeek) {
-      activeWeek.subtopics.forEach((s) => {
+  if (path && Array.isArray(path.weeks)) {
+    const activeWeek = path.weeks.find((w: any) => w.status === 'active') || path.weeks[0];
+    if (activeWeek && Array.isArray(activeWeek.subtopics)) {
+      activeWeek.subtopics.forEach((s: any) => {
         if (s.status === 'active' || s.status === 'locked') {
           todayPlan.push({
             subtopic: s.name,
             weekNumber: activeWeek.weekNumber,
             description: s.description,
             status: s.status,
-            resourcesCount: s.resources.length,
+            resourcesCount: Array.isArray(s.resources) ? s.resources.length : 0,
           });
         }
       });
@@ -115,40 +127,62 @@ const getStudentDashboard = async (req: AuthenticatedRequest, res: Response): Pr
     success: true,
     role: 'student',
     metrics: {
-      overallProgress: progress?.overallProgress || 0,
+      overallProgress: progress?.overall_progress || 0,
       streak: progress?.streak || 0,
-      quizzesTakenCount: progress?.quizzesTaken?.length || 0,
-      pendingWorksheets: pendingAnswerSheets,
-      weeklyHours: progress?.weeklyHours || [0, 0, 0, 0, 0, 0, 0],
-      skillScores: profile?.skillScores || {},
+      quizzesTakenCount: Array.isArray(progress?.quizzes_taken) ? progress.quizzes_taken.length : 0,
+      pendingWorksheets: pendingAnswerSheets || 0,
+      weeklyHours: progress?.weekly_hours || [0, 0, 0, 0, 0, 0, 0],
+      skillScores: profile?.skill_scores || {},
     },
     todayPlan: todayPlan.slice(0, 3),
     aiRecommendations: recommendations,
-    notifications,
+    notifications: (notifications || []).map(n => ({
+      _id: n.id,
+      id: n.id,
+      userId: n.user_id,
+      title: n.title,
+      message: n.message,
+      type: n.type,
+      read: n.read,
+      createdAt: n.created_at
+    })),
   });
 };
 
-/**
- * Compile Teacher Dashboard Metrics
- */
 const getTeacherDashboard = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-  // Get all students
-  const students = await User.find({ role: 'student' }).select('name email phone');
-  const studentIds = students.map((s) => s._id);
+  const { data: students, error: studentsError } = await supabase
+    .from('users')
+    .select('id, name, email, phone')
+    .eq('role', 'student');
 
-  // Compile averages from profiles
-  const profiles = await Profile.find({ studentId: { $in: studentIds } });
-  const progresses = await Progress.find({ studentId: { $in: studentIds } });
+  if (studentsError || !students) {
+    res.status(500).json({ success: false, message: studentsError?.message || 'Failed to fetch students' });
+    return;
+  }
 
-  // Compute stats
+  const studentIds = students.map((s) => s.id);
+
+  const { data: profiles } = await supabase
+    .from('profiles')
+    .select('*')
+    .in('student_id', studentIds);
+
+  const { data: progresses } = await supabase
+    .from('progress')
+    .select('*')
+    .in('student_id', studentIds);
+
+  const dbProfiles = profiles || [];
+  const dbProgresses = progresses || [];
+
   let totalProgress = 0;
   let totalTime = 0;
   const topicScoresTotal: Record<string, number> = {};
   const topicCounts: Record<string, number> = {};
 
-  profiles.forEach((p) => {
-    if (p.skillScores) {
-      const scores = p.skillScores as Record<string, number>;
+  dbProfiles.forEach((p) => {
+    if (p.skill_scores) {
+      const scores = p.skill_scores as Record<string, number>;
       Object.keys(scores).forEach((topic) => {
         topicScoresTotal[topic] = (topicScoresTotal[topic] || 0) + scores[topic];
         topicCounts[topic] = (topicCounts[topic] || 0) + 1;
@@ -156,9 +190,9 @@ const getTeacherDashboard = async (req: AuthenticatedRequest, res: Response): Pr
     }
   });
 
-  progresses.forEach((pr) => {
-    totalProgress += pr.overallProgress;
-    totalTime += pr.timeSpentMinutes;
+  dbProgresses.forEach((pr) => {
+    totalProgress += pr.overall_progress || 0;
+    totalTime += pr.time_spent_minutes || 0;
   });
 
   const classAverages: Record<string, number> = {};
@@ -172,27 +206,26 @@ const getTeacherDashboard = async (req: AuthenticatedRequest, res: Response): Pr
     }
   });
 
-  const classAverageProgress = progresses.length > 0 ? Math.round(totalProgress / progresses.length) : 0;
+  const classAverageProgress = dbProgresses.length > 0 ? Math.round(totalProgress / dbProgresses.length) : 0;
 
-  // Compile list of students at risk (progress < 40 or diagnostic score < 50)
   const atRiskStudents: any[] = [];
-  progresses.forEach((pr) => {
-    const sProfile = profiles.find((p) => p.studentId.toString() === pr.studentId.toString());
-    const sUser = students.find((u) => u._id.toString() === pr.studentId.toString());
+  dbProgresses.forEach((pr) => {
+    const sProfile = dbProfiles.find((p) => p.student_id === pr.student_id);
+    const sUser = students.find((u) => u.id === pr.student_id);
     
     let lowestScore = 100;
-    if (sProfile && sProfile.skillScores) {
-      const scores = sProfile.skillScores as Record<string, number>;
+    if (sProfile && sProfile.skill_scores) {
+      const scores = sProfile.skill_scores as Record<string, number>;
       Object.values(scores).forEach((sc) => {
         if (sc < lowestScore) lowestScore = sc;
       });
     }
 
-    if (pr.overallProgress < 40 || lowestScore < 50) {
+    if ((pr.overall_progress || 0) < 40 || lowestScore < 50) {
       atRiskStudents.push({
         name: sUser?.name || 'Unknown Student',
         email: sUser?.email || '',
-        progress: pr.overallProgress,
+        progress: pr.overall_progress || 0,
         lowestScore: lowestScore === 100 ? 0 : lowestScore,
       });
     }
@@ -206,29 +239,37 @@ const getTeacherDashboard = async (req: AuthenticatedRequest, res: Response): Pr
     classAverages,
     weakTopics,
     atRiskStudents,
-    studentsList: progresses.map((pr) => {
-      const sUser = students.find((u) => u._id.toString() === pr.studentId.toString());
+    studentsList: dbProgresses.map((pr) => {
+      const sUser = students.find((u) => u.id === pr.student_id);
       return {
-        _id: pr.studentId,
+        _id: pr.student_id,
+        id: pr.student_id,
         name: sUser?.name || 'Unknown Student',
         email: sUser?.email,
-        progress: pr.overallProgress,
-        streak: pr.streak,
-        quizzesTaken: pr.quizzesTaken.length,
+        progress: pr.overall_progress || 0,
+        streak: pr.streak || 0,
+        quizzesTaken: Array.isArray(pr.quizzes_taken) ? pr.quizzes_taken.length : 0,
       };
     }),
   });
 };
 
-/**
- * Compile Parent Dashboard Metrics
- */
 const getParentDashboard = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const parentEmail = req.user?.email;
+  if (!parentEmail) {
+    res.status(400).json({ success: false, message: 'Parent email missing' });
+    return;
+  }
 
-  // Find linked children
-  const children = await User.find({ parentEmail }).select('name email role');
-  const childrenIds = children.map((c) => c._id);
+  const { data: children, error } = await supabase
+    .from('users')
+    .select('id, name, email, role')
+    .eq('parent_email', parentEmail);
+
+  if (error || !children) {
+    res.status(500).json({ success: false, message: error?.message || 'Failed to fetch linked children' });
+    return;
+  }
 
   if (children.length === 0) {
     res.json({
@@ -240,23 +281,34 @@ const getParentDashboard = async (req: AuthenticatedRequest, res: Response): Pro
     return;
   }
 
-  // Fetch children progress data
-  const progresses = await Progress.find({ studentId: { $in: childrenIds } });
-  const profiles = await Profile.find({ studentId: { $in: childrenIds } });
+  const childrenIds = children.map((c) => c.id);
+
+  const { data: progresses } = await supabase
+    .from('progress')
+    .select('*')
+    .in('student_id', childrenIds);
+
+  const { data: profiles } = await supabase
+    .from('profiles')
+    .select('*')
+    .in('student_id', childrenIds);
+
+  const dbProgresses = progresses || [];
+  const dbProfiles = profiles || [];
 
   const childrenMetrics = children.map((child) => {
-    const pr = progresses.find((p) => p.studentId.toString() === child._id.toString());
-    const prof = profiles.find((p) => p.studentId.toString() === child._id.toString());
+    const pr = dbProgresses.find((p) => p.student_id === child.id);
+    const prof = dbProfiles.find((p) => p.student_id === child.id);
 
     return {
-      studentId: child._id,
+      studentId: child.id,
       name: child.name,
       email: child.email,
-      progress: pr?.overallProgress || 0,
+      progress: pr?.overall_progress || 0,
       streak: pr?.streak || 0,
-      studyMinutes: pr?.timeSpentMinutes || 0,
-      skillScores: prof?.skillScores || {},
-      recentQuizzes: pr?.quizzesTaken.slice(-3) || [],
+      studyMinutes: pr?.time_spent_minutes || 0,
+      skillScores: prof?.skill_scores || {},
+      recentQuizzes: Array.isArray(pr?.quizzes_taken) ? pr.quizzes_taken.slice(-3) : [],
     };
   });
 
@@ -267,30 +319,50 @@ const getParentDashboard = async (req: AuthenticatedRequest, res: Response): Pro
   });
 };
 
-/**
- * Compile Admin Dashboard Metrics
- */
 const getAdminDashboard = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-  const usersCount = await User.countDocuments();
-  const studentCount = await User.countDocuments({ role: 'student' });
-  const teacherCount = await User.countDocuments({ role: 'teacher' });
-  const parentCount = await User.countDocuments({ role: 'parent' });
+  const { count: usersCount } = await supabase
+    .from('users')
+    .select('*', { count: 'exact', head: true });
 
-  const pathsCount = await LearningPath.countDocuments();
-  const sheetsCount = await AnswerSheet.countDocuments();
-  const sheetsProcessing = await AnswerSheet.countDocuments({ status: 'processing' });
+  const { count: studentCount } = await supabase
+    .from('users')
+    .select('*', { count: 'exact', head: true })
+    .eq('role', 'student');
+
+  const { count: teacherCount } = await supabase
+    .from('users')
+    .select('*', { count: 'exact', head: true })
+    .eq('role', 'teacher');
+
+  const { count: parentCount } = await supabase
+    .from('users')
+    .select('*', { count: 'exact', head: true })
+    .eq('role', 'parent');
+
+  const { count: pathsCount } = await supabase
+    .from('learning_paths')
+    .select('*', { count: 'exact', head: true });
+
+  const { count: sheetsCount } = await supabase
+    .from('answer_sheets')
+    .select('*', { count: 'exact', head: true });
+
+  const { count: sheetsProcessing } = await supabase
+    .from('answer_sheets')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'processing');
 
   res.json({
     success: true,
     role: 'admin',
     metrics: {
-      totalUsers: usersCount,
-      students: studentCount,
-      teachers: teacherCount,
-      parents: parentCount,
-      totalPaths: pathsCount,
-      totalAnswerSheetsUploaded: sheetsCount,
-      answerSheetsProcessing: sheetsProcessing,
+      totalUsers: usersCount || 0,
+      students: studentCount || 0,
+      teachers: teacherCount || 0,
+      parents: parentCount || 0,
+      totalPaths: pathsCount || 0,
+      totalAnswerSheetsUploaded: sheetsCount || 0,
+      answerSheetsProcessing: sheetsProcessing || 0,
     },
     systemStatus: 'Optimal',
   });
