@@ -141,6 +141,17 @@ export const verifyRegister = async (req: Request, res: Response): Promise<void>
       if (phone) otpStore.delete(phone.trim());
     } else if (DEMO_OTPS.includes(userOtp)) {
       isValidOtp = true;
+    } else if (sanitizedEmail) {
+      try {
+        const { data: sbData, error: sbErr } = await supabase.auth.verifyOtp({
+          email: sanitizedEmail,
+          token: userOtp,
+          type: 'email'
+        });
+        if (!sbErr) {
+          isValidOtp = true;
+        }
+      } catch (e) {}
     }
 
     if (!isValidOtp) {
@@ -282,10 +293,21 @@ export const sendOtp = async (req: Request, res: Response): Promise<void> => {
       otpStore.set(phone.trim(), { code: generatedOtp, expiresAt });
     }
 
-    // Dispatch 6-digit OTP code directly to user's email inbox
+    // Dispatch 6-digit OTP code directly to user's email inbox via Supabase Auth & Email Service
     if (email) {
+      const sanitizedEmail = email.trim().toLowerCase();
       try {
-        await sendOtpEmail(email.trim().toLowerCase(), generatedOtp);
+        await supabase.auth.signInWithOtp({
+          email: sanitizedEmail,
+          options: { shouldCreateUser: true }
+        });
+        console.log(`[Supabase OTP Dispatched] Email sent via Supabase to ${sanitizedEmail}`);
+      } catch (err: any) {
+        console.log('[Supabase OTP Note]:', err.message || err);
+      }
+
+      try {
+        await sendOtpEmail(sanitizedEmail, generatedOtp);
       } catch (err: any) {
         console.error('[Email Dispatch Error]:', err.message || err);
       }
