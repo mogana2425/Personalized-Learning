@@ -6,24 +6,34 @@ const initTransporter = async () => {
   if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
     const cleanPass = process.env.SMTP_PASS.replace(/\s+/g, '');
     const isGmail = process.env.SMTP_HOST.includes('gmail');
-    const port = isGmail ? 465 : (Number(process.env.SMTP_PORT) || 587);
 
-    transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST.trim(),
-      port: port,
-      secure: port === 465,
-      auth: {
-        user: process.env.SMTP_USER.trim(),
-        pass: cleanPass,
-      },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
-      tls: {
-        rejectUnauthorized: false
-      }
-    });
-    console.log(`[Gmail Live SMTP Active] Configured sender: ${process.env.SMTP_USER} (Port ${port})`);
+    if (isGmail) {
+      transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.SMTP_USER.trim(),
+          pass: cleanPass,
+        },
+      });
+      console.log(`[Gmail Native Service Active] Sender: ${process.env.SMTP_USER}`);
+    } else {
+      transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST.trim(),
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: Number(process.env.SMTP_PORT) === 465,
+        auth: {
+          user: process.env.SMTP_USER.trim(),
+          pass: cleanPass,
+        },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 10000,
+        tls: {
+          rejectUnauthorized: false
+        }
+      });
+      console.log(`[SMTP Active] Configured sender: ${process.env.SMTP_USER}`);
+    }
   } else {
     // Generate test Ethereal SMTP account if no custom SMTP host provided
     const testAccount = await nodemailer.createTestAccount();
