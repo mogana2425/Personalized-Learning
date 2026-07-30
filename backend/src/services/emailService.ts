@@ -57,63 +57,6 @@ export const sendOtpEmail = async (toEmail: string, otpCode: string): Promise<bo
     </div>
   `;
 
-  // Option 1: Try Resend REST API if key provided (Recommended for cloud hosting)
-  if (process.env.RESEND_API_KEY) {
-    try {
-      const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.RESEND_API_KEY.trim()}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'PLIS Learning <onboarding@resend.dev>',
-          to: [toEmail],
-          subject: `Your PLIS Verification OTP Code: ${otpCode}`,
-          html: htmlContent
-        })
-      });
-      const data: any = await res.json();
-      if (res.ok) {
-        console.log(`[Resend API Dispatch Success] Delivered to: ${toEmail} | ID: ${data.id}`);
-        return true;
-      } else {
-        console.warn('[Resend API Error]:', data);
-      }
-    } catch (err: any) {
-      console.warn('[Resend API Exception]:', err.message);
-    }
-  }
-
-  // Option 2: Try Brevo REST API if key provided
-  if (process.env.BREVO_API_KEY) {
-    try {
-      const res = await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: {
-          'api-key': process.env.BREVO_API_KEY.trim(),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          sender: { name: 'PLIS Learning System', email: process.env.SMTP_USER || 'no-reply@plis-learning.com' },
-          to: [{ email: toEmail }],
-          subject: `Your PLIS Verification OTP Code: ${otpCode}`,
-          htmlContent: htmlContent
-        })
-      });
-      const data: any = await res.json();
-      if (res.ok) {
-        console.log(`[Brevo API Dispatch Success] Delivered to: ${toEmail} | MessageId: ${data.messageId}`);
-        return true;
-      } else {
-        console.warn('[Brevo API Error]:', data);
-      }
-    } catch (err: any) {
-      console.warn('[Brevo API Exception]:', err.message);
-    }
-  }
-
-  // Option 3: Fallback to Nodemailer SMTP
   try {
     await initTransporter();
 
@@ -128,7 +71,7 @@ export const sendOtpEmail = async (toEmail: string, otpCode: string): Promise<bo
 
     const sendPromise = transporter.sendMail(mailOptions);
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Email dispatch timeout')), 5000)
+      setTimeout(() => reject(new Error('Email dispatch timeout')), 10000)
     );
 
     const info: any = await Promise.race([sendPromise, timeoutPromise]);
