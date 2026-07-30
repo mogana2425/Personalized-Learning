@@ -8,10 +8,16 @@ const getBaseUrl = () => {
   if (process.env.EXPO_PUBLIC_API_URL) {
     return process.env.EXPO_PUBLIC_API_URL;
   }
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') {
+      return 'http://localhost:5001/api';
+    }
+  }
   if (Platform.OS === 'android') {
     return 'http://10.0.2.2:5001/api';
   }
-  return 'http://localhost:5001/api';
+  return 'https://personalized-learning-2mb7.onrender.com/api';
 };
 
 const api = axios.create({
