@@ -283,9 +283,11 @@ export const sendOtp = async (req: Request, res: Response): Promise<void> => {
 
     // Dispatch 6-digit OTP code directly to user's email inbox
     if (email) {
-      sendOtpEmail(email.trim().toLowerCase(), generatedOtp).catch(err =>
-        console.error('[Email Dispatch Error]:', err.message)
-      );
+      try {
+        await sendOtpEmail(email.trim().toLowerCase(), generatedOtp);
+      } catch (err: any) {
+        console.error('[Email Dispatch Error]:', err.message || err);
+      }
     }
 
     console.log(`[SERVER OTP CONSOLE ONLY] [${new Date().toISOString()}] Target: ${identifier} | Verification Code: ${generatedOtp}`);

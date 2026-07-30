@@ -5,10 +5,13 @@ let transporter: nodemailer.Transporter;
 const initTransporter = async () => {
   if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
     const cleanPass = process.env.SMTP_PASS.replace(/\s+/g, '');
+    const port = Number(process.env.SMTP_PORT) || 465;
+    const isSecure = port === 465;
+
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST.trim(),
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: false,
+      port: port,
+      secure: isSecure,
       auth: {
         user: process.env.SMTP_USER.trim(),
         pass: cleanPass,
@@ -17,7 +20,7 @@ const initTransporter = async () => {
         rejectUnauthorized: false
       }
     });
-    console.log(`[Gmail Live SMTP Active] Configured sender: ${process.env.SMTP_USER}`);
+    console.log(`[Gmail Live SMTP Active] Configured sender: ${process.env.SMTP_USER} (Port ${port})`);
   } else {
     // Generate test Ethereal SMTP account if no custom SMTP host provided
     const testAccount = await nodemailer.createTestAccount();
