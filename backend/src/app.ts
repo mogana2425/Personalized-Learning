@@ -22,6 +22,10 @@ import communityRoutes from './routes/communityRoutes';
 
 const app = express();
 
+// SECURITY FIX: Express sends `X-Powered-By: Express` by default, a small but free
+// information-disclosure leak that helps attackers fingerprint the stack. Disable it.
+app.disable('x-powered-by');
+
 // Middleware
 app.use(cors());
 app.use((req, res, next) => {

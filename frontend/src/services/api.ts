@@ -8,12 +8,15 @@ const getBaseUrl = () => {
   if (process.env.EXPO_PUBLIC_API_URL) {
     return process.env.EXPO_PUBLIC_API_URL;
   }
-  return 'https://personalized-learning-2mb7.onrender.com/api';
+  if (Platform.OS === 'android') {
+    return 'http://10.0.2.2:5001/api';
+  }
+  return 'http://localhost:5001/api';
 };
 
 const api = axios.create({
   baseURL: getBaseUrl(),
-  timeout: 60000,
+  timeout: 180000, // 3 minutes timeout for AI evaluation and OCR processing
   headers: {
     'Content-Type': 'application/json',
   },

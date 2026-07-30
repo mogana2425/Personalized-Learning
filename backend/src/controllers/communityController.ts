@@ -2,6 +2,13 @@ import { Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
 import { supabase } from '../config/supabaseClient';
 
+// SECURITY FIX: `search` was interpolated directly into a raw PostgREST `.or()` filter
+// expression with no escaping, letting a query param containing `,`, `(`, `)`, `%`, `*`
+// break out of the intended title/body ilike clauses (malformed-filter 500s, or injected
+// extra filter clauses). Strip PostgREST filter-syntax metacharacters before use — plain
+// text search still works, structural injection does not.
+const sanitizeSearchTerm = (raw: string): string => raw.replace(/[,()%*]/g, '').trim();
+
 const mapCommunityPost = (p: any) => {
   if (!p) return null;
   return {
@@ -42,7 +49,10 @@ export const getPosts = async (req: AuthenticatedRequest, res: Response): Promis
       query = query.eq('subject', subject as string);
     }
     if (search) {
-      query = query.or(`title.ilike.%${search}%,body.ilike.%${search}%`);
+      const safeSearch = sanitizeSearchTerm(String(search));
+      if (safeSearch) {
+        query = query.or(`title.ilike.%${safeSearch}%,body.ilike.%${safeSearch}%`);
+      }
     }
 
     const { data: posts, count, error } = await query

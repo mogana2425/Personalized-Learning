@@ -16,25 +16,42 @@ export const OtpLoginScreen: React.FC<OtpLoginScreenProps> = ({ navigation }) =>
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSendOtp = () => {
+  const handleSendOtp = async () => {
     if (!phone) {
       if (Platform.OS === 'web') {
-        alert('Error: Please enter a valid phone number.');
+        alert('Error: Please enter a valid email or phone number.');
       } else {
-        Alert.alert('Error', 'Please enter a valid phone number.');
+        Alert.alert('Error', 'Please enter a valid email or phone number.');
       }
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const isEmail = phone.includes('@');
+      const response = await api.post('/auth/send-otp', {
+        email: isEmail ? phone : undefined,
+        phone: !isEmail ? phone : undefined,
+      });
+
       setOtpSent(true);
+      const codeMsg = response.data.code ? ` (Verification Code: ${response.data.code})` : '';
+      const msg = `OTP Code sent to ${phone}${codeMsg}`;
+
       if (Platform.OS === 'web') {
-        alert('OTP Sent: Use code 123456 or 654321 for verification.');
+        alert(msg);
       } else {
-        Alert.alert('OTP Sent', 'Use code 123456 or 654321 for verification.');
+        Alert.alert('OTP Sent', msg);
       }
-    }, 1000);
+    } catch (error: any) {
+      const msg = error.response?.data?.message || 'Failed to send OTP code.';
+      if (Platform.OS === 'web') {
+        alert('Error: ' + msg);
+      } else {
+        Alert.alert('Error', msg);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleVerifyOtp = async () => {
@@ -48,7 +65,12 @@ export const OtpLoginScreen: React.FC<OtpLoginScreenProps> = ({ navigation }) =>
     }
     setLoading(true);
     try {
-      const response = await api.post('/auth/mobile-otp', { phone, otp });
+      const isEmail = phone.includes('@');
+      const response = await api.post('/auth/verify-otp', {
+        email: isEmail ? phone : undefined,
+        phone: !isEmail ? phone : undefined,
+        otp,
+      });
       const { token, ...user } = response.data;
       dispatch(loginSuccess({ token, user }));
 
@@ -72,33 +94,34 @@ export const OtpLoginScreen: React.FC<OtpLoginScreenProps> = ({ navigation }) =>
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <View style={STYLES.card}>
-          <Text style={[STYLES.title, { marginBottom: 10 }]}>OTP Verification</Text>
+          <Text style={[STYLES.title, { marginBottom: 10 }]}>Free OTP Verification</Text>
           <Text style={[STYLES.subtitle, { marginBottom: 20 }]}>
             {!otpSent
-              ? 'Enter your mobile number to receive a one-time login PIN.'
-              : 'Enter the 6-digit code sent to your phone.'}
+              ? 'Enter your Email or Phone Number to receive a 6-digit verification code.'
+              : 'Enter the 6-digit code sent to your account.'}
           </Text>
 
           {!otpSent ? (
             <>
-              <Text style={STYLES.inputLabel}>Phone Number</Text>
+              <Text style={STYLES.inputLabel}>Email or Phone Number</Text>
               <TextInput
-                placeholder="+1 (555) 019-2834"
+                placeholder="student@example.com or +1 (555) 019-2834"
                 placeholderTextColor="#64748b"
                 style={STYLES.input}
                 value={phone}
                 onChangeText={setPhone}
-                keyboardType="phone-pad"
+                keyboardType="email-address"
+                autoCapitalize="none"
               />
               <TouchableOpacity style={STYLES.button} onPress={handleSendOtp} disabled={loading}>
-                {loading ? <ActivityIndicator color="#ffffff" /> : <Text style={STYLES.buttonText}>Send OTP Code</Text>}
+                {loading ? <ActivityIndicator color="#ffffff" /> : <Text style={STYLES.buttonText}>Send Free OTP Code</Text>}
               </TouchableOpacity>
             </>
           ) : (
             <>
               <Text style={STYLES.inputLabel}>Verification Code</Text>
               <TextInput
-                placeholder="e.g. 123456"
+                placeholder="e.g. 6-digit OTP code"
                 placeholderTextColor="#64748b"
                 style={STYLES.input}
                 value={otp}
@@ -111,7 +134,7 @@ export const OtpLoginScreen: React.FC<OtpLoginScreenProps> = ({ navigation }) =>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.resendBtn} onPress={() => setOtpSent(false)}>
-                <Text style={styles.resendText}>Change Phone Number</Text>
+                <Text style={styles.resendText}>Change Email / Phone</Text>
               </TouchableOpacity>
             </>
           )}

@@ -127,10 +127,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         </View>
 
         <View style={styles.optionsContainer}>
-          <TouchableOpacity style={styles.secondaryBtn} onPress={() => navigation.navigate('OtpLogin')}>
-            <Text style={styles.secondaryBtnText}>Login via Mobile SMS OTP</Text>
-          </TouchableOpacity>
-
           <TouchableOpacity style={styles.secondaryBtn} onPress={() => navigation.navigate('Register')}>
             <Text style={styles.secondaryBtnText}>New here? Create account</Text>
           </TouchableOpacity>

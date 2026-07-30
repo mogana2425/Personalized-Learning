@@ -75,7 +75,6 @@ const AuthNavigator = () => (
   >
     <AuthStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
     <AuthStack.Screen name="Register" component={RegisterScreen} options={{ title: 'Create Account' }} />
-    <AuthStack.Screen name="OtpLogin" component={OtpLoginScreen} options={{ title: 'SMS OTP Access' }} />
     <AuthStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: 'Reset Password' }} />
   </AuthStack.Navigator>
 );

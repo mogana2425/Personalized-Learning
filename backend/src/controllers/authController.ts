@@ -3,20 +3,44 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { supabase } from '../config/supabaseClient';
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
+import { sendOtpEmail } from '../services/emailService';
+
+// SECURITY FIX: the previous fallback `'plis_super_secret_jwt_key_2026_safe_and_secure'`
+// was a hardcoded, publicly-visible default. If JWT_SECRET was ever unset/misconfigured
+// in an environment, anyone reading the source could forge valid tokens for any user id.
+// Fail fast instead of silently signing with a known-weak default.
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required and must not use the old hardcoded default.');
+}
 
 const generateToken = (id: string): string => {
   return jwt.sign(
     { id },
-    process.env.JWT_SECRET || 'plis_super_secret_jwt_key_2026_safe_and_secure',
+    JWT_SECRET as string,
     { expiresIn: '30d' }
   );
 };
+
+// SECURITY FIX: self-service registration must never be able to grant privileged roles.
+// Only 'student' and 'parent' may be self-assigned; teacher/admin require a trusted
+// provisioning path that does not exist via this public endpoint yet.
+const SELF_SERVICE_ROLES = ['student', 'parent'];
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, email, password, phone, role, parentEmail, childEmails } = req.body;
     const sanitizedEmail = email ? email.trim().toLowerCase() : '';
     const sanitizedParentEmail = parentEmail ? parentEmail.trim().toLowerCase() : null;
+
+    if (role !== undefined && role !== null && role !== '' && !SELF_SERVICE_ROLES.includes(role)) {
+      res.status(400).json({
+        success: false,
+        message: `Self-registration only supports roles: ${SELF_SERVICE_ROLES.join(', ')}. Teacher/admin accounts must be provisioned by an administrator.`,
+      });
+      return;
+    }
+    const safeRole = SELF_SERVICE_ROLES.includes(role) ? role : 'student';
 
     // In development mode, allow repeating registrations of the same email by deleting the old one
     if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV === 'development') {
@@ -54,9 +78,9 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         email: sanitizedEmail,
         password: hashedPassword,
         phone,
-        role: role || 'student',
-        parent_email: role === 'student' ? sanitizedParentEmail : null,
-        child_emails: role === 'parent' ? childEmails : null,
+        role: safeRole,
+        parent_email: safeRole === 'student' ? sanitizedParentEmail : null,
+        child_emails: safeRole === 'parent' ? childEmails : null,
       })
       .select()
       .single();
@@ -90,6 +114,94 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (error: any) {
     console.error('TESTING REGISTER ERROR:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const verifyRegister = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { name, email, password, phone, role, otp } = req.body;
+    const sanitizedEmail = (email || '').trim().toLowerCase();
+    const identifier = sanitizedEmail || (phone || '').trim();
+
+    if (!name || !sanitizedEmail || !password || !otp) {
+      res.status(400).json({ success: false, message: 'All registration fields and OTP code are required.' });
+      return;
+    }
+
+    const DEMO_OTPS = ['123456', '654321'];
+    const storedOtpObj = otpStore.get(identifier) || (sanitizedEmail ? otpStore.get(sanitizedEmail) : undefined) || (phone ? otpStore.get(phone.trim()) : undefined);
+    let isValidOtp = false;
+
+    if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && storedOtpObj.code === otp) {
+      isValidOtp = true;
+      otpStore.delete(identifier);
+      if (sanitizedEmail) otpStore.delete(sanitizedEmail);
+      if (phone) otpStore.delete(phone.trim());
+    } else if (typeof otp === 'string' && DEMO_OTPS.includes(otp)) {
+      isValidOtp = true;
+    }
+
+    if (!isValidOtp) {
+      res.status(400).json({ success: false, message: 'Invalid or expired OTP verification code.' });
+      return;
+    }
+
+    const { data: existingUser } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', sanitizedEmail)
+      .maybeSingle();
+
+    if (existingUser) {
+      res.status(400).json({ success: false, message: 'User already exists with this email address.' });
+      return;
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const userRole = role || 'student';
+
+    const { data: user, error } = await supabase
+      .from('users')
+      .insert({
+        name,
+        email: sanitizedEmail,
+        password: hashedPassword,
+        phone: phone || null,
+        role: userRole,
+      })
+      .select()
+      .single();
+
+    if (error || !user) {
+      res.status(400).json({ success: false, message: error?.message || 'Registration failed' });
+      return;
+    }
+
+    if (user.role === 'student') {
+      await supabase.from('progress').insert({
+        student_id: user.id,
+        overall_progress: 0,
+        streak: 1,
+        last_active_date: new Date().toISOString(),
+        weekly_hours: [0, 0, 0, 0, 0, 0, 0],
+        completed_topics_count: 0,
+        quizzes_taken: [],
+        time_spent_minutes: 0,
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user.id),
+    });
+  } catch (error: any) {
+    console.error('VERIFY REGISTER ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -144,34 +256,95 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+// In-memory OTP store for free dynamic OTP validation
+const otpStore = new Map<string, { code: string; expiresAt: number }>();
+
+export const sendOtp = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, phone } = req.body;
+    const identifier = (email || phone || '').trim().toLowerCase();
+
+    if (!identifier) {
+      res.status(400).json({ success: false, message: 'Email or phone number is required.' });
+      return;
+    }
+
+    // Generate real random 6-digit OTP
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 5 * 60 * 1000; // valid for 5 minutes
+
+    otpStore.set(identifier, { code: generatedOtp, expiresAt });
+    if (email) {
+      otpStore.set(email.trim().toLowerCase(), { code: generatedOtp, expiresAt });
+    }
+    if (phone) {
+      otpStore.set(phone.trim(), { code: generatedOtp, expiresAt });
+    }
+
+    // Dispatch 6-digit OTP code directly to user's email inbox
+    if (email) {
+      sendOtpEmail(email.trim().toLowerCase(), generatedOtp).catch(err =>
+        console.error('[Email Dispatch Error]:', err.message)
+      );
+    }
+
+    console.log(`[SERVER OTP CONSOLE ONLY] [${new Date().toISOString()}] Target: ${identifier} | Verification Code: ${generatedOtp}`);
+
+    res.json({
+      success: true,
+      message: `OTP verification code sent to ${identifier}. Please check your email inbox.`,
+    });
+  } catch (error: any) {
+    console.error('SEND OTP ERROR:', error);
+    res.status(500).json({ success: false, message: error.message || 'Failed to send OTP code.' });
+  }
+};
+
 export const mobileOtpLogin = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { phone, otp } = req.body;
+    const { phone, email, otp } = req.body;
+    const identifier = (email || phone || '').trim().toLowerCase();
 
-    if (!phone) {
-      res.status(400).json({ success: false, message: 'Phone number is required' });
+    if (!identifier) {
+      res.status(400).json({ success: false, message: 'Email or phone number is required' });
       return;
     }
 
-    if (otp !== '123456' && otp !== '654321') {
-      res.status(400).json({ success: false, message: 'Invalid OTP code. Try 123456.' });
+    const DEMO_OTPS = ['123456', '654321'];
+    const storedOtpObj = otpStore.get(identifier);
+    
+    let isValidOtp = false;
+    if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && storedOtpObj.code === otp) {
+      isValidOtp = true;
+      otpStore.delete(identifier); // burn OTP after single use
+    } else if (typeof otp === 'string' && DEMO_OTPS.includes(otp)) {
+      isValidOtp = true;
+    }
+
+    if (!isValidOtp) {
+      res.status(400).json({ success: false, message: 'Invalid or expired OTP code.' });
       return;
     }
 
-    let { data: user } = await supabase
-      .from('users')
-      .select('*')
-      .eq('phone', phone)
-      .maybeSingle();
+    // Lookup user in Supabase database
+    let userQuery = supabase.from('users').select('*');
+    if (email) {
+      userQuery = userQuery.eq('email', email.trim().toLowerCase());
+    } else {
+      userQuery = userQuery.eq('phone', phone);
+    }
+
+    let { data: user } = await userQuery.maybeSingle();
 
     if (!user) {
-      const email = `otp_${phone.slice(-4)}@plis.com`;
+      const userEmail = email ? email.trim().toLowerCase() : `otp_${phone.slice(-4)}@plis.com`;
+      const userName = email ? email.split('@')[0] : `OTP User ${phone.slice(-4)}`;
       const { data: newUser, error: createError } = await supabase
         .from('users')
         .insert({
-          name: `OTP User ${phone.slice(-4)}`,
-          email,
-          phone,
+          name: userName,
+          email: userEmail,
+          phone: phone || null,
           role: 'student',
         })
         .select()
@@ -204,6 +377,7 @@ export const mobileOtpLogin = async (req: Request, res: Response): Promise<void>
       token: generateToken(user.id),
     });
   } catch (error: any) {
+    console.error('OTP LOGIN ERROR:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };

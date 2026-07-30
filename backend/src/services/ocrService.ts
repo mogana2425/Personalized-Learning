@@ -17,14 +17,20 @@ export class OCRService {
         }
       }
 
-      // Run Tesseract
-      const result = await Tesseract.recognize(
+      // Run Tesseract with 15s timeout safeguard for fast response
+      const ocrPromise = Tesseract.recognize(
         filePath,
         'eng',
         {
           logger: m => console.log(`OCR Progress: ${m.status} - ${Math.round(m.progress * 100)}%`)
         }
       );
+
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('OCR Timeout: Fast extraction mode active')), 15000)
+      );
+
+      const result: any = await Promise.race([ocrPromise, timeoutPromise]);
 
       console.log('OCR Extraction completed successfully.');
       return result.data.text || this.getMockOCRText();

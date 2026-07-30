@@ -2,6 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { supabase } from '../config/supabaseClient';
 
+// SECURITY FIX: see authController.ts — no hardcoded fallback secret. Must match the
+// same required env var used for signing.
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required and must not use the old hardcoded default.');
+}
+
 export interface IUser {
   _id: string; // mapped from id for compatibility
   id: string;
@@ -28,7 +35,7 @@ export const protect = async (
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
       token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'plis_super_secret_jwt_key_2026_safe_and_secure') as { id: string };
+      const decoded = jwt.verify(token, JWT_SECRET as string) as { id: string };
 
       const { data: dbUser, error } = await supabase
         .from('users')
