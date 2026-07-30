@@ -5,17 +5,19 @@ let transporter: nodemailer.Transporter;
 const initTransporter = async () => {
   if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
     const cleanPass = process.env.SMTP_PASS.replace(/\s+/g, '');
-    const port = Number(process.env.SMTP_PORT) || 465;
-    const isSecure = port === 465;
+    const port = Number(process.env.SMTP_PORT) || 587;
 
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST.trim(),
       port: port,
-      secure: isSecure,
+      secure: port === 465,
       auth: {
         user: process.env.SMTP_USER.trim(),
         pass: cleanPass,
       },
+      connectionTimeout: 5000,
+      greetingTimeout: 5000,
+      socketTimeout: 5000,
       tls: {
         rejectUnauthorized: false
       }
@@ -43,7 +45,7 @@ export const sendOtpEmail = async (toEmail: string, otpCode: string): Promise<bo
   try {
     await initTransporter();
 
-    const senderEmail = process.env.SMTP_USER ? `"PLIS Learning System" <${process.env.SMTP_USER}>` : '"PLIS Learning System" <no-reply@plis-learning.com>';
+    const senderEmail = process.env.SMTP_USER ? `"PLIS Learning System" <${process.env.SMTP_USER.trim()}>` : '"PLIS Learning System" <no-reply@plis-learning.com>';
 
     const mailOptions = {
       from: senderEmail,
@@ -64,15 +66,16 @@ export const sendOtpEmail = async (toEmail: string, otpCode: string): Promise<bo
       `,
     };
 
-    const info = await transporter.sendMail(mailOptions);
+    const sendPromise = transporter.sendMail(mailOptions);
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Email dispatch timeout')), 5000)
+    );
+
+    const info: any = await Promise.race([sendPromise, timeoutPromise]);
     console.log(`[EMAIL DISPATCH] Sent to: ${toEmail} | OTP Code: ${otpCode} | MessageId: ${info.messageId}`);
-    const previewUrl = nodemailer.getTestMessageUrl(info);
-    if (previewUrl) {
-      console.log(`[EMAIL INBOX PREVIEW LINK]: ${previewUrl}`);
-    }
     return true;
   } catch (error: any) {
-    console.error('FAILED TO SEND OTP EMAIL:', error);
+    console.error(`[EMAIL DISPATCH WARNING] Could not send email to ${toEmail}:`, error.message || error);
     return false;
   }
 };
