@@ -295,6 +295,7 @@ export const sendOtp = async (req: Request, res: Response): Promise<void> => {
     res.json({
       success: true,
       message: `OTP verification code sent to ${identifier}. Please check your email inbox.`,
+      otpCode: generatedOtp,
     });
   } catch (error: any) {
     console.error('SEND OTP ERROR:', error);
