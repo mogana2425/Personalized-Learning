@@ -130,28 +130,45 @@ export const verifyRegister = async (req: Request, res: Response): Promise<void>
     }
 
     const DEMO_OTPS = ['123456', '654321'];
-    const storedOtpObj = otpStore.get(identifier) || (sanitizedEmail ? otpStore.get(sanitizedEmail) : undefined) || (phone ? otpStore.get(phone.trim()) : undefined);
+    const userOtp = String(otp || '').trim();
     let isValidOtp = false;
 
-    const userOtp = String(otp || '').trim();
-    if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && String(storedOtpObj.code).trim() === userOtp) {
-      isValidOtp = true;
-      otpStore.delete(identifier);
-      if (sanitizedEmail) otpStore.delete(sanitizedEmail);
-      if (phone) otpStore.delete(phone.trim());
-    } else if (DEMO_OTPS.includes(userOtp)) {
+    if (DEMO_OTPS.includes(userOtp)) {
+      // Allow demo OTPs for testing
       isValidOtp = true;
     } else if (sanitizedEmail) {
+      // Primary: Verify via Supabase Auth (matches token Supabase emailed)
       try {
-        const { data: sbData, error: sbErr } = await supabase.auth.verifyOtp({
+        const { error: sbErr } = await supabase.auth.verifyOtp({
           email: sanitizedEmail,
           token: userOtp,
           type: 'email'
         });
         if (!sbErr) {
           isValidOtp = true;
+          console.log(`[Supabase OTP Verified] Email: ${sanitizedEmail}`);
+        } else {
+          console.warn('[Supabase OTP Verify Error]:', sbErr.message);
         }
-      } catch (e) {}
+      } catch (e: any) {
+        console.warn('[Supabase OTP Verify Exception]:', e.message);
+      }
+
+      // Fallback: Check in-memory store (for phone or local testing)
+      if (!isValidOtp) {
+        const storedOtpObj = otpStore.get(sanitizedEmail) || otpStore.get(identifier);
+        if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && String(storedOtpObj.code).trim() === userOtp) {
+          isValidOtp = true;
+          otpStore.delete(sanitizedEmail);
+          otpStore.delete(identifier);
+        }
+      }
+    } else if (phone) {
+      const storedOtpObj = otpStore.get(phone.trim());
+      if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && String(storedOtpObj.code).trim() === userOtp) {
+        isValidOtp = true;
+        otpStore.delete(phone.trim());
+      }
     }
 
     if (!isValidOtp) {
@@ -281,29 +298,28 @@ export const sendOtp = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Generate real random 6-digit OTP
-    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = Date.now() + 5 * 60 * 1000; // valid for 5 minutes
-
-    otpStore.set(identifier, { code: generatedOtp, expiresAt });
     if (email) {
-      otpStore.set(email.trim().toLowerCase(), { code: generatedOtp, expiresAt });
-    }
-    if (phone) {
-      otpStore.set(phone.trim(), { code: generatedOtp, expiresAt });
-    }
-
-    // Dispatch 6-digit OTP code directly to user's email inbox
-    if (email) {
+      // Use Supabase Auth to send OTP — Supabase handles email delivery
       const sanitizedEmail = email.trim().toLowerCase();
-      try {
-        await sendOtpEmail(sanitizedEmail, generatedOtp);
-      } catch (err: any) {
-        console.error('[Email Dispatch Error]:', err.message || err);
-      }
-    }
+      const { error } = await supabase.auth.signInWithOtp({
+        email: sanitizedEmail,
+        options: { shouldCreateUser: true }
+      });
 
-    console.log(`[SERVER OTP CONSOLE ONLY] [${new Date().toISOString()}] Target: ${identifier} | Verification Code: ${generatedOtp}`);
+      if (error) {
+        console.error('[Supabase OTP Error]:', error.message);
+        res.status(500).json({ success: false, message: 'Failed to send OTP. Please try again.' });
+        return;
+      }
+
+      console.log(`[Supabase OTP Sent] 6-digit code dispatched to ${sanitizedEmail}`);
+    } else if (phone) {
+      // Fallback: phone OTP stored in memory
+      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = Date.now() + 5 * 60 * 1000;
+      otpStore.set(phone.trim(), { code: generatedOtp, expiresAt });
+      console.log(`[Phone OTP CONSOLE] ${phone} | Code: ${generatedOtp}`);
+    }
 
     res.json({
       success: true,
@@ -314,6 +330,7 @@ export const sendOtp = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ success: false, message: error.message || 'Failed to send OTP code.' });
   }
 };
+
 
 export const mobileOtpLogin = async (req: Request, res: Response): Promise<void> => {
   try {
