@@ -33,15 +33,12 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
     try {
       const response = await api.post('/auth/send-otp', { email, phone });
       setStep('otp');
-      const serverOtp = response.data?.otpCode;
-      const msg = serverOtp
-        ? `Your 6-Digit Verification OTP Code is: ${serverOtp}\n\n(It has also been sent to your email: ${email})`
-        : `Verification OTP sent to ${email}. Please check your email inbox for the 6-digit verification code.`;
+      const msg = `Verification OTP code sent to ${email}. Please check your email inbox.`;
 
       if (Platform.OS === 'web') {
         alert(msg);
       } else {
-        Alert.alert('OTP Verification Code', msg);
+        Alert.alert('OTP Sent', msg);
       }
     } catch (error: any) {
       const msg = error.response?.data?.message || 'Failed to send OTP code.';

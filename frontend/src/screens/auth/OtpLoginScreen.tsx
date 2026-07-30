@@ -34,9 +34,7 @@ export const OtpLoginScreen: React.FC<OtpLoginScreenProps> = ({ navigation }) =>
       });
 
       setOtpSent(true);
-      const serverCode = response.data.otpCode || response.data.code;
-      const codeMsg = serverCode ? ` (Verification Code: ${serverCode})` : '';
-      const msg = `OTP Code sent to ${phone}${codeMsg}`;
+      const msg = `OTP Code sent to ${phone}. Please check your email inbox.`;
 
       if (Platform.OS === 'web') {
         alert(msg);

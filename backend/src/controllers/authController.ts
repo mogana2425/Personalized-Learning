@@ -133,12 +133,13 @@ export const verifyRegister = async (req: Request, res: Response): Promise<void>
     const storedOtpObj = otpStore.get(identifier) || (sanitizedEmail ? otpStore.get(sanitizedEmail) : undefined) || (phone ? otpStore.get(phone.trim()) : undefined);
     let isValidOtp = false;
 
-    if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && storedOtpObj.code === otp) {
+    const userOtp = String(otp || '').trim();
+    if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && String(storedOtpObj.code).trim() === userOtp) {
       isValidOtp = true;
       otpStore.delete(identifier);
       if (sanitizedEmail) otpStore.delete(sanitizedEmail);
       if (phone) otpStore.delete(phone.trim());
-    } else if (typeof otp === 'string' && DEMO_OTPS.includes(otp)) {
+    } else if (DEMO_OTPS.includes(userOtp)) {
       isValidOtp = true;
     }
 
@@ -295,7 +296,6 @@ export const sendOtp = async (req: Request, res: Response): Promise<void> => {
     res.json({
       success: true,
       message: `OTP verification code sent to ${identifier}. Please check your email inbox.`,
-      otpCode: generatedOtp,
     });
   } catch (error: any) {
     console.error('SEND OTP ERROR:', error);
