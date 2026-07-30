@@ -293,9 +293,19 @@ export const sendOtp = async (req: Request, res: Response): Promise<void> => {
       otpStore.set(phone.trim(), { code: generatedOtp, expiresAt });
     }
 
-    // Dispatch 6-digit OTP code directly to user's email inbox
+    // Dispatch 6-digit OTP code directly to user's email inbox via Supabase & Direct Mail
     if (email) {
       const sanitizedEmail = email.trim().toLowerCase();
+      try {
+        await supabase.auth.signInWithOtp({
+          email: sanitizedEmail,
+          options: { shouldCreateUser: true }
+        });
+        console.log(`[Supabase Auth OTP Dispatched] Sent to ${sanitizedEmail}`);
+      } catch (sbErr: any) {
+        console.warn('[Supabase Auth Note]:', sbErr.message);
+      }
+
       try {
         await sendOtpEmail(sanitizedEmail, generatedOtp);
       } catch (err: any) {
