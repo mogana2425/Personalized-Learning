@@ -5,7 +5,8 @@ let transporter: nodemailer.Transporter;
 const initTransporter = async () => {
   if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
     const cleanPass = process.env.SMTP_PASS.replace(/\s+/g, '');
-    const port = Number(process.env.SMTP_PORT) || 587;
+    const isGmail = process.env.SMTP_HOST.includes('gmail');
+    const port = isGmail ? 465 : (Number(process.env.SMTP_PORT) || 587);
 
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST.trim(),
@@ -15,9 +16,9 @@ const initTransporter = async () => {
         user: process.env.SMTP_USER.trim(),
         pass: cleanPass,
       },
-      connectionTimeout: 5000,
-      greetingTimeout: 5000,
-      socketTimeout: 5000,
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
       tls: {
         rejectUnauthorized: false
       }
