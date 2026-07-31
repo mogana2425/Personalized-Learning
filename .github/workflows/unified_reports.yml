@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node_version: '18'
+          node-version: '18'
 
       - name: Verify Environment & Connectivity
         run: |
@@ -32,12 +32,12 @@ jobs:
     needs: verify-deployment
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node_version: '18'
+          node-version: '18'
 
       - name: Install Dependencies
         run: npm install
@@ -46,7 +46,7 @@ jobs:
         run: npm run test:backend
 
       - name: Upload Backend Test Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: backend-test-results
           path: reports/backend_results.json
@@ -57,12 +57,12 @@ jobs:
     needs: verify-deployment
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node_version: '18'
+          node-version: '18'
 
       - name: Install Dependencies
         run: npm install
@@ -71,7 +71,7 @@ jobs:
         run: npm run test:build
 
       - name: Upload Frontend Build Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-build-results
           path: reports/frontend_results.json
@@ -82,12 +82,12 @@ jobs:
     needs: verify-deployment
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node_version: '18'
+          node-version: '18'
 
       - name: Install Dependencies
         run: npm install
@@ -96,7 +96,7 @@ jobs:
         run: npm run test:load
 
       - name: Upload Load Test Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: load-test-results
           path: reports/load_results.json
@@ -107,12 +107,12 @@ jobs:
     needs: [verify-deployment, run-backend-api-tests]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node_version: '18'
+          node-version: '18'
 
       - name: Install Dependencies
         run: npm install
@@ -121,13 +121,13 @@ jobs:
         run: npm run test:e2e
 
       - name: Upload Appium Excel Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: appium-excel-reports
           path: reports/Appium_Test_Report.xlsx
 
       - name: Upload E2E Test Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: e2e-test-results
           path: reports/e2e_results.json
@@ -138,18 +138,18 @@ jobs:
     needs: [verify-deployment, run-backend-api-tests, run-frontend-build, run-api-load-tests, run-appium-tests]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node_version: '18'
+          node-version: '18'
 
       - name: Install Dependencies
         run: npm install
 
       - name: Download Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: reports_artifacts
 
@@ -157,7 +157,7 @@ jobs:
         run: npm run test:consolidate
 
       - name: Upload Final Consolidated Verification Dashboard
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: unified-verification-dashboard
           path: reports/Unified_Test_Verification_Dashboard.md
