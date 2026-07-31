@@ -625,7 +625,7 @@ export default function Home() {
               {authMode === "login" ? "Sign In to PLIS" : "Create Account"}
             </h3>
             <p className="text-slate-400 text-xs mb-6">
-              {authMode === "login" ? "Enter your email & password to access your dashboard." : "Direct account creation (No OTP code required)."}
+              {authMode === "login" ? "Enter your email & password to access your dashboard." : "Enter your details below to create an account."}
             </p>
 
             {authMessage.text && (
