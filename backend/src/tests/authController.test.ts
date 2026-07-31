@@ -1,3 +1,4 @@
+process.env.JWT_SECRET = 'plis_super_secret_jwt_key_2026_safe_and_secure';
 import { Request, Response } from 'express';
 
 // Create a holder for mock functions to bypass TDZ/hoisting issues in Jest
@@ -81,7 +82,7 @@ describe('Authentication Controller Unit Tests', () => {
     it('should successfully register a new student user and initialize progress', async () => {
       mockRequest.body = {
         name: 'Jane Doe',
-        email: 'jane@plis.com',
+        email: 'jane@gmail.com',
         password: 'securePassword123',
         role: 'student',
       };
@@ -94,7 +95,7 @@ describe('Authentication Controller Unit Tests', () => {
         data: {
           id: 'mock_student_id',
           name: 'Jane Doe',
-          email: 'jane@plis.com',
+          email: 'jane@gmail.com',
           role: 'student',
         },
         error: null,
@@ -106,7 +107,7 @@ describe('Authentication Controller Unit Tests', () => {
       expect(jsonMock).toHaveBeenCalledWith(
         expect.objectContaining({
           success: true,
-          email: 'jane@plis.com',
+          email: 'jane@gmail.com',
           token: 'mock_jwt_token',
         })
       );
@@ -115,13 +116,13 @@ describe('Authentication Controller Unit Tests', () => {
     it('should return 400 error if user email already exists', async () => {
       mockRequest.body = {
         name: 'Jane Doe',
-        email: 'jane@plis.com',
+        email: 'jane@gmail.com',
         password: 'securePassword123',
       };
 
       // Mock email check: maybeSingle returns user data
       mockSupabaseActions.maybeSingle.mockResolvedValue({
-        data: { id: 'existing_id', email: 'jane@plis.com' },
+        data: { id: 'existing_id', email: 'jane@gmail.com' },
         error: null,
       });
 
@@ -140,7 +141,7 @@ describe('Authentication Controller Unit Tests', () => {
   describe('login', () => {
     it('should successfully login and return JWT for valid credentials', async () => {
       mockRequest.body = {
-        email: 'jane@plis.com',
+        email: 'jane@gmail.com',
         password: 'securePassword123',
       };
 
@@ -149,7 +150,7 @@ describe('Authentication Controller Unit Tests', () => {
         data: {
           id: 'mock_student_id',
           name: 'Jane Doe',
-          email: 'jane@plis.com',
+          email: 'jane@gmail.com',
           password: 'hashed_password',
           role: 'student',
         },
@@ -161,7 +162,7 @@ describe('Authentication Controller Unit Tests', () => {
       expect(jsonMock).toHaveBeenCalledWith(
         expect.objectContaining({
           success: true,
-          email: 'jane@plis.com',
+          email: 'jane@gmail.com',
           token: 'mock_jwt_token',
         })
       );
