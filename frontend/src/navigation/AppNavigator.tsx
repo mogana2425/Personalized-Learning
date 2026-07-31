@@ -11,7 +11,6 @@ import { LayoutDashboard, BookOpen, MessageSquare, LineChart, UserCog, Zap, LogO
 // Auth Screens
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
-import OtpLoginScreen from '../screens/auth/OtpLoginScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 
 // Student Screens
@@ -41,12 +40,12 @@ export type RootStackParamList = {
   Admin: undefined;
   Assessment: { subject: string };
   AnswerSheetUpload: undefined;
+  AnalysisReport: { report?: any };
 };
 
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
-  OtpLogin: undefined;
   ForgotPassword: undefined;
 };
 
@@ -160,10 +159,10 @@ const WebStudentNavigator: React.FC = () => {
       case 'MyLearning': return <LearningPathScreen navigation={fakeNavigation} route={{ params: activeRoute === 'MyLearning' ? webParams : undefined }} />;
       case 'Upload': return <AnswerSheetUploadScreen navigation={fakeNavigation} />;
       case 'AnalysisReport': return <AnalysisReportScreen navigation={fakeNavigation} route={{ params: webParams }} />;
-      case 'AITutor': return <AITutorScreen navigation={fakeNavigation} />;
-      case 'Community': return <CommunityScreen navigation={fakeNavigation} />;
-      case 'Profile': return <ProfileScreen navigation={fakeNavigation} />;
-      case 'Assessment': return <AssessmentScreen route={{ params: webParams }} navigation={fakeNavigation} />;
+      case 'AITutor': return <AITutorScreen />;
+      case 'Community': return <CommunityScreen />;
+      case 'Profile': return <ProfileScreen />;
+      case 'Assessment': return <AssessmentScreen route={{ params: webParams }} navigation={fakeNavigation as any} />;
       default: return <StudentDashboardScreen navigation={fakeNavigation} />;
     }
   };

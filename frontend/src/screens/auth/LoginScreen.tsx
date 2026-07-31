@@ -25,6 +25,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       return;
     }
 
+    if (!email.trim().toLowerCase().endsWith('@gmail.com')) {
+      if (Platform.OS === 'web') {
+        alert('Validation Error: Only @gmail.com email addresses are allowed.');
+      } else {
+        Alert.alert('Validation Error', 'Only @gmail.com email addresses are allowed.');
+      }
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await api.post('/auth/login', { email, password });

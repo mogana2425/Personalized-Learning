@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { supabase } from '../config/supabaseClient';
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
-import { sendOtpEmail } from '../services/emailService';
 
 // SECURITY FIX: the previous fallback `'plis_super_secret_jwt_key_2026_safe_and_secure'`
 // was a hardcoded, publicly-visible default. If JWT_SECRET was ever unset/misconfigured
@@ -32,6 +31,14 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     const { name, email, password, phone, role, parentEmail, childEmails } = req.body;
     const sanitizedEmail = email ? email.trim().toLowerCase() : '';
     const sanitizedParentEmail = parentEmail ? parentEmail.trim().toLowerCase() : null;
+
+    if (!sanitizedEmail || !sanitizedEmail.endsWith('@gmail.com')) {
+      res.status(400).json({
+        success: false,
+        message: 'Only @gmail.com email addresses are allowed.',
+      });
+      return;
+    }
 
     if (role !== undefined && role !== null && role !== '' && !SELF_SERVICE_ROLES.includes(role)) {
       res.status(400).json({
@@ -118,128 +125,16 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const verifyRegister = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { name, email, password, phone, role, otp } = req.body;
-    const sanitizedEmail = (email || '').trim().toLowerCase();
-    const identifier = sanitizedEmail || (phone || '').trim();
-
-    if (!name || !sanitizedEmail || !password || !otp) {
-      res.status(400).json({ success: false, message: 'All registration fields and OTP code are required.' });
-      return;
-    }
-
-    const DEMO_OTPS = ['123456', '654321'];
-    const userOtp = String(otp || '').trim();
-    let isValidOtp = false;
-
-    if (DEMO_OTPS.includes(userOtp)) {
-      // Allow demo OTPs for testing
-      isValidOtp = true;
-    } else if (sanitizedEmail) {
-      // Primary: Verify via Supabase Auth (matches token Supabase emailed)
-      try {
-        const { error: sbErr } = await supabase.auth.verifyOtp({
-          email: sanitizedEmail,
-          token: userOtp,
-          type: 'email'
-        });
-        if (!sbErr) {
-          isValidOtp = true;
-          console.log(`[Supabase OTP Verified] Email: ${sanitizedEmail}`);
-        } else {
-          console.warn('[Supabase OTP Verify Error]:', sbErr.message);
-        }
-      } catch (e: any) {
-        console.warn('[Supabase OTP Verify Exception]:', e.message);
-      }
-
-      // Fallback: Check in-memory store (for phone or local testing)
-      if (!isValidOtp) {
-        const storedOtpObj = otpStore.get(sanitizedEmail) || otpStore.get(identifier);
-        if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && String(storedOtpObj.code).trim() === userOtp) {
-          isValidOtp = true;
-          otpStore.delete(sanitizedEmail);
-          otpStore.delete(identifier);
-        }
-      }
-    } else if (phone) {
-      const storedOtpObj = otpStore.get(phone.trim());
-      if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && String(storedOtpObj.code).trim() === userOtp) {
-        isValidOtp = true;
-        otpStore.delete(phone.trim());
-      }
-    }
-
-    if (!isValidOtp) {
-      res.status(400).json({ success: false, message: 'Invalid or expired OTP verification code.' });
-      return;
-    }
-
-    const { data: existingUser } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', sanitizedEmail)
-      .maybeSingle();
-
-    if (existingUser) {
-      res.status(400).json({ success: false, message: 'User already exists with this email address.' });
-      return;
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const userRole = role || 'student';
-
-    const { data: user, error } = await supabase
-      .from('users')
-      .insert({
-        name,
-        email: sanitizedEmail,
-        password: hashedPassword,
-        phone: phone || null,
-        role: userRole,
-      })
-      .select()
-      .single();
-
-    if (error || !user) {
-      res.status(400).json({ success: false, message: error?.message || 'Registration failed' });
-      return;
-    }
-
-    if (user.role === 'student') {
-      await supabase.from('progress').insert({
-        student_id: user.id,
-        overall_progress: 0,
-        streak: 1,
-        last_active_date: new Date().toISOString(),
-        weekly_hours: [0, 0, 0, 0, 0, 0, 0],
-        completed_topics_count: 0,
-        quizzes_taken: [],
-        time_spent_minutes: 0,
-      });
-    }
-
-    res.status(201).json({
-      success: true,
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: generateToken(user.id),
-    });
-  } catch (error: any) {
-    console.error('VERIFY REGISTER ERROR:', error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
     const sanitizedEmail = email ? email.trim().toLowerCase() : '';
     console.log(`[DEBUG LOGIN] [${new Date().toISOString()}] Attempting login for:`, sanitizedEmail);
+
+    if (!sanitizedEmail || !sanitizedEmail.endsWith('@gmail.com')) {
+      res.status(400).json({ success: false, message: 'Only @gmail.com email addresses are allowed.' });
+      return;
+    }
 
     const { data: user, error } = await supabase
       .from('users')
@@ -285,135 +180,6 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// In-memory OTP store for free dynamic OTP validation
-const otpStore = new Map<string, { code: string; expiresAt: number }>();
-
-export const sendOtp = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { email, phone } = req.body;
-    const identifier = (email || phone || '').trim().toLowerCase();
-
-    if (!identifier) {
-      res.status(400).json({ success: false, message: 'Email or phone number is required.' });
-      return;
-    }
-
-    if (email) {
-      // Use Supabase Auth to send OTP — Supabase handles email delivery
-      const sanitizedEmail = email.trim().toLowerCase();
-      const { error } = await supabase.auth.signInWithOtp({
-        email: sanitizedEmail,
-        options: { shouldCreateUser: true }
-      });
-
-      if (error) {
-        console.error('[Supabase OTP Error]:', error.message);
-        res.status(500).json({ success: false, message: 'Failed to send OTP. Please try again.' });
-        return;
-      }
-
-      console.log(`[Supabase OTP Sent] 6-digit code dispatched to ${sanitizedEmail}`);
-    } else if (phone) {
-      // Fallback: phone OTP stored in memory
-      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-      const expiresAt = Date.now() + 5 * 60 * 1000;
-      otpStore.set(phone.trim(), { code: generatedOtp, expiresAt });
-      console.log(`[Phone OTP CONSOLE] ${phone} | Code: ${generatedOtp}`);
-    }
-
-    res.json({
-      success: true,
-      message: `OTP verification code sent to ${identifier}. Please check your email inbox.`,
-    });
-  } catch (error: any) {
-    console.error('SEND OTP ERROR:', error);
-    res.status(500).json({ success: false, message: error.message || 'Failed to send OTP code.' });
-  }
-};
-
-
-export const mobileOtpLogin = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { phone, email, otp } = req.body;
-    const identifier = (email || phone || '').trim().toLowerCase();
-
-    if (!identifier) {
-      res.status(400).json({ success: false, message: 'Email or phone number is required' });
-      return;
-    }
-
-    const DEMO_OTPS = ['123456', '654321'];
-    const storedOtpObj = otpStore.get(identifier);
-    
-    let isValidOtp = false;
-    if (storedOtpObj && storedOtpObj.expiresAt > Date.now() && storedOtpObj.code === otp) {
-      isValidOtp = true;
-      otpStore.delete(identifier); // burn OTP after single use
-    } else if (typeof otp === 'string' && DEMO_OTPS.includes(otp)) {
-      isValidOtp = true;
-    }
-
-    if (!isValidOtp) {
-      res.status(400).json({ success: false, message: 'Invalid or expired OTP code.' });
-      return;
-    }
-
-    // Lookup user in Supabase database
-    let userQuery = supabase.from('users').select('*');
-    if (email) {
-      userQuery = userQuery.eq('email', email.trim().toLowerCase());
-    } else {
-      userQuery = userQuery.eq('phone', phone);
-    }
-
-    let { data: user } = await userQuery.maybeSingle();
-
-    if (!user) {
-      const userEmail = email ? email.trim().toLowerCase() : `otp_${phone.slice(-4)}@plis.com`;
-      const userName = email ? email.split('@')[0] : `OTP User ${phone.slice(-4)}`;
-      const { data: newUser, error: createError } = await supabase
-        .from('users')
-        .insert({
-          name: userName,
-          email: userEmail,
-          phone: phone || null,
-          role: 'student',
-        })
-        .select()
-        .single();
-
-      if (createError || !newUser) {
-        res.status(400).json({ success: false, message: createError?.message || 'Error creating user via OTP' });
-        return;
-      }
-      user = newUser;
-
-      await supabase.from('progress').insert({
-        student_id: user.id,
-        overall_progress: 0,
-        streak: 1,
-        last_active_date: new Date().toISOString(),
-        weekly_hours: [0, 0, 0, 0, 0, 0, 0],
-        completed_topics_count: 0,
-        quizzes_taken: [],
-        time_spent_minutes: 0,
-      });
-    }
-
-    res.json({
-      success: true,
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: generateToken(user.id),
-    });
-  } catch (error: any) {
-    console.error('OTP LOGIN ERROR:', error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
 export const googleLogin = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, name } = req.body;
@@ -424,6 +190,10 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
     }
 
     const sanitizedEmail = email.trim().toLowerCase();
+    if (!sanitizedEmail.endsWith('@gmail.com')) {
+      res.status(400).json({ success: false, message: 'Only @gmail.com email addresses are allowed.' });
+      return;
+    }
 
     let { data: user } = await supabase
       .from('users')
@@ -475,17 +245,45 @@ export const googleLogin = async (req: Request, res: Response): Promise<void> =>
 
 export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email } = req.body;
+    const { email, password } = req.body;
     const sanitizedEmail = email ? email.trim().toLowerCase() : '';
-    await supabase
+    if (!sanitizedEmail || !sanitizedEmail.endsWith('@gmail.com')) {
+      res.status(400).json({ success: false, message: 'Only @gmail.com email addresses are allowed.' });
+      return;
+    }
+
+    if (!password || password.length < 6) {
+      res.status(400).json({ success: false, message: 'Password must be at least 6 characters long.' });
+      return;
+    }
+
+    const { data: user, error: findError } = await supabase
       .from('users')
       .select('id')
       .eq('email', sanitizedEmail)
       .maybeSingle();
 
+    if (findError || !user) {
+      res.status(404).json({ success: false, message: 'User not found with this @gmail.com address.' });
+      return;
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({ password: hashedPassword, updated_at: new Date().toISOString() })
+      .eq('id', user.id);
+
+    if (updateError) {
+      res.status(500).json({ success: false, message: 'Failed to update password in database.' });
+      return;
+    }
+
     res.json({
       success: true,
-      message: 'If the email exists, a password reset link has been dispatched.',
+      message: 'Password updated successfully! You can now log in.',
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });

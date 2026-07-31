@@ -15,11 +15,9 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
-  const [step, setStep] = useState<'details' | 'otp'>('details');
   const [loading, setLoading] = useState(false);
 
-  const handleSendOtpForRegistration = async () => {
+  const handleRegister = async () => {
     if (!name || !email || !password) {
       if (Platform.OS === 'web') {
         alert('Validation Error: Name, email, and password are required fields.');
@@ -29,48 +27,23 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
       return;
     }
 
-    setLoading(true);
-    try {
-      const response = await api.post('/auth/send-otp', { email, phone });
-      setStep('otp');
-      const msg = `Verification OTP code sent to ${email}. Please check your email inbox.`;
-
+    if (!email.trim().toLowerCase().endsWith('@gmail.com')) {
       if (Platform.OS === 'web') {
-        alert(msg);
+        alert('Validation Error: Only @gmail.com email addresses are allowed.');
       } else {
-        Alert.alert('OTP Sent', msg);
-      }
-    } catch (error: any) {
-      const msg = error.response?.data?.message || 'Failed to send OTP code.';
-      if (Platform.OS === 'web') {
-        alert('Error: ' + msg);
-      } else {
-        Alert.alert('Error', msg);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyAndRegister = async () => {
-    if (!otp) {
-      if (Platform.OS === 'web') {
-        alert('Error: Please enter the 6-digit verification code.');
-      } else {
-        Alert.alert('Error', 'Please enter the 6-digit verification code.');
+        Alert.alert('Validation Error', 'Only @gmail.com email addresses are allowed.');
       }
       return;
     }
 
     setLoading(true);
     try {
-      const response = await api.post('/auth/verify-register', {
+      const response = await api.post('/auth/register', {
         name,
         email,
         password,
         phone,
         role: 'student',
-        otp,
       });
 
       const { token, ...user } = response.data;
@@ -86,12 +59,12 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
       }
 
       if (Platform.OS === 'web') {
-        alert('Registration Verified Successfully! Welcome to PLIS.');
+        alert('Registration Successful! Welcome to PLIS.');
       } else {
-        Alert.alert('Success', 'Registration Verified Successfully! Welcome to PLIS.');
+        Alert.alert('Success', 'Registration Successful! Welcome to PLIS.');
       }
     } catch (error: any) {
-      const msg = error.response?.data?.message || 'Verification failed. Invalid OTP code.';
+      const msg = error.response?.data?.message || 'Registration failed. Please try again.';
       if (Platform.OS === 'web') {
         alert('Error: ' + msg);
       } else {
@@ -106,84 +79,55 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) =>
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.innerContainer}>
         <View style={STYLES.card}>
-          <Text style={[STYLES.title, { marginBottom: 10 }]}>
-            {step === 'details' ? 'Create Account' : 'Verify OTP Code'}
-          </Text>
+          <Text style={[STYLES.title, { marginBottom: 10 }]}>Create Account</Text>
           <Text style={[STYLES.subtitle, { marginBottom: 20 }]}>
-            {step === 'details'
-              ? 'Enter your details below to receive a verification OTP PIN.'
-              : `Enter the 6-digit code sent to ${email}`}
+            Enter your details below to create your PLIS account.
           </Text>
 
-          {step === 'details' ? (
-            <>
-              <Text style={STYLES.inputLabel}>Full Name</Text>
-              <TextInput
-                placeholder="John Doe"
-                placeholderTextColor="#64748b"
-                style={STYLES.input}
-                value={name}
-                onChangeText={setName}
-              />
+          <Text style={STYLES.inputLabel}>Full Name</Text>
+          <TextInput
+            placeholder="John Doe"
+            placeholderTextColor="#64748b"
+            style={STYLES.input}
+            value={name}
+            onChangeText={setName}
+          />
 
-              <Text style={STYLES.inputLabel}>Email Address</Text>
-              <TextInput
-                placeholder="john@example.com"
-                placeholderTextColor="#64748b"
-                style={STYLES.input}
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
+          <Text style={STYLES.inputLabel}>Email Address</Text>
+          <TextInput
+            placeholder="john@example.com"
+            placeholderTextColor="#64748b"
+            style={STYLES.input}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
 
-              <Text style={STYLES.inputLabel}>Password</Text>
-              <TextInput
-                placeholder="Min 6 characters"
-                placeholderTextColor="#64748b"
-                style={STYLES.input}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                autoCapitalize="none"
-              />
+          <Text style={STYLES.inputLabel}>Password</Text>
+          <TextInput
+            placeholder="Min 6 characters"
+            placeholderTextColor="#64748b"
+            style={STYLES.input}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            autoCapitalize="none"
+          />
 
-              <Text style={STYLES.inputLabel}>Phone Number (Optional)</Text>
-              <TextInput
-                placeholder="+1234567890"
-                placeholderTextColor="#64748b"
-                style={STYLES.input}
-                value={phone}
-                onChangeText={setPhone}
-                keyboardType="phone-pad"
-              />
+          <Text style={STYLES.inputLabel}>Phone Number (Optional)</Text>
+          <TextInput
+            placeholder="+1234567890"
+            placeholderTextColor="#64748b"
+            style={STYLES.input}
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad"
+          />
 
-              <TouchableOpacity style={STYLES.button} onPress={handleSendOtpForRegistration} disabled={loading}>
-                {loading ? <ActivityIndicator color="#ffffff" /> : <Text style={STYLES.buttonText}>Register & Send OTP</Text>}
-              </TouchableOpacity>
-            </>
-          ) : (
-            <>
-              <Text style={STYLES.inputLabel}>6-Digit Verification Code</Text>
-              <TextInput
-                placeholder="e.g. 123456"
-                placeholderTextColor="#64748b"
-                style={STYLES.input}
-                value={otp}
-                onChangeText={setOtp}
-                keyboardType="number-pad"
-                maxLength={6}
-              />
-
-              <TouchableOpacity style={STYLES.button} onPress={handleVerifyAndRegister} disabled={loading}>
-                {loading ? <ActivityIndicator color="#ffffff" /> : <Text style={STYLES.buttonText}>Verify & Complete Account</Text>}
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.loginLink} onPress={() => setStep('details')}>
-                <Text style={styles.loginLinkText}>← Edit Registration Details</Text>
-              </TouchableOpacity>
-            </>
-          )}
+          <TouchableOpacity style={STYLES.button} onPress={handleRegister} disabled={loading}>
+            {loading ? <ActivityIndicator color="#ffffff" /> : <Text style={STYLES.buttonText}>Create Account</Text>}
+          </TouchableOpacity>
         </View>
 
         <TouchableOpacity style={styles.loginLink} onPress={() => navigation.navigate('Login')}>

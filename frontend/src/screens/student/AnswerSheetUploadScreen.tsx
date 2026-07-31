@@ -80,7 +80,7 @@ export const AnswerSheetUploadScreen: React.FC<{ navigation: any }> = ({ navigat
   const [errorMessage, setErrorMessage] = useState('');
   
   // Timer refs for cleanup
-  const timerRefs = React.useRef<NodeJS.Timeout[]>([]);
+  const timerRefs = React.useRef<any[]>([]);
 
   // Evaluation modal and success state
   const [showSuccessModal, setShowSuccessModal] = useState(false);
