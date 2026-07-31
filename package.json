@@ -1,0 +1,17 @@
+{
+  "name": "personalized-learning-intelligence-system",
+  "version": "1.0.0",
+  "description": "Personalized Learning Intelligence System (PLIS) Unified Test Verification & CI/CD Pipeline",
+  "main": "index.js",
+  "scripts": {
+    "test:unified": "node scripts/run_all_tests.js",
+    "test:e2e": "node scripts/run_e2e_tests.js",
+    "test:backend": "node scripts/run_backend_api_tests.js",
+    "test:load": "node scripts/run_api_load_tests.js",
+    "test:build": "node scripts/run_frontend_build.js",
+    "test:consolidate": "node scripts/consolidate_reports.js"
+  },
+  "devDependencies": {
+    "exceljs": "^4.4.0"
+  }
+}

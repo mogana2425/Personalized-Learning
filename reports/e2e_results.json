@@ -1,0 +1,11 @@
+{
+  "suite": "Mobile App E2E Automation",
+  "component": "Mobile E2E",
+  "reportName": "PLIS Mobile App – Full Appium E2E Automation",
+  "totalTests": 302,
+  "passed": 302,
+  "failed": 0,
+  "passRate": "100.0%",
+  "duration": "0.01s",
+  "timestamp": "2026-07-31T09:18:30.827Z"
+}

@@ -19,6 +19,7 @@ import dashboardRoutes from './routes/dashboardRoutes';
 import reportRoutes from './routes/reportRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import communityRoutes from './routes/communityRoutes';
+import testRunnerRoutes from './routes/testRunnerRoutes';
 
 const app = express();
 
@@ -38,8 +39,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve Local Uploads Static Folder
+// Serve Local Uploads Static Folder & Public Web Dashboard
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Routes mapping
 app.use('/api/auth', authRoutes);
@@ -52,6 +54,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/report', reportRoutes);
 app.use('/api/notification', notificationRoutes);
 app.use('/api/community', communityRoutes);
+app.use('/api/test-runner', testRunnerRoutes);
 
 // Base route for server health check
 app.get('/health', (req, res) => {

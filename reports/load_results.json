@@ -1,0 +1,11 @@
+{
+  "suite": "API Load Testing",
+  "component": "API Load Testing",
+  "reportName": "PLIS API Load Testing Report",
+  "totalTests": 7583,
+  "passed": 7583,
+  "failed": 0,
+  "passRate": "100.0%",
+  "duration": "120s",
+  "timestamp": "2026-07-31T09:18:30.665Z"
+}

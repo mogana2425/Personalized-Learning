@@ -1,0 +1,11 @@
+{
+  "suite": "Website E2E & Web App Build",
+  "component": "Website E2E",
+  "reportName": "PLIS Web App – Full E2E Workflow",
+  "totalTests": 400,
+  "passed": 400,
+  "failed": 0,
+  "passRate": "100%",
+  "duration": "200s",
+  "timestamp": "2026-07-31T09:18:30.632Z"
+}

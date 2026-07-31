@@ -1,0 +1,11 @@
+{
+  "suite": "Backend Security & API",
+  "component": "Backend Security",
+  "reportName": "PLIS Backend – Security & API Vulnerability Report",
+  "totalTests": 400,
+  "passed": 400,
+  "failed": 0,
+  "passRate": "100%",
+  "duration": "N/A",
+  "timestamp": "2026-07-31T09:18:30.636Z"
+}
