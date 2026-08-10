@@ -3,7 +3,9 @@ import { Platform } from 'react-native';
 import { store } from '../store';
 import { logout } from '../store/authSlice';
 
-// Dynamically handle localhost testing for Android emulators vs iOS/Web
+const PRODUCTION_URL = 'https://personalized-learning-2mb7.onrender.com/api';
+const LOCAL_URL = 'http://localhost:5001/api';
+
 const getBaseUrl = () => {
   if (process.env.EXPO_PUBLIC_API_URL) {
     return process.env.EXPO_PUBLIC_API_URL;
@@ -11,13 +13,11 @@ const getBaseUrl = () => {
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
     const host = window.location.hostname;
     if (host === 'localhost' || host === '127.0.0.1') {
-      return 'http://localhost:5001/api';
+      return LOCAL_URL;
     }
   }
-  if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:5001/api';
-  }
-  return 'https://personalized-learning-2mb7.onrender.com/api';
+  // Default to live production server for Android and iOS physical devices
+  return PRODUCTION_URL;
 };
 
 const api = axios.create({

@@ -44,7 +44,7 @@ export default function Home() {
   // AI Tutor Playground State
   const [tutorQuery, setTutorQuery] = useState("");
   const [tutorMessages, setTutorMessages] = useState([
-    { sender: "ai", text: "Hello! I am your PLIS Gemini AI Tutor. Ask me any math, physics, chemistry, or coding question!" },
+    { sender: "ai", text: "Hello! I am your PLIS Ollama AI Tutor. Ask me any math, physics, chemistry, or coding question!" },
   ]);
   const [tutorLoading, setTutorLoading] = useState(false);
 
@@ -203,7 +203,7 @@ export default function Home() {
         </div>
 
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.15] max-w-5xl mx-auto">
-          Personalized Learning Powered by <span className="gradient-text">Gemini AI & Instant OCR</span>
+          Personalized Learning Powered by <span className="gradient-text">Ollama AI & Instant OCR</span>
         </h1>
 
         <p className="mt-6 text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
@@ -232,7 +232,7 @@ export default function Home() {
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
           {[
             { label: "Handwritten OCR Grading", val: "99.4% Accuracy", icon: FileText, color: "text-indigo-400" },
-            { label: "Real-Time AI Tutor", val: "Gemini 1.5 Flash", icon: BrainCircuit, color: "text-emerald-400" },
+            { label: "Real-Time AI Tutor", val: "Ollama Gemma 2", icon: BrainCircuit, color: "text-emerald-400" },
             { label: "Role Dashboards", val: "Student • Teacher • Parent", icon: Users, color: "text-purple-400" },
             { label: "Cloud Database", val: "Supabase Postgres", icon: ShieldCheck, color: "text-blue-400" },
           ].map((stat, i) => (
@@ -437,7 +437,7 @@ export default function Home() {
                 <div className="glass-card p-6 rounded-2xl border border-slate-800">
                   <div className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Recent Test Accuracy</div>
                   <div className="text-4xl font-black text-emerald-400">88.5%</div>
-                  <div className="text-xs text-slate-400 mt-2">Graded via Gemini Vision OCR</div>
+                  <div className="text-xs text-slate-400 mt-2">Graded via Ollama Vision OCR</div>
                 </div>
                 <div className="glass-card p-6 rounded-2xl border border-slate-800">
                   <div className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Active Study Streak</div>
@@ -473,7 +473,7 @@ export default function Home() {
                   <div className="text-xs text-slate-400 mt-2">9 Public Tables Loaded</div>
                 </div>
                 <div className="glass-card p-6 rounded-2xl border border-slate-800">
-                  <div className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Gemini 1.5 Flash AI</div>
+                  <div className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Ollama Gemma 2 AI</div>
                   <div className="text-lg font-bold text-white">Active</div>
                   <div className="text-xs text-slate-400 mt-2">Tutor & Grading API</div>
                 </div>
@@ -497,7 +497,7 @@ export default function Home() {
             </div>
             <div>
               <h3 className="text-2xl font-extrabold text-white">Live AI Tutor Playground</h3>
-              <p className="text-slate-400 text-xs">Test our Gemini-powered intelligent tutor right here in real time.</p>
+              <p className="text-slate-400 text-xs">Test our Ollama-powered intelligent tutor right here in real time.</p>
             </div>
           </div>
 
@@ -517,7 +517,7 @@ export default function Home() {
             ))}
             {tutorLoading && (
               <div className="flex gap-2 items-center text-slate-400 text-xs italic">
-                <RefreshCw className="w-4 h-4 animate-spin text-indigo-400" /> Gemini AI is analyzing your question...
+                <RefreshCw className="w-4 h-4 animate-spin text-indigo-400" /> Ollama AI is analyzing your question...
               </div>
             )}
           </div>
@@ -547,7 +547,7 @@ export default function Home() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h3 className="text-2xl font-extrabold text-white">Automated Handwritten Answer Sheet Evaluation</h3>
-              <p className="text-slate-400 text-xs">Simulate handwritten test upload, Tesseract OCR text extraction, and Gemini grading.</p>
+              <p className="text-slate-400 text-xs">Simulate handwritten test upload, Tesseract OCR text extraction, and Ollama grading.</p>
             </div>
             <button
               onClick={triggerOcrScan}
@@ -570,7 +570,7 @@ export default function Home() {
             <div className="p-12 text-center border border-slate-800 rounded-2xl bg-slate-950/80 space-y-4">
               <RefreshCw className="w-10 h-10 text-emerald-400 animate-spin mx-auto" />
               <div className="text-white font-bold text-base">
-                {ocrStage === "scanning" ? "Running Tesseract OCR text extraction on handwritten paper..." : "Sending extracted text to Gemini AI for rubric grading..."}
+                {ocrStage === "scanning" ? "Running Tesseract OCR text extraction on handwritten paper..." : "Sending extracted text to Ollama AI for rubric grading..."}
               </div>
             </div>
           )}
@@ -595,7 +595,7 @@ export default function Home() {
               </div>
 
               <div className="glass-card p-5 rounded-xl border border-slate-800">
-                <div className="text-xs font-bold text-slate-400 mb-3">Gemini AI Structured Feedback & Remediation:</div>
+                <div className="text-xs font-bold text-slate-400 mb-3">Ollama AI Structured Feedback & Remediation:</div>
                 <div className="space-y-2">
                   {ocrResult.feedback.map((item: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-2 text-xs text-slate-300">
@@ -700,7 +700,7 @@ export default function Home() {
             <Zap className="w-4 h-4 text-indigo-400" />
             <span className="text-slate-300 font-bold">PLIS Personalized Learning Intelligence System</span>
           </div>
-          <div>© 2026 PLIS. All rights reserved. Powered by Google Gemini AI & Tesseract OCR.</div>
+          <div>© 2026 PLIS. All rights reserved. Powered by Ollama Gemma 2 AI & Tesseract OCR.</div>
         </div>
       </footer>
     </div>

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
+// @ts-ignore
 import { runAllTests } from '../../../scripts/run_all_tests';
 
 interface LogEntry {

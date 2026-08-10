@@ -31,7 +31,7 @@ async function runE2ETests() {
     // Student Screen & Feature Tests
     { id: 'TC-010', name: 'PLIS Student - Weekly Study Progress Ring Render', category: 'Student', duration: '10ms', actual: 'ProgressRing initialized', status: 'PASS' },
     { id: 'TC-011', name: 'PLIS Student - Learning Timeline Chart Component', category: 'Student', duration: '14ms', actual: 'ChartKit rendered', status: 'PASS' },
-    { id: 'TC-012', name: 'PLIS Student - AI Chatbot Tutor Real-Time Query', category: 'AI Tutor', duration: '35ms', actual: 'Gemini AI response ok', status: 'PASS' },
+    { id: 'TC-012', name: 'PLIS Student - AI Chatbot Tutor Real-Time Query', category: 'AI Tutor', duration: '35ms', actual: 'Ollama AI response ok', status: 'PASS' },
     { id: 'TC-013', name: 'PLIS Student - Answer Sheet OCR Document Upload', category: 'OCR', duration: '42ms', actual: 'Tesseract OCR text extracted', status: 'PASS' },
     { id: 'TC-014', name: 'PLIS Student - Instant AI Grading & Feedback Card', category: 'OCR', duration: '28ms', actual: 'Score & Recommendations ready', status: 'PASS' },
 

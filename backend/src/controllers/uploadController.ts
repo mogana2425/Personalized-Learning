@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { v2 as cloudinary } from 'cloudinary';
 import { OCRService } from '../services/ocrService';
-import { GeminiService } from '../services/geminiService';
+import { OllamaService as GeminiService } from '../services/ollamaService';
 import { supabase } from '../config/supabaseClient';
 
 // Ensure local uploads directory exists
@@ -135,7 +135,7 @@ export const processAnswerSheet = async (req: AuthenticatedRequest, res: Respons
     console.log('Step 2: Triggering OCR Text Extraction...');
     const extractedText = await OCRService.extractText(localFilePath);
 
-    console.log('Step 3: Triggering Gemini AI Assessment Evaluation...');
+    console.log('Step 3: Triggering Ollama AI Assessment Evaluation...');
     const evaluation = await GeminiService.evaluateAnswerSheet(extractedText, subject, topic);
 
     // Step 4: Update the AnswerSheet with evaluated scores
@@ -230,7 +230,7 @@ export const processAnswerSheet = async (req: AuthenticatedRequest, res: Respons
             .eq('student_id', studentId);
 
           // Generate a dynamic learning path based on new profile state
-          console.log('Step 6: Triggering Gemini Learning Path Generation...');
+          console.log('Step 6: Triggering Ollama Learning Path Generation...');
           roadmapData = await GeminiService.generateLearningPath(
             subject,
             {

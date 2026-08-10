@@ -99,7 +99,7 @@ export const LearningPathScreen: React.FC<{ navigation: any; route: any }> = ({ 
         Alert.alert('AI Path Regenerated', `Your ${subject} roadmap has been updated to match your skill profile!`);
       }
     } catch (error) {
-      Alert.alert('Generation Error', 'Failed to generate path using Gemini API.');
+      Alert.alert('Generation Error', 'Failed to generate path using Ollama AI API.');
     } finally {
       setRegenerating(false);
     }
@@ -372,7 +372,7 @@ export const LearningPathScreen: React.FC<{ navigation: any; route: any }> = ({ 
                               if (flashcardIndex < (dynamicContent?.practiceQuestions?.length || 5) - 1) {
                                 setFlashcardIndex(flashcardIndex + 1);
                               } else {
-                                // Grade the quiz using the correct answers provided by Gemini
+                                // Grade the quiz using the correct answers provided by Ollama AI
                                 let score = 0;
                                 newAnswers.forEach((ans, idx) => {
                                    if (ans === dynamicContent.practiceQuestions[idx].correctAnswerIndex) {

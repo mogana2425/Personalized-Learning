@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "PLIS - Personalized Learning Intelligence System",
-  description: "AI-Powered Adaptive Learning Platform with Automated OCR Answer Sheet Evaluation, Gemini Tutor, and Role Analytics for Students, Teachers, Parents, and Admins.",
+  description: "AI-Powered Adaptive Learning Platform with Automated OCR Answer Sheet Evaluation, Ollama AI Tutor, and Role Analytics for Students, Teachers, Parents, and Admins.",
 };
 
 export default function RootLayout({

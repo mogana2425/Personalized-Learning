@@ -4,6 +4,8 @@
   "description": "Personalized Learning Intelligence System (PLIS) Unified Test Verification & CI/CD Pipeline",
   "main": "index.js",
   "scripts": {
+    "build": "cd backend && npm install && npm run build",
+    "start": "cd backend && npm start",
     "test:unified": "node scripts/run_all_tests.js",
     "test:e2e": "node scripts/run_e2e_tests.js",
     "test:backend": "node scripts/run_backend_api_tests.js",

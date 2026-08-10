@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/authMiddleware';
 import { supabase } from '../config/supabaseClient';
-import { GeminiService } from '../services/geminiService';
+import { OllamaService as GeminiService } from '../services/ollamaService';
 import fs from 'fs';
 import path from 'path';
 

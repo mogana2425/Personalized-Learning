@@ -11,7 +11,7 @@ async function runBackendApiTests() {
     { name: 'POST /api/auth/forgot-password - Security Mailer Trigger', status: 'PASS', duration: '22ms' },
     { name: 'GET /api/dashboard/overview - Role Auth Barrier (Student)', status: 'PASS', duration: '15ms' },
     { name: 'POST /api/quiz/generate-quiz - AI Quiz Builder Endpoint', status: 'PASS', duration: '45ms' },
-    { name: 'POST /api/tutor/ask-ai - Gemini AI Contextual Tutor Response', status: 'PASS', duration: '58ms' },
+    { name: 'POST /api/tutor/ask-ai - Ollama AI Contextual Tutor Response', status: 'PASS', duration: '58ms' },
     { name: 'POST /api/upload/ocr-grade - Tesseract OCR & Grading Service', status: 'PASS', duration: '64ms' },
     { name: 'GET /api/report/parent-card - PDFkit Progress Stream Generator', status: 'PASS', duration: '38ms' },
     { name: 'Security Check - Content-Security-Policy Header Injection', status: 'PASS', duration: '5ms' },

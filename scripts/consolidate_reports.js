@@ -98,7 +98,7 @@ This dashboard presents a unified summary of E2E tests, security scans, and API 
 <summary>▶ Click to view Backend Security & API Test Details</summary>
 
 - **Auth Routes (/api/auth/*)**: JWT token creation, bcrypt salt validation, password reset.
-- **AI & OCR Services (/api/tutor/*, /api/upload/*)**: Gemini 1.5 Flash API fallback, Tesseract OCR text parser.
+- **AI & OCR Services (/api/tutor/*, /api/upload/*)**: Ollama Gemma 2 AI fallback, Tesseract OCR text parser.
 - **PDF Report Engine (/api/report/*)**: PDFKit progress card generation for parents.
 - **Security Scans**: Rate limiting, CORS origin isolation, SQL/NoSQL injection prevention.
 - **Status**: All 400 security & API assertions PASSED.

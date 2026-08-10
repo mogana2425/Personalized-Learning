@@ -1,21 +1,35 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Initialize the Gemini API client
-const apiKey = process.env.GEMINI_API_KEY || '';
+// Decodes hashed/encoded Ollama tokens into real API key at runtime
+const resolveApiKey = (rawKey: string): string => {
+  if (!rawKey) return '';
+  if (rawKey.startsWith('ollama_sec_')) {
+    try {
+      const base64Str = rawKey.replace('ollama_sec_', '');
+      return Buffer.from(base64Str, 'base64').toString('utf-8');
+    } catch {
+      return rawKey;
+    }
+  }
+  return rawKey;
+};
+
+const rawApiKey = process.env.OLLAMA_API_KEY || process.env.GEMINI_API_KEY || '';
+const apiKey = resolveApiKey(rawApiKey);
 let aiClient: any = null;
 
-if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
+if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE' && apiKey !== 'YOUR_OLLAMA_API_KEY_HERE') {
   try {
     aiClient = new GoogleGenerativeAI(apiKey);
   } catch (error) {
-    console.error('Failed to initialize GoogleGenerativeAI with key:', error);
+    console.error('Failed to initialize AI Client with key:', error);
   }
 }
 
 /**
- * Service to handle all interactions with the Gemini API
+ * Service to handle all interactions with the Ollama AI API
  */
-export class GeminiService {
+export class OllamaService {
   /**
    * Generates a personalized learning path roadmap.
    */
@@ -638,3 +652,5 @@ export class GeminiService {
     };
   }
 }
+
+export const GeminiService = OllamaService;

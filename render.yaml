@@ -8,17 +8,25 @@ services:
     envVars:
       - key: PORT
         value: "8000"
-      - key: SUPABASE_KEY
-        sync: false
+      - key: NODE_ENV
+        value: "production"
       - key: GEMINI_API_KEY
         sync: false
-      - key: JWT_SECRET
+      - key: MONGODB_URI
         sync: false
       - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: JWT_SECRET
         sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY
         sync: false
       - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: OLLAMA_API_KEY
+        sync: false
+      - key: OLLAMA_MODEL
         sync: false

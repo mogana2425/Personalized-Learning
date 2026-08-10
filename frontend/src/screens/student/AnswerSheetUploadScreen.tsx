@@ -377,19 +377,19 @@ export const AnswerSheetUploadScreen: React.FC<{ navigation: any }> = ({ navigat
                 <View style={styles.stageRow}>
                   <CheckCircle2 color={stage !== 'uploading' ? COLORS.success : COLORS.textMuted} size={18} />
                   <Text style={[styles.stageText, stage === 'uploading' && styles.stageTextActive]}>
-                    Uploading worksheet files
+                    Uploading answer sheet
                   </Text>
                 </View>
                 <View style={styles.stageRow}>
                   <CheckCircle2 color={stage === 'ai' || stage === 'path' || stage === 'done' ? COLORS.success : COLORS.textMuted} size={18} />
                   <Text style={[styles.stageText, stage === 'ocr' && styles.stageTextActive]}>
-                    OCR reading handwritten text
+                    Processing answer sheet
                   </Text>
                 </View>
                 <View style={styles.stageRow}>
                   <CheckCircle2 color={stage === 'path' || stage === 'done' ? COLORS.success : COLORS.textMuted} size={18} />
                   <Text style={[styles.stageText, stage === 'ai' && styles.stageTextActive]}>
-                    Gemini grading steps and concepts
+                    Analyzing answers and identifying mistakes
                   </Text>
                 </View>
                 <View style={styles.stageRow}>

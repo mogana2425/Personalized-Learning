@@ -68,14 +68,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       try {
         await api.post('/auth/register', {
           name: 'Demo STUDENT',
-          email: 'student@plis.com',
+          email: 'demostudent@gmail.com',
           password: 'password123',
           role: 'student',
         });
       } catch (e) {
         // Ignored if user already exists
       }
-      const response = await api.post('/auth/login', { email: 'student@plis.com', password: 'password123' });
+      const response = await api.post('/auth/login', { email: 'demostudent@gmail.com', password: 'password123' });
       const { token, ...user } = response.data;
       dispatch(loginSuccess({ token, user }));
       try {

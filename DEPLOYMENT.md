@@ -49,7 +49,9 @@ Ensure you have the following installed on your machine:
    PORT=5001
    MONGODB_URI=mongodb://localhost:27017/plis
    JWT_SECRET=plis_super_secret_jwt_key_2026_safe_and_secure
-   GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+   OLLAMA_HOST=http://localhost:11434
+   OLLAMA_MODEL=gemma2
+   OLLAMA_API_KEY=ollama_sec_YOUR_KEY_HERE
    CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
    CLOUDINARY_API_KEY=your_cloudinary_api_key
    CLOUDINARY_API_SECRET=your_cloudinary_api_secret
@@ -105,5 +107,5 @@ To facilitate immediate testing and presentation of all four role dashboards, we
 ## 6. AI and OCR grading pipeline
 
 - **OCR Text Extraction**: When an answer sheet is submitted (via camera snap or document browser), the server stores it locally (in `backend/uploads/`) or uploads it to Cloudinary. It then runs `tesseract.js` to extract handwritten text.
-- **AI Evaluation**: The extracted text is sent to the Gemini API (`gemini-1.5-flash`) which grades it against the subject criteria, returns marks, lists mistakes, recommends study topics, and compiles actionable feedback.
-- **Mock Fallback**: If the `GEMINI_API_KEY` is not set or calls fail, the server automatically defaults to high-quality mock data, simulating full OCR parsing and Gemini grading so the app remains fully functional out-of-the-box.
+- **AI Evaluation**: The extracted text is sent to the Ollama API (`gemma2`) which grades it against the subject criteria, returns marks, lists mistakes, recommends study topics, and compiles actionable feedback.
+- **Mock Fallback**: If the `OLLAMA_API_KEY` is not set or calls fail, the server automatically defaults to high-quality mock data, simulating full OCR parsing and Ollama grading so the app remains fully functional out-of-the-box.

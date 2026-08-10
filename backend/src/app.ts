@@ -66,9 +66,11 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5001;
 
+console.log(`[PLIS Debug] Starting server check. NODE_ENV = "${process.env.NODE_ENV}", PORT = ${PORT}`);
+
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    console.log(`[PLIS Server] Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  app.listen(Number(PORT), '0.0.0.0', () => {
+    console.log(`[PLIS Server] Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
   });
 }
 
