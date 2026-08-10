@@ -16,7 +16,6 @@ const getBaseUrl = () => {
       return LOCAL_URL;
     }
   }
-  // Default to live production server for Android and iOS physical devices
   return PRODUCTION_URL;
 };
 
@@ -43,10 +42,21 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor to catch unauthorized errors and auto-logout
+// Response interceptor to catch unauthorized errors and auto-failover between endpoints
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+    
+    // Auto-failover: If primary endpoint gets Network Error, attempt failover URL
+    if (!error.response && (error.message === 'Network Error' || error.code === 'ERR_NETWORK') && originalRequest && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const failoverUrl = originalRequest.baseURL === PRODUCTION_URL ? LOCAL_URL : PRODUCTION_URL;
+      console.warn(`[API Failover] Primary endpoint failed. Retrying request with failover endpoint: ${failoverUrl}`);
+      originalRequest.baseURL = failoverUrl;
+      return api(originalRequest);
+    }
+
     if (error.response && error.response.status === 401) {
       console.warn('Token expired or unauthorized, logging out...');
       store.dispatch(logout());
