@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { findAnswerInKnowledgeBase } from './knowledgeBase';
 
 // Decodes hashed/encoded Ollama tokens into real API key at runtime
 const resolveApiKey = (rawKey: string): string => {
@@ -607,29 +608,7 @@ export class OllamaService {
   }
 
   private static getMockTutorResponse(message: string): string {
-    const msg = message.toLowerCase();
-    
-    if (msg.includes('hello') || msg.includes('hi')) {
-      return "Hi there! 👋 I'm your friendly AI Teacher! I'm so excited to help you learn today. What fun topic are we diving into?";
-    }
-    
-    if (msg.includes('how are you')) {
-      return "I'm doing fantastic, thank you for asking! 🌟 Just sitting here in the digital world, ready to solve some puzzles with you! What's on your mind today?";
-    }
-    
-    if (msg.includes('explain maths') || msg.includes('maths')) {
-      return "Maths is like a giant puzzle game! 🧩 The big picture is that math gives us the tools to understand how the universe works, from counting apples to launching rockets! \n\nWe break it down into small rules (like addition or algebra). Which specific math puzzle do you want to tackle first?";
-    }
-    
-    if (msg.includes('derivative') || msg.includes('calculus')) {
-      return "Calculus time! 🚀 Imagine you're driving a car. Your speedometer tells you how fast you're going at ONE exact second. \n\nThat's exactly what a **derivative** is! It's the *instantaneous rate of change*! \n\nWant to try a quick practice problem to test your new superpower? 🦸‍♂️";
-    }
-    
-    if (msg.includes('quadratic') || msg.includes('algebra')) {
-      return "Ah, Algebra! 🧮 A **quadratic equation** is just a fancy U-shaped curve (like a smiley face! 😃) that looks like: $ax^2 + bx + c = 0$. \n\nWe can find where it crosses the line using the magical **quadratic formula**. \n\nShould we solve one together step-by-step?";
-    }
-    
-    return `That's a fantastic question about "${message}"! 🌟 \n\nThe big picture here is that we just need to identify the core pieces and put them together like Lego blocks! 🧱 \n\nShall we break this down into a simpler, bite-sized example? Let me know!`;
+    return findAnswerInKnowledgeBase(message);
   }
 
   private static getMockEvaluation(text: string, subject: string, topic?: string): any {

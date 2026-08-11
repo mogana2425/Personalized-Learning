@@ -42,19 +42,39 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor to catch unauthorized errors and auto-failover between endpoints
+// Response interceptor to catch unauthorized errors and recover from transient network errors
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    
-    // Auto-failover: If primary endpoint gets Network Error, attempt failover URL
-    if (!error.response && (error.message === 'Network Error' || error.code === 'ERR_NETWORK') && originalRequest && !originalRequest._retry) {
-      originalRequest._retry = true;
-      const failoverUrl = originalRequest.baseURL === PRODUCTION_URL ? LOCAL_URL : PRODUCTION_URL;
-      console.warn(`[API Failover] Primary endpoint failed. Retrying request with failover endpoint: ${failoverUrl}`);
-      originalRequest.baseURL = failoverUrl;
-      return api(originalRequest);
+    const isNetworkError = !error.response && (error.message === 'Network Error' || error.code === 'ERR_NETWORK');
+
+    if (isNetworkError && originalRequest) {
+      originalRequest._retryCount = originalRequest._retryCount || 0;
+
+      // Web only: local dev servers and the production API live on different hosts,
+      // so a single failover swap between them is still useful there.
+      if (Platform.OS === 'web' && originalRequest._retryCount === 0) {
+        originalRequest._retryCount += 1;
+        const failoverUrl = originalRequest.baseURL === PRODUCTION_URL ? LOCAL_URL : PRODUCTION_URL;
+        console.warn(`[API Failover] Primary endpoint failed. Retrying request with failover endpoint: ${failoverUrl}`);
+        originalRequest.baseURL = failoverUrl;
+        return api(originalRequest);
+      }
+
+      // Native (physical devices/emulators): "localhost" resolves to the device itself,
+      // so failing over there can never succeed and previously produced a confusing
+      // "Network Error" even when the real server was fine. Retry the SAME server
+      // instead, with backoff - this recovers automatically when the error was caused
+      // by the backend cold-starting (e.g. a Render free-tier instance spinning back up
+      // from sleep), which surfaces to axios as a bare, response-less "Network Error".
+      if (Platform.OS !== 'web' && originalRequest._retryCount < 2) {
+        originalRequest._retryCount += 1;
+        const delayMs = 4000 * originalRequest._retryCount;
+        console.warn(`[API Retry] Network error, retrying in ${delayMs}ms (attempt ${originalRequest._retryCount})`);
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        return api(originalRequest);
+      }
     }
 
     if (error.response && error.response.status === 401) {
