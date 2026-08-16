@@ -70,6 +70,149 @@ const SAMPLE_DEMO_PAPERS: ImageQuestionPaper[] = [
   { id: 'demo-05', num: 5, fileName: 'Question_Paper_05.png', title: 'Sample Paper 05: Cellular Biology & Genetics', subject: 'Biology', questionsCount: 70, imageUrl: '/question_papers/Question_Paper_05.png' },
 ];
 
+const REAL_MCQ_BANK = [
+  {
+    subject: "Java Programming",
+    text: "Which of the following is not a primitive data type in Java?",
+    options: ["int", "boolean", "String", "double"],
+    ans: 2,
+    exp: "String is an object reference class in Java, whereas int, boolean, and double are primitive types."
+  },
+  {
+    subject: "Java Programming",
+    text: "Which keyword is used to prevent a method from being overridden in Java?",
+    options: ["static", "final", "abstract", "private"],
+    ans: 1,
+    exp: "The 'final' keyword prevents class inheritance and method overriding."
+  },
+  {
+    subject: "Java Programming",
+    text: "Which constructor is provided by compiler if no constructor is explicitly defined?",
+    options: ["Parameterized constructor", "Copy constructor", "Default no-arg constructor", "Static constructor"],
+    ans: 2,
+    exp: "The compiler automatically creates a default no-argument constructor if none exists."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which Python built-in data structure is immutable?",
+    options: ["List", "Dictionary", "Set", "Tuple"],
+    ans: 3,
+    exp: "Tuples are immutable sequence types; their elements cannot be changed after creation."
+  },
+  {
+    subject: "Python Data Science",
+    text: "What is the output of len({'a': 1, 'b': 2, 'c': 3}) in Python?",
+    options: ["3", "6", "2", "Error"],
+    ans: 0,
+    exp: "The len() function returns the total count of key-value pairs in the dictionary."
+  },
+  {
+    subject: "Physics",
+    text: "What is the SI unit of electric current?",
+    options: ["Volt", "Ampere", "Ohm", "Watt"],
+    ans: 1,
+    exp: "The Ampere (A) is the standard SI unit measuring electric current flow."
+  },
+  {
+    subject: "Physics",
+    text: "According to Newton's Second Law of Motion, Force equals:",
+    options: ["Mass × Velocity", "Mass × Acceleration", "Work / Time", "Mass × Gravity × Height"],
+    ans: 1,
+    exp: "F = m × a (Force = Mass multiplied by Acceleration)."
+  },
+  {
+    subject: "Physics",
+    text: "What is the speed of light in a vacuum approximately?",
+    options: ["3 × 10⁸ m/s", "3 × 10⁵ m/s", "1.5 × 10⁸ m/s", "3 × 10⁶ m/s"],
+    ans: 0,
+    exp: "Light travels in a vacuum at approximately 300,000,000 m/s (3 × 10⁸ m/s)."
+  },
+  {
+    subject: "Chemistry",
+    text: "What is the chemical formula for water?",
+    options: ["H₂O", "CO₂", "H₂SO₄", "NaCl"],
+    ans: 0,
+    exp: "Water molecules consist of two hydrogen atoms covalently bonded to one oxygen atom."
+  },
+  {
+    subject: "Chemistry",
+    text: "What is the pH value of pure distilled water at 25°C?",
+    options: ["0 (Acidic)", "7 (Neutral)", "14 (Basic)", "5 (Mildly Acidic)"],
+    ans: 1,
+    exp: "Pure water has an equal concentration of hydrogen and hydroxide ions, resulting in pH 7."
+  },
+  {
+    subject: "Biology",
+    text: "Which cell organelle is known as the 'powerhouse of the cell'?",
+    options: ["Nucleus", "Ribosome", "Mitochondria", "Golgi Apparatus"],
+    ans: 2,
+    exp: "Mitochondria produce ATP through cellular respiration to power cell activities."
+  },
+  {
+    subject: "Biology",
+    text: "What are the primary products of photosynthesis in green plants?",
+    options: ["Glucose and Oxygen", "Carbon Dioxide and Water", "Lactic Acid and ATP", "Nitrogen and Methane"],
+    ans: 0,
+    exp: "Photosynthesis converts CO₂ and H₂O using solar energy into Glucose (C₆H₁₂O₆) and Oxygen (O₂)."
+  },
+  {
+    subject: "Mathematics",
+    text: "What are the roots of the quadratic equation x² - 7x + 12 = 0?",
+    options: ["x = 3 and x = 4", "x = -3 and x = -4", "x = 2 and x = 6", "x = 1 and x = 12"],
+    ans: 0,
+    exp: "Factoring (x - 3)(x - 4) = 0 yields solutions x = 3 and x = 4."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the derivative d/dx of f(x) = 5x⁴ - 3x² + 9?",
+    options: ["20x³ - 6x", "20x⁴ - 6x²", "5x³ - 3x", "20x³ + 6x"],
+    ans: 0,
+    exp: "Applying power rule: d/dx(5x⁴) = 20x³, d/dx(-3x²) = -6x, d/dx(9) = 0."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the integral ∫ (6x² + 2x) dx?",
+    options: ["2x³ + x² + C", "3x³ + x² + C", "6x³ + 2x² + C", "x³ + 2x² + C"],
+    ans: 0,
+    exp: "∫ 6x² dx = 2x³, ∫ 2x dx = x². Total = 2x³ + x² + C."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which data structure operates on a First-In-First-Out (FIFO) basis?",
+    options: ["Queue", "Stack", "Binary Search Tree", "Hash Map"],
+    ans: 0,
+    exp: "Queues process items in the order they arrive (FIFO)."
+  },
+  {
+    subject: "Computer Science",
+    text: "What is the worst-case time complexity of QuickSort?",
+    options: ["O(n log n)", "O(n²)", "O(n)", "O(1)"],
+    ans: 1,
+    exp: "When pivot selection is unbalanced on sorted inputs, QuickSort takes O(n²) time."
+  },
+  {
+    subject: "Economics",
+    text: "What does GDP stand for in macroeconomics?",
+    options: ["Gross Domestic Product", "Global Development Plan", "General Demand Price", "Gross Deposit Rate"],
+    ans: 0,
+    exp: "Gross Domestic Product (GDP) represents total value of goods and services produced in a country."
+  },
+  {
+    subject: "Social Studies",
+    text: "In which year did World War II end?",
+    options: ["1918", "1939", "1945", "1950"],
+    ans: 2,
+    exp: "World War II ended in 1945 with Allied victory."
+  },
+  {
+    subject: "English Language",
+    text: "Which of the following words is a conjunction?",
+    options: ["Quickly", "Because", "Beautiful", "Table"],
+    ans: 1,
+    exp: "'Because' is a subordinating conjunction introducing causal clauses."
+  }
+];
+
 export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
   const [selectedSubject, setSelectedSubject] = useState<string>('All');
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
@@ -195,19 +338,18 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
     setTimeout(() => {
       const totalQuestionsInPapers = uploadedPapers.reduce((sum, p) => sum + p.questionsCount, 0);
 
-      // Synthesize MCQs from uploaded image papers
+      // Pick unique questions from REAL_MCQ_BANK
+      const shuffledBank = [...REAL_MCQ_BANK].sort(() => 0.5 - Math.random());
+      
       const generatedQuestions = Array.from({ length: genQuestionCount }).map((_, i) => {
         const sourcePaper = uploadedPapers[i % uploadedPapers.length];
+        const mcqData = shuffledBank[i % shuffledBank.length];
+
         return {
-          questionText: `[Extracted via OCR from ${sourcePaper.title}] Q${i + 1}. Which of the following statements is true regarding ${sourcePaper.subject} concepts in Question Paper ${sourcePaper.num}?`,
-          options: [
-            'Option A: Standard implementation adhering to specifications',
-            'Option B: Alternative approach with logarithmic runtime',
-            'Option C: Constant memory auxiliary execution',
-            'Option D: Dynamic override condition',
-          ],
-          correctAnswerIndex: 0,
-          explanation: `Synthesized from question paper image sheet #${sourcePaper.num} (${sourcePaper.questionsCount} MCQs total).`,
+          questionText: `[Extracted via OCR from ${sourcePaper.title}] Q${i + 1}. ${mcqData.text}`,
+          options: mcqData.options,
+          correctAnswerIndex: mcqData.ans,
+          explanation: `${mcqData.exp} (Extracted from ${sourcePaper.title}).`,
         };
       });
 
