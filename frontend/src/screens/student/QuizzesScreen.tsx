@@ -498,7 +498,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
         <View>
           <Text style={styles.title}>Practice & Assessment Quizzes 📝</Text>
           <Text style={styles.subtitle}>
-            Repository of 70 Unique Question Papers (10 Papers per Subject) • Upload or select 5 to 20 image papers to generate AI MCQ quizzes
+            Upload 5 to 20 question paper images (PNG/JPEG) to generate custom AI MCQ practice quizzes
           </Text>
         </View>
       </View>
@@ -510,8 +510,8 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
             <FolderOpen color="#4F46E5" size={22} />
           </View>
           <View>
-            <Text style={styles.statValue}>70 Papers</Text>
-            <Text style={styles.statLabel}>10 Papers × 7 Subjects</Text>
+            <Text style={styles.statValue}>{uploadedPapers.length} / 20</Text>
+            <Text style={styles.statLabel}>Image Papers Uploaded</Text>
           </View>
         </View>
 
@@ -557,7 +557,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
             <UploadCloud size={32} color="#4F46E5" />
           </View>
           <Text style={styles.dropZoneTitle}>Upload Your Own Question Paper Images (PNG / JPEG)</Text>
-          <Text style={styles.dropZoneSub}>Or pick 10 unique papers for any subject below</Text>
+          <Text style={styles.dropZoneSub}>Select 5 to 20 exam paper images or load sample subject paper sets</Text>
           
           <View style={styles.dropZoneBtnRow}>
             <TouchableOpacity style={styles.primaryUploadBtn} onPress={handleUploadUserImage}>
@@ -576,79 +576,6 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
-
-        {/* 📚 70 Papers Subject Repository Filter Pills */}
-        <View style={styles.repositoryFilterHeader}>
-          <Text style={styles.repositoryFilterTitle}>Select Papers from Subject Repository (10 Papers Each):</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillsScroll}>
-            {subjects.map((subj) => (
-              <TouchableOpacity
-                key={subj}
-                style={[
-                  styles.pillBtn,
-                  paperFilterSubject === subj && styles.pillBtnActive,
-                ]}
-                onPress={() => setPaperFilterSubject(subj)}
-              >
-                <Text
-                  style={[
-                    styles.pillText,
-                    paperFilterSubject === subj && styles.pillTextActive,
-                  ]}
-                >
-                  {subj}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-
-        {/* Repository Papers Grid (10 Papers Per Subject) */}
-        <View style={styles.imageGrid}>
-          {availableRepositoryPapers.map((paper) => {
-            const isSelected = uploadedPapers.some((p) => p.id === paper.id);
-            return (
-              <View key={paper.id} style={[styles.imageCard, isSelected && styles.imageCardSelected]}>
-                {/* Paper Image Preview */}
-                <TouchableOpacity
-                  style={styles.imagePreviewWrap}
-                  onPress={() => setViewingPaper(paper)}
-                  activeOpacity={0.8}
-                >
-                  <Image
-                    source={{ uri: paper.imageUrl }}
-                    style={styles.paperImageThumbnail}
-                    resizeMode="cover"
-                  />
-                  <View style={styles.inspectOverlay}>
-                    <Eye size={14} color="#FFFFFF" />
-                    <Text style={styles.inspectOverlayText}>Inspect Paper</Text>
-                  </View>
-                </TouchableOpacity>
-
-                {/* Card Content & Select Button */}
-                <View style={styles.imageCardContent}>
-                  <Text style={styles.imageCardTitle} numberOfLines={1}>
-                    {paper.title}
-                  </Text>
-                  <Text style={styles.imageCardSub}>
-                    {paper.subject} • {paper.questionsCount} MCQs
-                  </Text>
-
-                  <TouchableOpacity
-                    style={[styles.selectPaperBtn, isSelected && styles.selectPaperBtnSelected]}
-                    onPress={() => handleToggleSelectPaper(paper)}
-                  >
-                    <CheckCircle size={14} color={isSelected ? '#FFFFFF' : '#4F46E5'} />
-                    <Text style={[styles.selectPaperBtnText, isSelected && styles.selectPaperBtnTextSelected]}>
-                      {isSelected ? 'Selected' : 'Select Paper'}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            );
-          })}
-        </View>
 
         {/* Selected Gallery Summary Bar */}
         {uploadedPapers.length > 0 && (
