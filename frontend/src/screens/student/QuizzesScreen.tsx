@@ -754,11 +754,13 @@ const styles = StyleSheet.create({
   },
   statsRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 16,
     marginBottom: 24,
   },
   statCard: {
     flex: 1,
+    minWidth: 200,
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 16,
@@ -951,7 +953,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   imageCard: {
-    width: '23.5%',
+    flex: 1,
+    minWidth: 180,
+    maxWidth: 240,
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
     overflow: 'hidden',
