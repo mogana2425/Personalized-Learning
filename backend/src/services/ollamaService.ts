@@ -1,5 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { findAnswerInKnowledgeBase } from './knowledgeBase';
+import fs from 'fs';
+import path from 'path';
 
 // Decodes hashed/encoded Ollama tokens into real API key at runtime
 const resolveApiKey = (rawKey: string): string => {
@@ -607,7 +609,83 @@ export class OllamaService {
     };
   }
 
+  /**
+   * Synthesize a customized practice quiz from 5-20 uploaded question papers
+   */
+  static async generateQuizFromQuestionPapers(params: {
+    paperCount: number;
+    paperNames: string[];
+    subject: string;
+    difficultyLevel: string;
+    questionsCount: number;
+  }): Promise<any> {
+    const { paperCount, paperNames, subject, difficultyLevel, questionsCount } = params;
+
+    const folderPath = path.join(__dirname, '../../../question_papers');
+    let loadedQuestions: any[] = [];
+    let loadedPaperTitles: string[] = [];
+
+    if (fs.existsSync(folderPath)) {
+      const files = fs.readdirSync(folderPath).filter((f) => f.endsWith('.json'));
+      files.forEach((file) => {
+        try {
+          const raw = fs.readFileSync(path.join(folderPath, file), 'utf-8');
+          const parsed = JSON.parse(raw);
+          if (parsed.questions && Array.isArray(parsed.questions)) {
+            loadedPaperTitles.push(parsed.paperTitle || file);
+            parsed.questions.forEach((q: any) => {
+              loadedQuestions.push({
+                ...q,
+                paperSource: parsed.paperTitle || file,
+                subject: parsed.subject || subject,
+              });
+            });
+          }
+        } catch (err) {
+          console.error(`Error reading ${file}:`, err);
+        }
+      });
+    }
+
+    // Filter by subject if available, otherwise take all questions
+    const matchingQuestions = loadedQuestions.filter(
+      (q) => !subject || subject === 'All' || q.subject.toLowerCase() === subject.toLowerCase()
+    );
+
+    const pool = matchingQuestions.length >= 3 ? matchingQuestions : loadedQuestions;
+
+    // Shuffle pool
+    const shuffled = [...pool].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, Math.max(5, questionsCount));
+
+    const mockQuizId = `ai-quiz-${Date.now()}`;
+    const quizTitle = `AI Paper Synthesis: ${subject} (${paperCount} Papers Uploaded)`;
+    const description = `Custom practice quiz synthesized across ${paperCount} question papers from question_papers/ folder.`;
+
+    return {
+      id: mockQuizId,
+      _id: mockQuizId,
+      title: quizTitle,
+      description,
+      subject,
+      topic: `${subject} Comprehensive Synthesis`,
+      difficulty: difficultyLevel,
+      questionsCount: selected.length,
+      timeLimitMinutes: Math.min(30, selected.length * 2),
+      completed: false,
+      isAiGenerated: true,
+      paperCount,
+      questions: selected.map((q, idx) => ({
+        questionText: `[Paper: ${q.paperSource || 'QP'}] ${q.questionText}`,
+        options: q.options,
+        correctAnswerIndex: q.correctAnswerIndex,
+        explanation: q.explanation,
+      })),
+    };
+  }
+
   private static getMockTutorResponse(message: string): string {
+
     return findAnswerInKnowledgeBase(message);
   }
 

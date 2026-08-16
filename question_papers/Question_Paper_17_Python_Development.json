@@ -1,0 +1,63 @@
+{
+  "num": 17,
+  "title": "Question Paper 17 - Python Programming & Software",
+  "subject": "Computer Science",
+  "topic": "Python Development",
+  "questions": [
+    {
+      "questionText": "Which keyword is used to define function in Python?",
+      "options": [
+        "def",
+        "function",
+        "fn",
+        "define"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Python functions begin with 'def' keyword."
+    },
+    {
+      "questionText": "Data structure in Python that is ordered and immutable:",
+      "options": [
+        "Tuple",
+        "List",
+        "Dictionary",
+        "Set"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Tuples use parentheses and cannot be modified once created."
+    },
+    {
+      "questionText": "Output of len({'a': 1, 'b': 2, 'c': 3}) in Python:",
+      "options": [
+        "3",
+        "6",
+        "2",
+        "1"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Dictionary has 3 key-value pairs."
+    },
+    {
+      "questionText": "What method adds item to end of Python list?",
+      "options": [
+        "append()",
+        "push()",
+        "insert()",
+        "add()"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "my_list.append(x) appends element x to end."
+    },
+    {
+      "questionText": "How do you start single-line comment in Python?",
+      "options": [
+        "#",
+        "//",
+        "/*",
+        "--"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "# character indicates comment in Python."
+    }
+  ]
+}

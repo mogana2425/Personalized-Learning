@@ -1,0 +1,63 @@
+{
+  "num": 11,
+  "title": "Question Paper 11 - Macroeconomics & Finance",
+  "subject": "Economics",
+  "topic": "Macroeconomics",
+  "questions": [
+    {
+      "questionText": "Gross Domestic Product (GDP) measures:",
+      "options": [
+        "Total market value of final goods/services in country",
+        "Total government debt",
+        "Total export value only",
+        "Individual personal income"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "GDP measures aggregate national economic production value."
+    },
+    {
+      "questionText": "Central Bank tool increasing interest rates aims to control:",
+      "options": [
+        "Inflation",
+        "Deflation",
+        "Unemployment",
+        "Imports"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Higher interest rates cool down aggregate demand to curb inflation."
+    },
+    {
+      "questionText": "Market structure with single seller controlling market is:",
+      "options": [
+        "Monopoly",
+        "Oligopoly",
+        "Perfect Competition",
+        "Monopsony"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Monopoly has single supplier with substantial market power."
+    },
+    {
+      "questionText": "Inverse relationship between Inflation rate and Unemployment rate is described by:",
+      "options": [
+        "Phillips Curve",
+        "Laffer Curve",
+        "Demand Curve",
+        "Lorenz Curve"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Phillips Curve shows short-run trade-off between inflation & unemployment."
+    },
+    {
+      "questionText": "Fiscal policy is executed by:",
+      "options": [
+        "Government through spending and taxes",
+        "Central Bank through money supply",
+        "Commercial Banks",
+        "Stock Exchange"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Government adjusts budget spending and taxation."
+    }
+  ]
+}

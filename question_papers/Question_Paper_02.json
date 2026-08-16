@@ -1,0 +1,559 @@
+{
+  "id": "qp-img-2",
+  "paperTitle": "Python Data Science & AI Exam Paper",
+  "subject": "Python Data Science",
+  "questionsCount": 55,
+  "imageUrl": "/question_papers/Question_Paper_02.png",
+  "questions": [
+    {
+      "questionText": "Python Data Science Q1: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q2: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Python Data Science Q3: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q4: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Python Data Science Q5: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q6: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q7: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q8: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Python Data Science Q9: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q10: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q11: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Python Data Science Q12: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Python Data Science Q13: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q14: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q15: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q16: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Python Data Science Q17: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q18: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Python Data Science Q19: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q20: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q21: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q22: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Python Data Science Q23: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q24: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q25: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Python Data Science Q26: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Python Data Science Q27: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q28: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q29: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q30: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Python Data Science Q31: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q32: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Python Data Science Q33: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q34: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q35: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q36: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Python Data Science Q37: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q38: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q39: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Python Data Science Q40: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Python Data Science Q41: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q42: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q43: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q44: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Python Data Science Q45: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q46: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Python Data Science Q47: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q48: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q49: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q50: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Python Data Science Q51: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q52: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Python Data Science Q53: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Python Data Science Q54: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Python Data Science Q55: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "num": 15,
+  "title": "Question Paper 15 - Inorganic Chemistry & Metals",
+  "subject": "Chemistry",
+  "topic": "Inorganic Chemistry",
+  "questions": [
+    {
+      "questionText": "Which alkali metal is stored under oil to prevent violent reaction with moisture?",
+      "options": [
+        "Sodium (Na)",
+        "Calcium (Ca)",
+        "Magnesium (Mg)",
+        "Aluminum (Al)"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Sodium reacts vigorously with air and water."
+    },
+    {
+      "questionText": "Gas liberated when dilute Acid reacts with Metal carbonate:",
+      "options": [
+        "Carbon Dioxide (CO₂)",
+        "Hydrogen (H₂)",
+        "Oxygen (O₂)",
+        "Nitrogen (N₂)"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Metal carbonate + acid -> Salt + Water + CO₂."
+    },
+    {
+      "questionText": "Common oxidation state of halogen elements (Group 17) in compounds:",
+      "options": [
+        "-1",
+        "+1",
+        "+2",
+        "-2"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Halogens gain 1 electron to complete octet (-1 state)."
+    },
+    {
+      "questionText": "Process of coating iron with zinc layer to prevent rusting:",
+      "options": [
+        "Galvanization",
+        "Anodizing",
+        "Electroplating",
+        "Smelting"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Galvanizing shields iron with sacrificial zinc."
+    },
+    {
+      "questionText": "Most abundant metal element in Earth's crust:",
+      "options": [
+        "Aluminum",
+        "Iron",
+        "Calcium",
+        "Sodium"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Aluminum is most abundant metal in Earth's crust (~8%)."
+    }
+  ]
+}

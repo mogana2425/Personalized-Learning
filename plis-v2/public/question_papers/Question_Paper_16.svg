@@ -1,0 +1,474 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="4010" viewBox="0 0 850 4010">
+  <style>
+    .bg { fill: #FFFFFF; }
+    .header-title { font-family: serif; font-size: 20px; font-weight: bold; fill: #000000; text-anchor: middle; }
+    .header-sub { font-family: sans-serif; font-size: 13px; fill: #333333; text-anchor: middle; }
+    .divider { stroke: #000000; stroke-width: 1.5; }
+    .q-text { font-family: serif; font-size: 15px; font-weight: bold; fill: #000000; }
+    .opt-text { font-family: sans-serif; font-size: 13px; fill: #111111; }
+  </style>
+  <rect width="100%" height="100%" class="bg"/>
+
+  <!-- Header Banner -->
+  <text x="425" y="45" class="header-title">DEPARTMENT OF COMPUTER SCIENCE &amp; ACADEMIC EXCELLENCE</text>
+  <text x="425" y="70" class="header-sub">FINAL EXAM QUESTION PAPER • DISCRETE MATHEMATICS &amp; GRAPH THEORY EXAM PAPER</text>
+  <text x="425" y="90" class="header-sub">Subject: Mathematics  |  Total Questions: 65 MCQs  |  Max Marks: 100  |  Time: 3 Hours</text>
+  <line x1="40" y1="110" x2="810" y2="110" class="divider"/>
+  <line x1="40" y1="114" x2="810" y2="114" class="divider"/>
+
+  <!-- Q1 -->
+  <text x="45" y="160" class="q-text">Q1. Mathematics Q1: Which of the following is not a valid data type in Java?</text>
+  <text x="65" y="182" class="opt-text">a) int</text>
+  <text x="240" y="182" class="opt-text">b) float</text>
+  <text x="420" y="182" class="opt-text">c) real</text>
+  <text x="620" y="182" class="opt-text">d) char</text>
+
+  <!-- Q2 -->
+  <text x="45" y="218" class="q-text">Q2. Mathematics Q2: Which keyword is used to create an object in Java?</text>
+  <text x="65" y="240" class="opt-text">a) new</text>
+  <text x="240" y="240" class="opt-text">b) object</text>
+  <text x="420" y="240" class="opt-text">c) alloc</text>
+  <text x="620" y="240" class="opt-text">d) malloc</text>
+
+  <!-- Q3 -->
+  <text x="45" y="276" class="q-text">Q3. Mathematics Q3: What is the default value of a boolean variable?</text>
+  <text x="65" y="298" class="opt-text">a) true</text>
+  <text x="240" y="298" class="opt-text">b) 0</text>
+  <text x="420" y="298" class="opt-text">c) false</text>
+  <text x="620" y="298" class="opt-text">d) null</text>
+
+  <!-- Q4 -->
+  <text x="45" y="334" class="q-text">Q4. Mathematics Q4: Which operator is used for string concatenation?</text>
+  <text x="65" y="356" class="opt-text">a) +</text>
+  <text x="240" y="356" class="opt-text">b) AND</text>
+  <text x="420" y="356" class="opt-text">c) .</text>
+  <text x="620" y="356" class="opt-text">d) concat</text>
+
+  <!-- Q5 -->
+  <text x="45" y="392" class="q-text">Q5. Mathematics Q5: Which of the following loops is an exit-controlled loop?</text>
+  <text x="65" y="414" class="opt-text">a) for</text>
+  <text x="240" y="414" class="opt-text">b) while</text>
+  <text x="420" y="414" class="opt-text">c) do-while</text>
+  <text x="620" y="414" class="opt-text">d) switch</text>
+
+  <!-- Q6 -->
+  <text x="45" y="450" class="q-text">Q6. Mathematics Q6: Which keyword is used to stop a loop prematurely?</text>
+  <text x="65" y="472" class="opt-text">a) stop</text>
+  <text x="240" y="472" class="opt-text">b) exit</text>
+  <text x="420" y="472" class="opt-text">c) break</text>
+  <text x="620" y="472" class="opt-text">d) return</text>
+
+  <!-- Q7 -->
+  <text x="45" y="508" class="q-text">Q7. Mathematics Q7: Which statement is true about Java methods?</text>
+  <text x="65" y="530" class="opt-text">a) Must return int</text>
+  <text x="240" y="530" class="opt-text">b) Can return only void</text>
+  <text x="420" y="530" class="opt-text">c) Must return a value or void</text>
+  <text x="620" y="530" class="opt-text">d) Can&apos;t return anything</text>
+
+  <!-- Q8 -->
+  <text x="45" y="566" class="q-text">Q8. Mathematics Q8: Which keyword is used to define a constructor?</text>
+  <text x="65" y="588" class="opt-text">a) constructor</text>
+  <text x="240" y="588" class="opt-text">b) new</text>
+  <text x="420" y="588" class="opt-text">c) class</text>
+  <text x="620" y="588" class="opt-text">d) None (uses class name)</text>
+
+  <!-- Q9 -->
+  <text x="45" y="624" class="q-text">Q9. Mathematics Q9: Which constructor is provided by compiler if none is defined?</text>
+  <text x="65" y="646" class="opt-text">a) Parameterized</text>
+  <text x="240" y="646" class="opt-text">b) Copy constructor</text>
+  <text x="420" y="646" class="opt-text">c) Default constructor</text>
+  <text x="620" y="646" class="opt-text">d) None</text>
+
+  <!-- Q10 -->
+  <text x="45" y="682" class="q-text">Q10. Mathematics Q10: Which method is invoked when an object is printed?</text>
+  <text x="65" y="704" class="opt-text">a) print()</text>
+  <text x="240" y="704" class="opt-text">b) show()</text>
+  <text x="420" y="704" class="opt-text">c) toString()</text>
+  <text x="620" y="704" class="opt-text">d) display()</text>
+
+  <!-- Q11 -->
+  <text x="45" y="740" class="q-text">Q11. Mathematics Q11: Which keyword is used to inherit a class?</text>
+  <text x="65" y="762" class="opt-text">a) implements</text>
+  <text x="240" y="762" class="opt-text">b) extends</text>
+  <text x="420" y="762" class="opt-text">c) super</text>
+  <text x="620" y="762" class="opt-text">d) inherit</text>
+
+  <!-- Q12 -->
+  <text x="45" y="798" class="q-text">Q12. Mathematics Q12: Which type of inheritance is not supported directly in Java?</text>
+  <text x="65" y="820" class="opt-text">a) Single</text>
+  <text x="240" y="820" class="opt-text">b) Multiple (through classes)</text>
+  <text x="420" y="820" class="opt-text">c) Multilevel</text>
+  <text x="620" y="820" class="opt-text">d) Hierarchical</text>
+
+  <!-- Q13 -->
+  <text x="45" y="856" class="q-text">Q13. Mathematics Q13: Which keyword is used for dynamic method dispatch?</text>
+  <text x="65" y="878" class="opt-text">a) static</text>
+  <text x="240" y="878" class="opt-text">b) final</text>
+  <text x="420" y="878" class="opt-text">c) override</text>
+  <text x="620" y="878" class="opt-text">d) virtual function concept</text>
+
+  <!-- Q14 -->
+  <text x="45" y="914" class="q-text">Q14. Mathematics Q14: Which keyword calls the parent class constructor?</text>
+  <text x="65" y="936" class="opt-text">a) parent</text>
+  <text x="240" y="936" class="opt-text">b) base</text>
+  <text x="420" y="936" class="opt-text">c) super</text>
+  <text x="620" y="936" class="opt-text">d) this</text>
+
+  <!-- Q15 -->
+  <text x="45" y="972" class="q-text">Q15. Mathematics Q15: Which of the following is not a valid data type in Java?</text>
+  <text x="65" y="994" class="opt-text">a) int</text>
+  <text x="240" y="994" class="opt-text">b) float</text>
+  <text x="420" y="994" class="opt-text">c) real</text>
+  <text x="620" y="994" class="opt-text">d) char</text>
+
+  <!-- Q16 -->
+  <text x="45" y="1030" class="q-text">Q16. Mathematics Q16: Which keyword is used to create an object in Java?</text>
+  <text x="65" y="1052" class="opt-text">a) new</text>
+  <text x="240" y="1052" class="opt-text">b) object</text>
+  <text x="420" y="1052" class="opt-text">c) alloc</text>
+  <text x="620" y="1052" class="opt-text">d) malloc</text>
+
+  <!-- Q17 -->
+  <text x="45" y="1088" class="q-text">Q17. Mathematics Q17: What is the default value of a boolean variable?</text>
+  <text x="65" y="1110" class="opt-text">a) true</text>
+  <text x="240" y="1110" class="opt-text">b) 0</text>
+  <text x="420" y="1110" class="opt-text">c) false</text>
+  <text x="620" y="1110" class="opt-text">d) null</text>
+
+  <!-- Q18 -->
+  <text x="45" y="1146" class="q-text">Q18. Mathematics Q18: Which operator is used for string concatenation?</text>
+  <text x="65" y="1168" class="opt-text">a) +</text>
+  <text x="240" y="1168" class="opt-text">b) AND</text>
+  <text x="420" y="1168" class="opt-text">c) .</text>
+  <text x="620" y="1168" class="opt-text">d) concat</text>
+
+  <!-- Q19 -->
+  <text x="45" y="1204" class="q-text">Q19. Mathematics Q19: Which of the following loops is an exit-controlled loop?</text>
+  <text x="65" y="1226" class="opt-text">a) for</text>
+  <text x="240" y="1226" class="opt-text">b) while</text>
+  <text x="420" y="1226" class="opt-text">c) do-while</text>
+  <text x="620" y="1226" class="opt-text">d) switch</text>
+
+  <!-- Q20 -->
+  <text x="45" y="1262" class="q-text">Q20. Mathematics Q20: Which keyword is used to stop a loop prematurely?</text>
+  <text x="65" y="1284" class="opt-text">a) stop</text>
+  <text x="240" y="1284" class="opt-text">b) exit</text>
+  <text x="420" y="1284" class="opt-text">c) break</text>
+  <text x="620" y="1284" class="opt-text">d) return</text>
+
+  <!-- Q21 -->
+  <text x="45" y="1320" class="q-text">Q21. Mathematics Q21: Which statement is true about Java methods?</text>
+  <text x="65" y="1342" class="opt-text">a) Must return int</text>
+  <text x="240" y="1342" class="opt-text">b) Can return only void</text>
+  <text x="420" y="1342" class="opt-text">c) Must return a value or void</text>
+  <text x="620" y="1342" class="opt-text">d) Can&apos;t return anything</text>
+
+  <!-- Q22 -->
+  <text x="45" y="1378" class="q-text">Q22. Mathematics Q22: Which keyword is used to define a constructor?</text>
+  <text x="65" y="1400" class="opt-text">a) constructor</text>
+  <text x="240" y="1400" class="opt-text">b) new</text>
+  <text x="420" y="1400" class="opt-text">c) class</text>
+  <text x="620" y="1400" class="opt-text">d) None (uses class name)</text>
+
+  <!-- Q23 -->
+  <text x="45" y="1436" class="q-text">Q23. Mathematics Q23: Which constructor is provided by compiler if none is defined?</text>
+  <text x="65" y="1458" class="opt-text">a) Parameterized</text>
+  <text x="240" y="1458" class="opt-text">b) Copy constructor</text>
+  <text x="420" y="1458" class="opt-text">c) Default constructor</text>
+  <text x="620" y="1458" class="opt-text">d) None</text>
+
+  <!-- Q24 -->
+  <text x="45" y="1494" class="q-text">Q24. Mathematics Q24: Which method is invoked when an object is printed?</text>
+  <text x="65" y="1516" class="opt-text">a) print()</text>
+  <text x="240" y="1516" class="opt-text">b) show()</text>
+  <text x="420" y="1516" class="opt-text">c) toString()</text>
+  <text x="620" y="1516" class="opt-text">d) display()</text>
+
+  <!-- Q25 -->
+  <text x="45" y="1552" class="q-text">Q25. Mathematics Q25: Which keyword is used to inherit a class?</text>
+  <text x="65" y="1574" class="opt-text">a) implements</text>
+  <text x="240" y="1574" class="opt-text">b) extends</text>
+  <text x="420" y="1574" class="opt-text">c) super</text>
+  <text x="620" y="1574" class="opt-text">d) inherit</text>
+
+  <!-- Q26 -->
+  <text x="45" y="1610" class="q-text">Q26. Mathematics Q26: Which type of inheritance is not supported directly in Java?</text>
+  <text x="65" y="1632" class="opt-text">a) Single</text>
+  <text x="240" y="1632" class="opt-text">b) Multiple (through classes)</text>
+  <text x="420" y="1632" class="opt-text">c) Multilevel</text>
+  <text x="620" y="1632" class="opt-text">d) Hierarchical</text>
+
+  <!-- Q27 -->
+  <text x="45" y="1668" class="q-text">Q27. Mathematics Q27: Which keyword is used for dynamic method dispatch?</text>
+  <text x="65" y="1690" class="opt-text">a) static</text>
+  <text x="240" y="1690" class="opt-text">b) final</text>
+  <text x="420" y="1690" class="opt-text">c) override</text>
+  <text x="620" y="1690" class="opt-text">d) virtual function concept</text>
+
+  <!-- Q28 -->
+  <text x="45" y="1726" class="q-text">Q28. Mathematics Q28: Which keyword calls the parent class constructor?</text>
+  <text x="65" y="1748" class="opt-text">a) parent</text>
+  <text x="240" y="1748" class="opt-text">b) base</text>
+  <text x="420" y="1748" class="opt-text">c) super</text>
+  <text x="620" y="1748" class="opt-text">d) this</text>
+
+  <!-- Q29 -->
+  <text x="45" y="1784" class="q-text">Q29. Mathematics Q29: Which of the following is not a valid data type in Java?</text>
+  <text x="65" y="1806" class="opt-text">a) int</text>
+  <text x="240" y="1806" class="opt-text">b) float</text>
+  <text x="420" y="1806" class="opt-text">c) real</text>
+  <text x="620" y="1806" class="opt-text">d) char</text>
+
+  <!-- Q30 -->
+  <text x="45" y="1842" class="q-text">Q30. Mathematics Q30: Which keyword is used to create an object in Java?</text>
+  <text x="65" y="1864" class="opt-text">a) new</text>
+  <text x="240" y="1864" class="opt-text">b) object</text>
+  <text x="420" y="1864" class="opt-text">c) alloc</text>
+  <text x="620" y="1864" class="opt-text">d) malloc</text>
+
+  <!-- Q31 -->
+  <text x="45" y="1900" class="q-text">Q31. Mathematics Q31: What is the default value of a boolean variable?</text>
+  <text x="65" y="1922" class="opt-text">a) true</text>
+  <text x="240" y="1922" class="opt-text">b) 0</text>
+  <text x="420" y="1922" class="opt-text">c) false</text>
+  <text x="620" y="1922" class="opt-text">d) null</text>
+
+  <!-- Q32 -->
+  <text x="45" y="1958" class="q-text">Q32. Mathematics Q32: Which operator is used for string concatenation?</text>
+  <text x="65" y="1980" class="opt-text">a) +</text>
+  <text x="240" y="1980" class="opt-text">b) AND</text>
+  <text x="420" y="1980" class="opt-text">c) .</text>
+  <text x="620" y="1980" class="opt-text">d) concat</text>
+
+  <!-- Q33 -->
+  <text x="45" y="2016" class="q-text">Q33. Mathematics Q33: Which of the following loops is an exit-controlled loop?</text>
+  <text x="65" y="2038" class="opt-text">a) for</text>
+  <text x="240" y="2038" class="opt-text">b) while</text>
+  <text x="420" y="2038" class="opt-text">c) do-while</text>
+  <text x="620" y="2038" class="opt-text">d) switch</text>
+
+  <!-- Q34 -->
+  <text x="45" y="2074" class="q-text">Q34. Mathematics Q34: Which keyword is used to stop a loop prematurely?</text>
+  <text x="65" y="2096" class="opt-text">a) stop</text>
+  <text x="240" y="2096" class="opt-text">b) exit</text>
+  <text x="420" y="2096" class="opt-text">c) break</text>
+  <text x="620" y="2096" class="opt-text">d) return</text>
+
+  <!-- Q35 -->
+  <text x="45" y="2132" class="q-text">Q35. Mathematics Q35: Which statement is true about Java methods?</text>
+  <text x="65" y="2154" class="opt-text">a) Must return int</text>
+  <text x="240" y="2154" class="opt-text">b) Can return only void</text>
+  <text x="420" y="2154" class="opt-text">c) Must return a value or void</text>
+  <text x="620" y="2154" class="opt-text">d) Can&apos;t return anything</text>
+
+  <!-- Q36 -->
+  <text x="45" y="2190" class="q-text">Q36. Mathematics Q36: Which keyword is used to define a constructor?</text>
+  <text x="65" y="2212" class="opt-text">a) constructor</text>
+  <text x="240" y="2212" class="opt-text">b) new</text>
+  <text x="420" y="2212" class="opt-text">c) class</text>
+  <text x="620" y="2212" class="opt-text">d) None (uses class name)</text>
+
+  <!-- Q37 -->
+  <text x="45" y="2248" class="q-text">Q37. Mathematics Q37: Which constructor is provided by compiler if none is defined?</text>
+  <text x="65" y="2270" class="opt-text">a) Parameterized</text>
+  <text x="240" y="2270" class="opt-text">b) Copy constructor</text>
+  <text x="420" y="2270" class="opt-text">c) Default constructor</text>
+  <text x="620" y="2270" class="opt-text">d) None</text>
+
+  <!-- Q38 -->
+  <text x="45" y="2306" class="q-text">Q38. Mathematics Q38: Which method is invoked when an object is printed?</text>
+  <text x="65" y="2328" class="opt-text">a) print()</text>
+  <text x="240" y="2328" class="opt-text">b) show()</text>
+  <text x="420" y="2328" class="opt-text">c) toString()</text>
+  <text x="620" y="2328" class="opt-text">d) display()</text>
+
+  <!-- Q39 -->
+  <text x="45" y="2364" class="q-text">Q39. Mathematics Q39: Which keyword is used to inherit a class?</text>
+  <text x="65" y="2386" class="opt-text">a) implements</text>
+  <text x="240" y="2386" class="opt-text">b) extends</text>
+  <text x="420" y="2386" class="opt-text">c) super</text>
+  <text x="620" y="2386" class="opt-text">d) inherit</text>
+
+  <!-- Q40 -->
+  <text x="45" y="2422" class="q-text">Q40. Mathematics Q40: Which type of inheritance is not supported directly in Java?</text>
+  <text x="65" y="2444" class="opt-text">a) Single</text>
+  <text x="240" y="2444" class="opt-text">b) Multiple (through classes)</text>
+  <text x="420" y="2444" class="opt-text">c) Multilevel</text>
+  <text x="620" y="2444" class="opt-text">d) Hierarchical</text>
+
+  <!-- Q41 -->
+  <text x="45" y="2480" class="q-text">Q41. Mathematics Q41: Which keyword is used for dynamic method dispatch?</text>
+  <text x="65" y="2502" class="opt-text">a) static</text>
+  <text x="240" y="2502" class="opt-text">b) final</text>
+  <text x="420" y="2502" class="opt-text">c) override</text>
+  <text x="620" y="2502" class="opt-text">d) virtual function concept</text>
+
+  <!-- Q42 -->
+  <text x="45" y="2538" class="q-text">Q42. Mathematics Q42: Which keyword calls the parent class constructor?</text>
+  <text x="65" y="2560" class="opt-text">a) parent</text>
+  <text x="240" y="2560" class="opt-text">b) base</text>
+  <text x="420" y="2560" class="opt-text">c) super</text>
+  <text x="620" y="2560" class="opt-text">d) this</text>
+
+  <!-- Q43 -->
+  <text x="45" y="2596" class="q-text">Q43. Mathematics Q43: Which of the following is not a valid data type in Java?</text>
+  <text x="65" y="2618" class="opt-text">a) int</text>
+  <text x="240" y="2618" class="opt-text">b) float</text>
+  <text x="420" y="2618" class="opt-text">c) real</text>
+  <text x="620" y="2618" class="opt-text">d) char</text>
+
+  <!-- Q44 -->
+  <text x="45" y="2654" class="q-text">Q44. Mathematics Q44: Which keyword is used to create an object in Java?</text>
+  <text x="65" y="2676" class="opt-text">a) new</text>
+  <text x="240" y="2676" class="opt-text">b) object</text>
+  <text x="420" y="2676" class="opt-text">c) alloc</text>
+  <text x="620" y="2676" class="opt-text">d) malloc</text>
+
+  <!-- Q45 -->
+  <text x="45" y="2712" class="q-text">Q45. Mathematics Q45: What is the default value of a boolean variable?</text>
+  <text x="65" y="2734" class="opt-text">a) true</text>
+  <text x="240" y="2734" class="opt-text">b) 0</text>
+  <text x="420" y="2734" class="opt-text">c) false</text>
+  <text x="620" y="2734" class="opt-text">d) null</text>
+
+  <!-- Q46 -->
+  <text x="45" y="2770" class="q-text">Q46. Mathematics Q46: Which operator is used for string concatenation?</text>
+  <text x="65" y="2792" class="opt-text">a) +</text>
+  <text x="240" y="2792" class="opt-text">b) AND</text>
+  <text x="420" y="2792" class="opt-text">c) .</text>
+  <text x="620" y="2792" class="opt-text">d) concat</text>
+
+  <!-- Q47 -->
+  <text x="45" y="2828" class="q-text">Q47. Mathematics Q47: Which of the following loops is an exit-controlled loop?</text>
+  <text x="65" y="2850" class="opt-text">a) for</text>
+  <text x="240" y="2850" class="opt-text">b) while</text>
+  <text x="420" y="2850" class="opt-text">c) do-while</text>
+  <text x="620" y="2850" class="opt-text">d) switch</text>
+
+  <!-- Q48 -->
+  <text x="45" y="2886" class="q-text">Q48. Mathematics Q48: Which keyword is used to stop a loop prematurely?</text>
+  <text x="65" y="2908" class="opt-text">a) stop</text>
+  <text x="240" y="2908" class="opt-text">b) exit</text>
+  <text x="420" y="2908" class="opt-text">c) break</text>
+  <text x="620" y="2908" class="opt-text">d) return</text>
+
+  <!-- Q49 -->
+  <text x="45" y="2944" class="q-text">Q49. Mathematics Q49: Which statement is true about Java methods?</text>
+  <text x="65" y="2966" class="opt-text">a) Must return int</text>
+  <text x="240" y="2966" class="opt-text">b) Can return only void</text>
+  <text x="420" y="2966" class="opt-text">c) Must return a value or void</text>
+  <text x="620" y="2966" class="opt-text">d) Can&apos;t return anything</text>
+
+  <!-- Q50 -->
+  <text x="45" y="3002" class="q-text">Q50. Mathematics Q50: Which keyword is used to define a constructor?</text>
+  <text x="65" y="3024" class="opt-text">a) constructor</text>
+  <text x="240" y="3024" class="opt-text">b) new</text>
+  <text x="420" y="3024" class="opt-text">c) class</text>
+  <text x="620" y="3024" class="opt-text">d) None (uses class name)</text>
+
+  <!-- Q51 -->
+  <text x="45" y="3060" class="q-text">Q51. Mathematics Q51: Which constructor is provided by compiler if none is defined?</text>
+  <text x="65" y="3082" class="opt-text">a) Parameterized</text>
+  <text x="240" y="3082" class="opt-text">b) Copy constructor</text>
+  <text x="420" y="3082" class="opt-text">c) Default constructor</text>
+  <text x="620" y="3082" class="opt-text">d) None</text>
+
+  <!-- Q52 -->
+  <text x="45" y="3118" class="q-text">Q52. Mathematics Q52: Which method is invoked when an object is printed?</text>
+  <text x="65" y="3140" class="opt-text">a) print()</text>
+  <text x="240" y="3140" class="opt-text">b) show()</text>
+  <text x="420" y="3140" class="opt-text">c) toString()</text>
+  <text x="620" y="3140" class="opt-text">d) display()</text>
+
+  <!-- Q53 -->
+  <text x="45" y="3176" class="q-text">Q53. Mathematics Q53: Which keyword is used to inherit a class?</text>
+  <text x="65" y="3198" class="opt-text">a) implements</text>
+  <text x="240" y="3198" class="opt-text">b) extends</text>
+  <text x="420" y="3198" class="opt-text">c) super</text>
+  <text x="620" y="3198" class="opt-text">d) inherit</text>
+
+  <!-- Q54 -->
+  <text x="45" y="3234" class="q-text">Q54. Mathematics Q54: Which type of inheritance is not supported directly in Java?</text>
+  <text x="65" y="3256" class="opt-text">a) Single</text>
+  <text x="240" y="3256" class="opt-text">b) Multiple (through classes)</text>
+  <text x="420" y="3256" class="opt-text">c) Multilevel</text>
+  <text x="620" y="3256" class="opt-text">d) Hierarchical</text>
+
+  <!-- Q55 -->
+  <text x="45" y="3292" class="q-text">Q55. Mathematics Q55: Which keyword is used for dynamic method dispatch?</text>
+  <text x="65" y="3314" class="opt-text">a) static</text>
+  <text x="240" y="3314" class="opt-text">b) final</text>
+  <text x="420" y="3314" class="opt-text">c) override</text>
+  <text x="620" y="3314" class="opt-text">d) virtual function concept</text>
+
+  <!-- Q56 -->
+  <text x="45" y="3350" class="q-text">Q56. Mathematics Q56: Which keyword calls the parent class constructor?</text>
+  <text x="65" y="3372" class="opt-text">a) parent</text>
+  <text x="240" y="3372" class="opt-text">b) base</text>
+  <text x="420" y="3372" class="opt-text">c) super</text>
+  <text x="620" y="3372" class="opt-text">d) this</text>
+
+  <!-- Q57 -->
+  <text x="45" y="3408" class="q-text">Q57. Mathematics Q57: Which of the following is not a valid data type in Java?</text>
+  <text x="65" y="3430" class="opt-text">a) int</text>
+  <text x="240" y="3430" class="opt-text">b) float</text>
+  <text x="420" y="3430" class="opt-text">c) real</text>
+  <text x="620" y="3430" class="opt-text">d) char</text>
+
+  <!-- Q58 -->
+  <text x="45" y="3466" class="q-text">Q58. Mathematics Q58: Which keyword is used to create an object in Java?</text>
+  <text x="65" y="3488" class="opt-text">a) new</text>
+  <text x="240" y="3488" class="opt-text">b) object</text>
+  <text x="420" y="3488" class="opt-text">c) alloc</text>
+  <text x="620" y="3488" class="opt-text">d) malloc</text>
+
+  <!-- Q59 -->
+  <text x="45" y="3524" class="q-text">Q59. Mathematics Q59: What is the default value of a boolean variable?</text>
+  <text x="65" y="3546" class="opt-text">a) true</text>
+  <text x="240" y="3546" class="opt-text">b) 0</text>
+  <text x="420" y="3546" class="opt-text">c) false</text>
+  <text x="620" y="3546" class="opt-text">d) null</text>
+
+  <!-- Q60 -->
+  <text x="45" y="3582" class="q-text">Q60. Mathematics Q60: Which operator is used for string concatenation?</text>
+  <text x="65" y="3604" class="opt-text">a) +</text>
+  <text x="240" y="3604" class="opt-text">b) AND</text>
+  <text x="420" y="3604" class="opt-text">c) .</text>
+  <text x="620" y="3604" class="opt-text">d) concat</text>
+
+  <!-- Q61 -->
+  <text x="45" y="3640" class="q-text">Q61. Mathematics Q61: Which of the following loops is an exit-controlled loop?</text>
+  <text x="65" y="3662" class="opt-text">a) for</text>
+  <text x="240" y="3662" class="opt-text">b) while</text>
+  <text x="420" y="3662" class="opt-text">c) do-while</text>
+  <text x="620" y="3662" class="opt-text">d) switch</text>
+
+  <!-- Q62 -->
+  <text x="45" y="3698" class="q-text">Q62. Mathematics Q62: Which keyword is used to stop a loop prematurely?</text>
+  <text x="65" y="3720" class="opt-text">a) stop</text>
+  <text x="240" y="3720" class="opt-text">b) exit</text>
+  <text x="420" y="3720" class="opt-text">c) break</text>
+  <text x="620" y="3720" class="opt-text">d) return</text>
+
+  <!-- Q63 -->
+  <text x="45" y="3756" class="q-text">Q63. Mathematics Q63: Which statement is true about Java methods?</text>
+  <text x="65" y="3778" class="opt-text">a) Must return int</text>
+  <text x="240" y="3778" class="opt-text">b) Can return only void</text>
+  <text x="420" y="3778" class="opt-text">c) Must return a value or void</text>
+  <text x="620" y="3778" class="opt-text">d) Can&apos;t return anything</text>
+
+  <!-- Q64 -->
+  <text x="45" y="3814" class="q-text">Q64. Mathematics Q64: Which keyword is used to define a constructor?</text>
+  <text x="65" y="3836" class="opt-text">a) constructor</text>
+  <text x="240" y="3836" class="opt-text">b) new</text>
+  <text x="420" y="3836" class="opt-text">c) class</text>
+  <text x="620" y="3836" class="opt-text">d) None (uses class name)</text>
+
+  <!-- Q65 -->
+  <text x="45" y="3872" class="q-text">Q65. Mathematics Q65: Which constructor is provided by compiler if none is defined?</text>
+  <text x="65" y="3894" class="opt-text">a) Parameterized</text>
+  <text x="240" y="3894" class="opt-text">b) Copy constructor</text>
+  <text x="420" y="3894" class="opt-text">c) Default constructor</text>
+  <text x="620" y="3894" class="opt-text">d) None</text>
+
+</svg>

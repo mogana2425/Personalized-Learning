@@ -1,0 +1,559 @@
+{
+  "id": "qp-img-13",
+  "paperTitle": "Macroeconomics & Financial Accounting Exam Paper",
+  "subject": "Economics",
+  "questionsCount": 55,
+  "imageUrl": "/question_papers/Question_Paper_13.png",
+  "questions": [
+    {
+      "questionText": "Economics Q1: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q2: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Economics Q3: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q4: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Economics Q5: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q6: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q7: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q8: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Economics Q9: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q10: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q11: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Economics Q12: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Economics Q13: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q14: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q15: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q16: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Economics Q17: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q18: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Economics Q19: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q20: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q21: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q22: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Economics Q23: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q24: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q25: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Economics Q26: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Economics Q27: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q28: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q29: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q30: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Economics Q31: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q32: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Economics Q33: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q34: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q35: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q36: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Economics Q37: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q38: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q39: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Economics Q40: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Economics Q41: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q42: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q43: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q44: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Economics Q45: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q46: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Economics Q47: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q48: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q49: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q50: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Economics Q51: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q52: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Economics Q53: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Economics Q54: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Economics Q55: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    }
+  ]
+}

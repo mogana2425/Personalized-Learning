@@ -1,0 +1,63 @@
+{
+  "num": 19,
+  "title": "Question Paper 19 - English Grammar & Vocabulary",
+  "subject": "English",
+  "topic": "Grammar & Usage",
+  "questions": [
+    {
+      "questionText": "Choose grammatically correct sentence:",
+      "options": [
+        "She doesn't like apples.",
+        "She don't likes apples.",
+        "She no like apples.",
+        "She didn't likes apples."
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Third person singular takes 'does not' + base verb."
+    },
+    {
+      "questionText": "What is synonym of word 'Meticulous'?",
+      "options": [
+        "Precise/Thorough",
+        "Careless",
+        "Rapid",
+        "Clumsy"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Meticulous means taking extreme care and attention to detail."
+    },
+    {
+      "questionText": "Identify Part of Speech for underlined word: 'She ran *swiftly*.'",
+      "options": [
+        "Adverb",
+        "Adjective",
+        "Noun",
+        "Preposition"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "'Swiftly' modifies the verb 'ran', making it an adverb."
+    },
+    {
+      "questionText": "Antonym of word 'Abundant':",
+      "options": [
+        "Scarce",
+        "Plentiful",
+        "Copious",
+        "Ample"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Abundant means plentiful; antonym is scarce."
+    },
+    {
+      "questionText": "Fill in blank: 'He has been studying ____ 3 hours.'",
+      "options": [
+        "for",
+        "since",
+        "during",
+        "from"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Use 'for' with duration of time (3 hours)."
+    }
+  ]
+}

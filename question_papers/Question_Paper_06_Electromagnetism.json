@@ -1,0 +1,63 @@
+{
+  "num": 6,
+  "title": "Question Paper 06 - Electricity & Magnetism",
+  "subject": "Physics",
+  "topic": "Electromagnetism",
+  "questions": [
+    {
+      "questionText": "According to Ohm's Law, Voltage (V) equals:",
+      "options": [
+        "V = I × R",
+        "V = I / R",
+        "V = R / I",
+        "V = I² × R"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Ohm's law states V = I × R."
+    },
+    {
+      "questionText": "Equivalent resistance of two 6 Ohm resistors in parallel:",
+      "options": [
+        "3 Ohms",
+        "12 Ohms",
+        "6 Ohms",
+        "1.5 Ohms"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "R_eq = (6 * 6) / (6 + 6) = 36 / 12 = 3 Ohms."
+    },
+    {
+      "questionText": "SI unit of Electrical Power is:",
+      "options": [
+        "Watt",
+        "Joule",
+        "Ampere",
+        "Volt"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Electrical power is measured in Watts (W)."
+    },
+    {
+      "questionText": "What device steps up or steps down AC voltage?",
+      "options": [
+        "Transformer",
+        "Generator",
+        "Motor",
+        "Capacitor"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Transformers adjust AC voltage levels using electromagnetic induction."
+    },
+    {
+      "questionText": "Direction of magnetic field around a current carrying conductor is given by:",
+      "options": [
+        "Right Hand Thumb Rule",
+        "Left Hand Rule",
+        "Lenz Law",
+        "Coulomb Law"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Right Hand Thumb rule yields magnetic field direction."
+    }
+  ]
+}

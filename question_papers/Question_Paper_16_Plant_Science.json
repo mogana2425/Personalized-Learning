@@ -1,0 +1,63 @@
+{
+  "num": 16,
+  "title": "Question Paper 16 - Plant Biotechnology & Genetics",
+  "subject": "Biology",
+  "topic": "Plant Science",
+  "questions": [
+    {
+      "questionText": "Tissue responsible for transporting water and minerals from roots in plants:",
+      "options": [
+        "Xylem",
+        "Phloem",
+        "Epidermis",
+        "Cortex"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Xylem carries water unidirectional from roots upward."
+    },
+    {
+      "questionText": "Plant hormone responsible for stem elongation and seed germination:",
+      "options": [
+        "Gibberellin",
+        "Auxin",
+        "Abscisic Acid",
+        "Ethylene"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Gibberellins stimulate cell division and germination."
+    },
+    {
+      "questionText": "Pores on leaves through which gas exchange and transpiration occur:",
+      "options": [
+        "Stomata",
+        "Lenticels",
+        "Trichomes",
+        "Cuticle"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Stomata guarded by guard cells regulate gas diffusion."
+    },
+    {
+      "questionText": "Gaseous plant hormone promoting fruit ripening:",
+      "options": [
+        "Ethylene",
+        "Cytokinin",
+        "Auxin",
+        "Gibberellin"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Ethylene gas triggers fruit softening and ripening."
+    },
+    {
+      "questionText": "Double fertilization is unique feature of:",
+      "options": [
+        "Angiosperms (Flowering plants)",
+        "Gymnosperms",
+        "Bryophytes",
+        "Ferns"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Angiosperms undergo double fertilization forming zygote & endosperm."
+    }
+  ]
+}

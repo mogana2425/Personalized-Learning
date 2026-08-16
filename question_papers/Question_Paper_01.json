@@ -1,0 +1,609 @@
+{
+  "id": "qp-img-1",
+  "paperTitle": "Java Programming & OOP Exam Paper",
+  "subject": "Java Programming",
+  "questionsCount": 60,
+  "imageUrl": "/question_papers/Question_Paper_01.png",
+  "questions": [
+    {
+      "questionText": "Java Programming Q1: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q2: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Java Programming Q3: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q4: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Java Programming Q5: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q6: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q7: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q8: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Java Programming Q9: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q10: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q11: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Java Programming Q12: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Java Programming Q13: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q14: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q15: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q16: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Java Programming Q17: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q18: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Java Programming Q19: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q20: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q21: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q22: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Java Programming Q23: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q24: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q25: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Java Programming Q26: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Java Programming Q27: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q28: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q29: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q30: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Java Programming Q31: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q32: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Java Programming Q33: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q34: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q35: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q36: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Java Programming Q37: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q38: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q39: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Java Programming Q40: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Java Programming Q41: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q42: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q43: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q44: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Java Programming Q45: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q46: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Java Programming Q47: Which of the following loops is an exit-controlled loop?",
+      "options": [
+        "for",
+        "while",
+        "do-while",
+        "switch"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q48: Which keyword is used to stop a loop prematurely?",
+      "options": [
+        "stop",
+        "exit",
+        "break",
+        "return"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q49: Which statement is true about Java methods?",
+      "options": [
+        "Must return int",
+        "Can return only void",
+        "Must return a value or void",
+        "Can't return anything"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q50: Which keyword is used to define a constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "class",
+        "None (uses class name)"
+      ],
+      "correctAnswerIndex": 3
+    },
+    {
+      "questionText": "Java Programming Q51: Which constructor is provided by compiler if none is defined?",
+      "options": [
+        "Parameterized",
+        "Copy constructor",
+        "Default constructor",
+        "None"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q52: Which method is invoked when an object is printed?",
+      "options": [
+        "print()",
+        "show()",
+        "toString()",
+        "display()"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q53: Which keyword is used to inherit a class?",
+      "options": [
+        "implements",
+        "extends",
+        "super",
+        "inherit"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Java Programming Q54: Which type of inheritance is not supported directly in Java?",
+      "options": [
+        "Single",
+        "Multiple (through classes)",
+        "Multilevel",
+        "Hierarchical"
+      ],
+      "correctAnswerIndex": 1
+    },
+    {
+      "questionText": "Java Programming Q55: Which keyword is used for dynamic method dispatch?",
+      "options": [
+        "static",
+        "final",
+        "override",
+        "virtual function concept"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q56: Which keyword calls the parent class constructor?",
+      "options": [
+        "parent",
+        "base",
+        "super",
+        "this"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q57: Which of the following is not a valid data type in Java?",
+      "options": [
+        "int",
+        "float",
+        "real",
+        "char"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q58: Which keyword is used to create an object in Java?",
+      "options": [
+        "new",
+        "object",
+        "alloc",
+        "malloc"
+      ],
+      "correctAnswerIndex": 0
+    },
+    {
+      "questionText": "Java Programming Q59: What is the default value of a boolean variable?",
+      "options": [
+        "true",
+        "0",
+        "false",
+        "null"
+      ],
+      "correctAnswerIndex": 2
+    },
+    {
+      "questionText": "Java Programming Q60: Which operator is used for string concatenation?",
+      "options": [
+        "+",
+        "AND",
+        ".",
+        "concat"
+      ],
+      "correctAnswerIndex": 0
+    }
+  ]
+}

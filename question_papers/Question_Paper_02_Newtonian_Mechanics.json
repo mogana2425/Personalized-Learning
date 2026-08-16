@@ -1,0 +1,45 @@
+{
+  "id": "qp-02",
+  "paperTitle": "Question Paper 02 - Newtonian Mechanics",
+  "subject": "Physics",
+  "topic": "Classical Mechanics",
+  "year": 2025,
+  "totalMarks": 100,
+  "questions": [
+    {
+      "id": "q2-1",
+      "questionText": "What is the net force required to accelerate a 5 kg mass at 4 m/s²?",
+      "options": ["20 N", "1.25 N", "9.8 N", "40 N"],
+      "correctAnswerIndex": 0,
+      "explanation": "According to Newton's Second Law: F = m × a = 5 kg × 4 m/s² = 20 N."
+    },
+    {
+      "id": "q2-2",
+      "questionText": "A car accelerates from rest to 20 m/s in 5 seconds. What is its acceleration?",
+      "options": ["4 m/s²", "100 m/s²", "2 m/s²", "10 m/s²"],
+      "correctAnswerIndex": 0,
+      "explanation": "a = (v - u) / t = (20 - 0) / 5 = 4 m/s²."
+    },
+    {
+      "id": "q2-3",
+      "questionText": "What is the kinetic energy of a 2 kg object moving at 3 m/s?",
+      "options": ["9 Joules", "6 Joules", "18 Joules", "4.5 Joules"],
+      "correctAnswerIndex": 0,
+      "explanation": "KE = 1/2 × m × v² = 1/2 × 2 × 3² = 9 Joules."
+    },
+    {
+      "id": "q2-4",
+      "questionText": "Work done on an object is zero when the angle between Force and Displacement is:",
+      "options": ["90 degrees", "0 degrees", "180 degrees", "45 degrees"],
+      "correctAnswerIndex": 0,
+      "explanation": "Work = F × d × cos(θ). Since cos(90°) = 0, Work = 0."
+    },
+    {
+      "id": "q2-5",
+      "questionText": "The momentum of an object of mass m and velocity v is:",
+      "options": ["p = m × v", "p = m / v", "p = 1/2 m v²", "p = F × t²"],
+      "correctAnswerIndex": 0,
+      "explanation": "Linear momentum is defined as product of mass and velocity: p = m × v."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "qp-01",
+  "paperTitle": "Question Paper 01 - Algebra & Calculus",
+  "subject": "Mathematics",
+  "topic": "Algebra and Calculus",
+  "year": 2025,
+  "totalMarks": 100,
+  "questions": [
+    {
+      "id": "q1-1",
+      "questionText": "What are the roots of the quadratic equation x² - 7x + 12 = 0?",
+      "options": ["x = 3, 4", "x = -3, -4", "x = 2, 6", "x = 1, 12"],
+      "correctAnswerIndex": 0,
+      "explanation": "Factoring x² - 7x + 12 = (x - 3)(x - 4) = 0 yields x = 3 and x = 4."
+    },
+    {
+      "id": "q1-2",
+      "questionText": "Evaluate derivative d/dx (5x⁴ - 3x² + 9):",
+      "options": ["20x³ - 6x", "20x⁴ - 6x²", "5x³ - 3x", "20x³ + 6x"],
+      "correctAnswerIndex": 0,
+      "explanation": "Applying power rule: d/dx(5x⁴) = 20x³, d/dx(-3x²) = -6x, d/dx(9) = 0."
+    },
+    {
+      "id": "q1-3",
+      "questionText": "Evaluate integral ∫ (6x² + 2x) dx:",
+      "options": ["2x³ + x² + C", "3x³ + x² + C", "6x³ + 2x² + C", "x³ + 2x² + C"],
+      "correctAnswerIndex": 0,
+      "explanation": "∫ 6x² dx = 2x³, ∫ 2x dx = x². So total = 2x³ + x² + C."
+    },
+    {
+      "id": "q1-4",
+      "questionText": "What is the limit of (sin x) / x as x approaches 0?",
+      "options": ["1", "0", "Infinity", "Undefined"],
+      "correctAnswerIndex": 0,
+      "explanation": "Standard trigonometric limit: lim(x->0) (sin x / x) = 1."
+    },
+    {
+      "id": "q1-5",
+      "questionText": "Find value of determinant | 3  2 | / | 1  4 |:",
+      "options": ["10", "14", "8", "12"],
+      "correctAnswerIndex": 0,
+      "explanation": "Determinant = (3 * 4) - (2 * 1) = 12 - 2 = 10."
+    }
+  ]
+}

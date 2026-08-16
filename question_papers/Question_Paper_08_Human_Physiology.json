@@ -1,0 +1,63 @@
+{
+  "num": 8,
+  "title": "Question Paper 08 - Human Physiology & Health",
+  "subject": "Biology",
+  "topic": "Human Physiology",
+  "questions": [
+    {
+      "questionText": "Which chamber of human heart pumps oxygenated blood to body via aorta?",
+      "options": [
+        "Left Ventricle",
+        "Right Ventricle",
+        "Left Atrium",
+        "Right Atrium"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Left ventricle pumps oxygenated blood into systemic circulation via aorta."
+    },
+    {
+      "questionText": "Functional unit of human kidney responsible for filtration is:",
+      "options": [
+        "Nephron",
+        "Neuron",
+        "Alveoli",
+        "Glomerulus"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Nephron is functional microscopic unit of kidney."
+    },
+    {
+      "questionText": "Hormone responsible for lowering blood glucose level is:",
+      "options": [
+        "Insulin",
+        "Glucagon",
+        "Adrenaline",
+        "Thyroxine"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Pancreatic beta cells secrete Insulin to promote glucose uptake."
+    },
+    {
+      "questionText": "Gas exchange in human lungs occurs across walls of:",
+      "options": [
+        "Alveoli",
+        "Bronchi",
+        "Trachea",
+        "Larynx"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Alveoli provide massive surface area for diffusion of O2 and CO2."
+    },
+    {
+      "questionText": "Vitamin essential for blood clotting is:",
+      "options": [
+        "Vitamin K",
+        "Vitamin C",
+        "Vitamin D",
+        "Vitamin A"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Vitamin K is required for prothrombin synthesis in liver."
+    }
+  ]
+}

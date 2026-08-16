@@ -1,0 +1,63 @@
+{
+  "num": 12,
+  "title": "Question Paper 12 - Environmental Science & Ecology",
+  "subject": "Environmental Science",
+  "topic": "Ecology & Climate",
+  "questions": [
+    {
+      "questionText": "Primary gas responsible for global greenhouse warming effect is:",
+      "options": [
+        "Carbon Dioxide (CO₂)",
+        "Oxygen (O₂)",
+        "Nitrogen (N₂)",
+        "Argon (Ar)"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "CO₂ emissions trap infrared heat in atmosphere."
+    },
+    {
+      "questionText": "Ozone layer in stratosphere protects Earth from:",
+      "options": [
+        "Ultraviolet (UV) Radiation",
+        "Infrared Radiation",
+        "Cosmic Rays",
+        "Radio Waves"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Ozone absorbs harmful UV-B and UV-C rays."
+    },
+    {
+      "questionText": "Process by which water bodies become enriched with excess nutrients causing algal blooms:",
+      "options": [
+        "Eutrophication",
+        "Salinization",
+        "Acidification",
+        "Desertification"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Runoff nutrients stimulate excessive algae growth depleting dissolved oxygen."
+    },
+    {
+      "questionText": "First trophic level in ecological food chain is occupied by:",
+      "options": [
+        "Producers (Autotrophs)",
+        "Primary Consumers",
+        "Secondary Consumers",
+        "Decomposers"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Green plants convert solar energy at base of food pyramid."
+    },
+    {
+      "questionText": "International treaty aimed at reducing ozone-depleting substances:",
+      "options": [
+        "Montreal Protocol",
+        "Kyoto Protocol",
+        "Paris Agreement",
+        "Ramsar Convention"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Montreal Protocol (1987) phased out CFCs."
+    }
+  ]
+}

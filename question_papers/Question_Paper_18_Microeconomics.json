@@ -1,0 +1,63 @@
+{
+  "num": 18,
+  "title": "Question Paper 18 - Microeconomics & Market Dynamics",
+  "subject": "Economics",
+  "topic": "Microeconomics",
+  "questions": [
+    {
+      "questionText": "Law of Demand states that as price increases, quantity demanded:",
+      "options": [
+        "Decreases",
+        "Increases",
+        "Remains constant",
+        "Fluctuates"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Inverse relationship exists between price and quantity demanded."
+    },
+    {
+      "questionText": "Point where market Demand curve intersects Supply curve:",
+      "options": [
+        "Equilibrium Price",
+        "Price Floor",
+        "Surplus",
+        "Shortage"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Market equilibrium occurs where Q_demand = Q_supply."
+    },
+    {
+      "questionText": "Measure of responsiveness of quantity demanded to price change:",
+      "options": [
+        "Price Elasticity of Demand",
+        "Opportunity Cost",
+        "Marginal Cost",
+        "Utility"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "% change in Q divided by % change in Price."
+    },
+    {
+      "questionText": "Cost of next best alternative foregone when choice is made:",
+      "options": [
+        "Opportunity Cost",
+        "Sunk Cost",
+        "Fixed Cost",
+        "Variable Cost"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Fundamental economic concept of trade-off value."
+    },
+    {
+      "questionText": "Good for which demand increases as consumer income increases:",
+      "options": [
+        "Normal Good",
+        "Inferior Good",
+        "Giffen Good",
+        "Substitute Good"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Normal goods have positive income elasticity."
+    }
+  ]
+}

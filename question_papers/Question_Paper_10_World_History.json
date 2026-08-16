@@ -1,0 +1,63 @@
+{
+  "num": 10,
+  "title": "Question Paper 10 - World History & Civics",
+  "subject": "Social Studies",
+  "topic": "World History",
+  "questions": [
+    {
+      "questionText": "In which year did World War II end?",
+      "options": [
+        "1945",
+        "1918",
+        "1939",
+        "1950"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "World War II concluded in 1945 following Allied victory."
+    },
+    {
+      "questionText": "Who wrote 'The Republic' outlining ideal society and governance?",
+      "options": [
+        "Plato",
+        "Aristotle",
+        "Socrates",
+        "Cicero"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Plato composed The Republic in ancient Greece."
+    },
+    {
+      "questionText": "United Nations official headquarters is located in:",
+      "options": [
+        "New York City, USA",
+        "Geneva, Switzerland",
+        "Paris, France",
+        "London, UK"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "UN international headquarters is in NYC."
+    },
+    {
+      "questionText": "The Industrial Revolution first began in which country?",
+      "options": [
+        "Great Britain",
+        "United States",
+        "Germany",
+        "France"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Industrial Revolution started in Britain in mid-18th century."
+    },
+    {
+      "questionText": "Declaration of Independence of United States was adopted in:",
+      "options": [
+        "1776",
+        "1789",
+        "1812",
+        "1765"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Adopted on July 4, 1776."
+    }
+  ]
+}

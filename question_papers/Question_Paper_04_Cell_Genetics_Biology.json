@@ -1,0 +1,45 @@
+{
+  "id": "qp-04",
+  "paperTitle": "Question Paper 04 - Cell Biology & Genetics",
+  "subject": "Biology",
+  "topic": "Cellular Biology",
+  "year": 2025,
+  "totalMarks": 100,
+  "questions": [
+    {
+      "id": "q4-1",
+      "questionText": "Which organelle is responsible for ATP synthesis in eukaryotic cells?",
+      "options": ["Mitochondria", "Ribosome", "Golgi Apparatus", "Endoplasmic Reticulum"],
+      "correctAnswerIndex": 0,
+      "explanation": "Mitochondria produce ATP via cellular respiration."
+    },
+    {
+      "id": "q4-2",
+      "questionText": "What nitrogenous base is present in RNA but absent in DNA?",
+      "options": ["Uracil", "Thymine", "Adenine", "Guanine"],
+      "correctAnswerIndex": 0,
+      "explanation": "RNA contains Uracil (U) instead of Thymine (T)."
+    },
+    {
+      "id": "q4-3",
+      "questionText": "What is the expected phenotypic ratio of a monohybrid cross between two heterozygous parents (Aa x Aa)?",
+      "options": ["3:1", "1:2:1", "9:3:3:1", "1:1"],
+      "correctAnswerIndex": 0,
+      "explanation": "Dominant to recessive phenotypic ratio is 3:1 (75% Dominant, 25% Recessive)."
+    },
+    {
+      "id": "q4-4",
+      "questionText": "Which process reduces chromosome number by half during gamete formation?",
+      "options": ["Meiosis", "Mitosis", "Binary Fission", "Budding"],
+      "correctAnswerIndex": 0,
+      "explanation": "Meiosis produces haploid gametes (n) from diploid cells (2n)."
+    },
+    {
+      "id": "q4-5",
+      "questionText": "What pigment traps light energy for photosynthesis in green plants?",
+      "options": ["Chlorophyll a", "Carotenoids", "Anthocyanin", "Xanthophyll"],
+      "correctAnswerIndex": 0,
+      "explanation": "Chlorophyll a is the primary photosynthetic pigment in thylakoids."
+    }
+  ]
+}

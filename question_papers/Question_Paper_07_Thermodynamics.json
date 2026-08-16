@@ -1,0 +1,63 @@
+{
+  "num": 7,
+  "title": "Question Paper 07 - Chemical Thermodynamics",
+  "subject": "Chemistry",
+  "topic": "Thermodynamics",
+  "questions": [
+    {
+      "questionText": "First law of thermodynamics expresses conservation of:",
+      "options": [
+        "Energy",
+        "Mass",
+        "Momentum",
+        "Entropy"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "First law states energy cannot be created or destroyed."
+    },
+    {
+      "questionText": "For a spontaneous reaction at constant T and P, Change in Gibbs Free Energy (ΔG) must be:",
+      "options": [
+        "Negative (ΔG < 0)",
+        "Positive (ΔG > 0)",
+        "Zero (ΔG = 0)",
+        "Infinite"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Spontaneity requires ΔG < 0."
+    },
+    {
+      "questionText": "Exothermic reaction is characterized by:",
+      "options": [
+        "ΔH < 0 (heat released)",
+        "ΔH > 0 (heat absorbed)",
+        "ΔH = 0",
+        "ΔS = 0"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Exothermic processes release heat, making enthalpy change ΔH negative."
+    },
+    {
+      "questionText": "Unit of molar entropy is:",
+      "options": [
+        "J / (mol·K)",
+        "J / mol",
+        "kJ / mol",
+        "K / mol"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Entropy is measured in Joules per mole per Kelvin."
+    },
+    {
+      "questionText": "Enthalpy of formation for pure elemental substances in standard states is:",
+      "options": [
+        "Zero",
+        "1 kJ/mol",
+        "100 J/mol",
+        "Negative"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "By convention ΔHf° = 0 for standard element states."
+    }
+  ]
+}

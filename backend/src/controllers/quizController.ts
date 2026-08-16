@@ -372,3 +372,37 @@ export const createQuiz = async (req: AuthenticatedRequest, res: Response): Prom
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const generateQuizFromQuestionPapers = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const { paperCount, paperNames, subject, difficultyLevel, questionsCount } = req.body;
+
+    const numPapers = Number(paperCount) || (Array.isArray(paperNames) ? paperNames.length : 5);
+    if (numPapers < 1) {
+      res.status(400).json({ success: false, message: 'Please upload at least 5 question papers.' });
+      return;
+    }
+
+    const selectedSubject = subject || 'Mathematics';
+    const targetDifficulty = difficultyLevel || 'Medium';
+    const numQuestions = Number(questionsCount) || 5;
+
+    // Use Gemini / LLM service to synthesize questions across uploaded papers
+    const generatedQuiz = await GeminiService.generateQuizFromQuestionPapers({
+      paperCount: numPapers,
+      paperNames: paperNames || [],
+      subject: selectedSubject,
+      difficultyLevel: targetDifficulty,
+      questionsCount: numQuestions,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Successfully synthesized quiz from ${numPapers} question papers!`,
+      quiz: generatedQuiz,
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+

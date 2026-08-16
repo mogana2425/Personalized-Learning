@@ -1,0 +1,63 @@
+{
+  "num": 13,
+  "title": "Question Paper 13 - Probability & Statistics",
+  "subject": "Mathematics",
+  "topic": "Statistics & Probability",
+  "questions": [
+    {
+      "questionText": "Sum of probabilities of all possible mutually exclusive outcomes in sample space is:",
+      "options": [
+        "1",
+        "0",
+        "100",
+        "0.5"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Axiom of probability dictates total P(S) = 1."
+    },
+    {
+      "questionText": "If fair coin is flipped 3 times, total outcomes in sample space is:",
+      "options": [
+        "8",
+        "6",
+        "4",
+        "16"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "2³ = 8 outcomes."
+    },
+    {
+      "questionText": "Mean of numbers 4, 8, 12, 16 is:",
+      "options": [
+        "10",
+        "12",
+        "8",
+        "14"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "(4+8+12+16)/4 = 40/4 = 10."
+    },
+    {
+      "questionText": "Standard deviation is measure of:",
+      "options": [
+        "Dispersion/spread of data",
+        "Central tendency",
+        "Skewness",
+        "Correlation"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Measures average variation from mean."
+    },
+    {
+      "questionText": "Probability of drawing an Ace from standard 52-card deck:",
+      "options": [
+        "4/52 (1/13)",
+        "1/52",
+        "2/52",
+        "1/4"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "4 aces out of 52 cards = 1/13."
+    }
+  ]
+}

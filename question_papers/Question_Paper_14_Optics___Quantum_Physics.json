@@ -1,0 +1,63 @@
+{
+  "num": 14,
+  "title": "Question Paper 14 - Optics & Modern Physics",
+  "subject": "Physics",
+  "topic": "Optics & Quantum Physics",
+  "questions": [
+    {
+      "questionText": "Speed of light in vacuum is approximately:",
+      "options": [
+        "3 × 10⁸ m/s",
+        "3 × 10⁵ m/s",
+        "3 × 10⁶ m/s",
+        "1.5 × 10⁸ m/s"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "c ≈ 300,000 km/s = 3 × 10⁸ m/s."
+    },
+    {
+      "questionText": "Bending of light ray when passing from one medium to another:",
+      "options": [
+        "Refraction",
+        "Reflection",
+        "Diffraction",
+        "Polarization"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Refraction occurs due to change in light speed."
+    },
+    {
+      "questionText": "Focal length of convex lens with power +5 Diopters is:",
+      "options": [
+        "0.2 meters (20 cm)",
+        "0.5 meters",
+        "5 meters",
+        "2 meters"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "f = 1 / P = 1 / 5 = 0.2 m."
+    },
+    {
+      "questionText": "Photoelectric effect demonstrated light behaves as:",
+      "options": [
+        "Particles (Photons)",
+        "Continuous Wave",
+        "Sound Wave",
+        "Fluid"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Einstein explained photoelectric effect using discrete energy quanta (photons)."
+    },
+    {
+      "questionText": "Subatomic particle discovered by J.J. Thomson:",
+      "options": [
+        "Electron",
+        "Proton",
+        "Neutron",
+        "Positron"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "J.J. Thomson discovered electron using cathode ray tube."
+    }
+  ]
+}

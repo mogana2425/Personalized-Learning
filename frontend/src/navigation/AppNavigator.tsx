@@ -6,7 +6,7 @@ import { RootState } from '../store';
 import { COLORS } from '../components/Theme';
 import { Platform, View, Text, TouchableOpacity, StyleSheet, Image, useWindowDimensions } from 'react-native';
 
-import { LayoutDashboard, BookOpen, MessageSquare, LineChart, UserCog, Zap, LogOut, Upload, Users } from 'lucide-react-native';
+import { LayoutDashboard, BookOpen, MessageSquare, LineChart, UserCog, Zap, LogOut, Upload, Users, FileQuestion } from 'lucide-react-native';
 
 // Auth Screens
 import LoginScreen from '../screens/auth/LoginScreen';
@@ -23,6 +23,7 @@ import AssessmentScreen from '../screens/student/AssessmentScreen';
 import AnswerSheetUploadScreen from '../screens/student/AnswerSheetUploadScreen';
 import AnalysisReportScreen from '../screens/student/AnalysisReportScreen';
 import CommunityScreen from '../screens/student/CommunityScreen';
+import QuizzesScreen from '../screens/student/QuizzesScreen';
 
 // Other Role Dashboards
 import TeacherDashboardScreen from '../screens/teacher/TeacherDashboardScreen';
@@ -79,7 +80,7 @@ const AuthNavigator = () => (
 );
 
 // ─── Web Sidebar Student Navigator ───────────────────────────────────────────
-type WebRoute = 'Dashboard' | 'MyLearning' | 'Upload' | 'AITutor' | 'Community' | 'Profile' | 'AnalysisReport' | 'Assessment';
+type WebRoute = 'Dashboard' | 'MyLearning' | 'Upload' | 'AITutor' | 'Quizzes' | 'Community' | 'Profile' | 'AnalysisReport' | 'Assessment';
 
 const webNavItems: { key: WebRoute; label: string; icon: React.ReactNode; activeIcon: React.ReactNode }[] = [
   {
@@ -105,6 +106,12 @@ const webNavItems: { key: WebRoute; label: string; icon: React.ReactNode; active
     label: 'AI Tutor',
     icon: <MessageSquare color={COLORS.textMuted} size={20} />,
     activeIcon: <MessageSquare color={COLORS.primary} size={20} />,
+  },
+  {
+    key: 'Quizzes',
+    label: 'Quizzes',
+    icon: <FileQuestion color={COLORS.textMuted} size={20} />,
+    activeIcon: <FileQuestion color={COLORS.primary} size={20} />,
   },
   {
     key: 'Community',
@@ -160,6 +167,7 @@ const WebStudentNavigator: React.FC = () => {
       case 'Upload': return <AnswerSheetUploadScreen navigation={fakeNavigation} />;
       case 'AnalysisReport': return <AnalysisReportScreen navigation={fakeNavigation} route={{ params: webParams }} />;
       case 'AITutor': return <AITutorScreen />;
+      case 'Quizzes': return <QuizzesScreen navigation={fakeNavigation} />;
       case 'Community': return <CommunityScreen />;
       case 'Profile': return <ProfileScreen />;
       case 'Assessment': return <AssessmentScreen route={{ params: webParams }} navigation={fakeNavigation as any} />;

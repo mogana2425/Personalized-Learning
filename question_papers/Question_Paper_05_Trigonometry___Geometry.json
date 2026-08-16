@@ -1,0 +1,63 @@
+{
+  "num": 5,
+  "title": "Question Paper 05 - Trigonometry & Coordinate Geometry",
+  "subject": "Mathematics",
+  "topic": "Trigonometry & Geometry",
+  "questions": [
+    {
+      "questionText": "What is the exact value of sin(30°) + cos(60°)?",
+      "options": [
+        "1",
+        "0.5",
+        "sqrt(3)",
+        "0"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "sin(30°) = 0.5 and cos(60°) = 0.5. Total = 0.5 + 0.5 = 1."
+    },
+    {
+      "questionText": "Find distance between points (0,0) and (6,8):",
+      "options": [
+        "10",
+        "14",
+        "48",
+        "12"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Distance = sqrt(6² + 8²) = sqrt(36 + 64) = sqrt(100) = 10."
+    },
+    {
+      "questionText": "What is identity 1 + tan²(θ)?",
+      "options": [
+        "sec²(θ)",
+        "cosec²(θ)",
+        "cot²(θ)",
+        "sin²(θ)"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Pythagorean trig identity: 1 + tan²(θ) = sec²(θ)."
+    },
+    {
+      "questionText": "If line equation is 2x + 3y = 6, what is the y-intercept?",
+      "options": [
+        "2",
+        "3",
+        "6",
+        "-2"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Set x = 0: 3y = 6 => y = 2."
+    },
+    {
+      "questionText": "Area of triangle with vertices (0,0), (4,0), (0,3):",
+      "options": [
+        "6 sq. units",
+        "12 sq. units",
+        "7 sq. units",
+        "5 sq. units"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Base = 4, Height = 3. Area = 1/2 * 4 * 3 = 6."
+    }
+  ]
+}

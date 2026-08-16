@@ -1,0 +1,63 @@
+{
+  "num": 20,
+  "title": "Question Paper 20 - Differential Equations & Vectors",
+  "subject": "Mathematics",
+  "topic": "Advanced Mathematics",
+  "questions": [
+    {
+      "questionText": "Order of differential equation d²y/dx² + 5(dy/dx)³ = 0 is:",
+      "options": [
+        "2",
+        "3",
+        "1",
+        "5"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Order is highest derivative present (d²y/dx² -> order 2)."
+    },
+    {
+      "questionText": "Dot product of two perpendicular vectors A and B is:",
+      "options": [
+        "0",
+        "1",
+        "A × B",
+        "-1"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "A · B = |A||B| cos(90°) = 0."
+    },
+    {
+      "questionText": "Magnitude of 3D vector v = 3i + 4j + 12k is:",
+      "options": [
+        "13",
+        "19",
+        "25",
+        "169"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "|v| = sqrt(3² + 4² + 12²) = sqrt(9 + 16 + 144) = sqrt(169) = 13."
+    },
+    {
+      "questionText": "Cross product of parallel vectors is:",
+      "options": [
+        "Zero Vector",
+        "Unit Vector",
+        "Scalar",
+        "Infinity"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "|A × B| = |A||B| sin(0°) = 0."
+    },
+    {
+      "questionText": "Solution to differential equation dy/dx = y is:",
+      "options": [
+        "y = C e^x",
+        "y = C x²",
+        "y = C sin(x)",
+        "y = C / x"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "dy/y = dx => ln(y) = x + C => y = C e^x."
+    }
+  ]
+}

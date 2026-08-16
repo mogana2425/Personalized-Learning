@@ -1,0 +1,45 @@
+{
+  "id": "qp-03",
+  "paperTitle": "Question Paper 03 - Organic & Physical Chemistry",
+  "subject": "Chemistry",
+  "topic": "Organic & Physical Chemistry",
+  "year": 2025,
+  "totalMarks": 100,
+  "questions": [
+    {
+      "id": "q3-1",
+      "questionText": "What is the general molecular formula for alkanes?",
+      "options": ["CnH2n+2", "CnH2n", "CnH2n-2", "CnHn"],
+      "correctAnswerIndex": 0,
+      "explanation": "Alkanes are saturated hydrocarbons with formula CnH2n+2."
+    },
+    {
+      "id": "q3-2",
+      "questionText": "What type of chemical bond forms between Sodium and Chlorine in NaCl?",
+      "options": ["Ionic Bond", "Covalent Bond", "Metallic Bond", "Hydrogen Bond"],
+      "correctAnswerIndex": 0,
+      "explanation": "Sodium donates an electron to Chlorine forming an ionic bond between Na+ and Cl-."
+    },
+    {
+      "id": "q3-3",
+      "questionText": "What is the pH of a 0.01 M HCl aqueous solution?",
+      "options": ["2", "1", "7", "12"],
+      "correctAnswerIndex": 0,
+      "explanation": "pH = -log[H+] = -log(10⁻²) = 2."
+    },
+    {
+      "id": "q3-4",
+      "questionText": "Which functional group is present in Ethanol (CH3CH2OH)?",
+      "options": ["Alcohol (-OH)", "Aldehyde (-CHO)", "Carboxylic Acid (-COOH)", "Ketone (-CO-)"],
+      "correctAnswerIndex": 0,
+      "explanation": "The hydroxyl group (-OH) characterizes alcohols."
+    },
+    {
+      "id": "q3-5",
+      "questionText": "According to Le Chatelier's principle, increasing pressure on 2NO₂ ⇌ N₂O₄ equilibrium shifts to:",
+      "options": ["Right (N₂O₄)", "Left (NO₂)", "No change", "Stops reaction"],
+      "correctAnswerIndex": 0,
+      "explanation": "Increasing pressure shifts equilibrium to side with fewer moles of gas (1 mole N₂O₄ vs 2 moles NO₂)."
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "num": 9,
+  "title": "Question Paper 09 - Data Structures & Algorithms",
+  "subject": "Computer Science",
+  "topic": "Data Structures",
+  "questions": [
+    {
+      "questionText": "What is average time complexity of searching element in Hash Table?",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(log n)",
+        "O(n log n)"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Hash table lookup operates in average constant O(1) time."
+    },
+    {
+      "questionText": "Which data structure operates on Last In First Out (LIFO) principle?",
+      "options": [
+        "Stack",
+        "Queue",
+        "Array",
+        "Linked List"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Stack adds and removes elements from same end (LIFO)."
+    },
+    {
+      "questionText": "Best algorithm for finding shortest paths from single source in non-negative weighted graph:",
+      "options": [
+        "Dijkstra's Algorithm",
+        "Kruskal's Algorithm",
+        "Binary Search",
+        "Depth First Search"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Dijkstra solves single-source shortest path problem efficiently."
+    },
+    {
+      "questionText": "Inorder traversal of Binary Search Tree (BST) produces nodes in:",
+      "options": [
+        "Sorted Ascending order",
+        "Descending order",
+        "Random order",
+        "Level order"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Inorder traversal (Left, Root, Right) of BST yields sorted values."
+    },
+    {
+      "questionText": "Space complexity of iterative Binary Search algorithm on sorted array:",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(log n)",
+        "O(n²)"
+      ],
+      "correctAnswerIndex": 0,
+      "explanation": "Iterative binary search uses constant O(1) auxiliary memory."
+    }
+  ]
+}
