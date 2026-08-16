@@ -297,9 +297,12 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
             <Sparkles color="#4F46E5" size={16} />
             <Text style={styles.sparkleBadgeText}>Question Paper Image Upload</Text>
           </View>
-          <Text style={styles.counterBadgeText}>
-            📄 {uploadedPapers.length} / 20 Papers (Min: 5, Max: 20)
-          </Text>
+          <View style={styles.counterBadge}>
+            <FileText color="#0369A1" size={14} />
+            <Text style={styles.counterBadgeText}>
+              {uploadedPapers.length} / 20 Papers Selected (Min: 5, Max: 20)
+            </Text>
+          </View>
         </View>
 
         {/* Upload Drop Zone Box */}
@@ -799,26 +802,41 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 16,
+    flexWrap: 'wrap',
+    gap: 12,
   },
   sparkleBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
     backgroundColor: '#EEF2FF',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#C7D2FE',
   },
   sparkleBadgeText: {
     fontSize: 13,
     fontWeight: '700',
     color: '#4F46E5',
   },
+  counterBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#E0F2FE',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#BAE6FD',
+  },
   counterBadgeText: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#0284C7',
+    color: '#0369A1',
   },
   generatorTitle: {
     fontSize: 18,
