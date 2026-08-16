@@ -911,9 +911,9 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
             <View style={styles.modalContainer}>
               {/* Modal Header */}
               <View style={styles.modalHeader}>
-                <View>
-                  <Text style={styles.modalTitle}>{activeQuiz.title}</Text>
-                  <Text style={styles.modalSub}>{activeQuiz.subject} • {activeQuiz.topic}</Text>
+                <View style={{ flex: 1, paddingRight: 10 }}>
+                  <Text style={styles.modalTitle} numberOfLines={2}>{activeQuiz.title}</Text>
+                  <Text style={styles.modalSub} numberOfLines={1}>{activeQuiz.subject} • {activeQuiz.topic}</Text>
                 </View>
                 <TouchableOpacity
                   onPress={() => setActiveQuiz(null)}
@@ -924,7 +924,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
               </View>
 
               {!quizFinished ? (
-                <View style={styles.modalBody}>
+                <ScrollView style={styles.modalBodyScroll} contentContainerStyle={styles.modalBody}>
                   {/* Progress Indicator */}
                   <View style={styles.progressRow}>
                     <Text style={styles.progressText}>
@@ -1006,7 +1006,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
                       </TouchableOpacity>
                     )}
                   </View>
-                </View>
+                </ScrollView>
               ) : (
                 /* Result Screen */
                 <View style={styles.resultBody}>
@@ -1612,14 +1612,15 @@ const styles = StyleSheet.create({
   // Modal styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.6)',
+    backgroundColor: 'rgba(15, 23, 42, 0.65)',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
   },
   modalContainer: {
-    width: '100%',
-    maxWidth: 640,
+    width: '96%',
+    maxWidth: 620,
+    maxHeight: '90%',
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     overflow: 'hidden',
@@ -1628,12 +1629,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    padding: 16,
     borderBottomWidth: 1,
     borderColor: '#E2E8F0',
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -1644,8 +1645,11 @@ const styles = StyleSheet.create({
   closeBtn: {
     padding: 6,
   },
+  modalBodyScroll: {
+    flex: 1,
+  },
   modalBody: {
-    padding: 20,
+    padding: 18,
   },
   progressRow: {
     flexDirection: 'row',
@@ -1675,27 +1679,28 @@ const styles = StyleSheet.create({
   questionCard: {
     backgroundColor: '#F8FAFC',
     borderRadius: 14,
-    padding: 16,
-    marginBottom: 20,
+    padding: 14,
+    marginBottom: 18,
     borderWidth: 1,
     borderColor: '#E2E8F0',
   },
   questionText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: '#0F172A',
-    marginBottom: 16,
+    marginBottom: 14,
+    lineHeight: 22,
   },
   optionItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 14,
+    padding: 12,
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#CBD5E1',
-    gap: 12,
+    gap: 10,
   },
   optionItemSelected: {
     borderColor: '#4F46E5',
@@ -1709,6 +1714,7 @@ const styles = StyleSheet.create({
     borderColor: '#94A3B8',
     alignItems: 'center',
     justifyContent: 'center',
+    flexShrink: 0,
   },
   radioCircleSelected: {
     borderColor: '#4F46E5',
@@ -1722,6 +1728,8 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 14,
     color: '#334155',
+    flex: 1,
+    flexWrap: 'wrap',
   },
   optionTextSelected: {
     fontWeight: '600',
