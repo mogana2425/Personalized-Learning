@@ -151,6 +151,7 @@ const ALL_70_SUBJECT_PAPERS: ImageQuestionPaper[] = [
 ];
 
 const REAL_MCQ_BANK = [
+  // ── Java Programming ──
   {
     subject: "Java Programming",
     text: "Which of the following is not a primitive data type in Java?",
@@ -173,6 +174,15 @@ const REAL_MCQ_BANK = [
     exp: "The compiler automatically creates a default no-argument constructor if none exists."
   },
   {
+    subject: "Java Programming",
+    text: "Which interface in Java Collections does not inherit from Collection interface?",
+    options: ["List", "Set", "Map", "Queue"],
+    ans: 2,
+    exp: "Map interface is part of the Java Collections Framework but does not extend Collection interface."
+  },
+
+  // ── Python Data Science ──
+  {
     subject: "Python Data Science",
     text: "Which Python built-in data structure is immutable?",
     options: ["List", "Dictionary", "Set", "Tuple"],
@@ -186,6 +196,15 @@ const REAL_MCQ_BANK = [
     ans: 0,
     exp: "The len() function returns the total count of key-value pairs in the dictionary."
   },
+  {
+    subject: "Python Data Science",
+    text: "Which Pandas function is used to convert data into DataFrame format?",
+    options: ["pd.DataFrame()", "pd.to_matrix()", "pd.Series()", "pd.Convert()"],
+    ans: 0,
+    exp: "pd.DataFrame() constructs a two-dimensional labeled data structure with columns of potentially different types."
+  },
+
+  // ── Physics ──
   {
     subject: "Physics",
     text: "What is the SI unit of electric current?",
@@ -208,6 +227,15 @@ const REAL_MCQ_BANK = [
     exp: "Light travels in a vacuum at approximately 300,000,000 m/s (3 × 10⁸ m/s)."
   },
   {
+    subject: "Physics",
+    text: "What formula calculates kinetic energy of a moving object?",
+    options: ["KE = 1/2 m v²", "KE = m g h", "KE = F × d", "KE = m v"],
+    ans: 0,
+    exp: "Kinetic Energy KE = 1/2 m v² where m is mass and v is velocity."
+  },
+
+  // ── Chemistry ──
+  {
     subject: "Chemistry",
     text: "What is the chemical formula for water?",
     options: ["H₂O", "CO₂", "H₂SO₄", "NaCl"],
@@ -222,6 +250,15 @@ const REAL_MCQ_BANK = [
     exp: "Pure water has an equal concentration of hydrogen and hydroxide ions, resulting in pH 7."
   },
   {
+    subject: "Chemistry",
+    text: "What type of chemical bond involves sharing of electron pairs between atoms?",
+    options: ["Ionic bond", "Covalent bond", "Hydrogen bond", "Metallic bond"],
+    ans: 1,
+    exp: "Covalent bonding involves the sharing of electron pairs between non-metal atoms."
+  },
+
+  // ── Biology ──
+  {
     subject: "Biology",
     text: "Which cell organelle is known as the 'powerhouse of the cell'?",
     options: ["Nucleus", "Ribosome", "Mitochondria", "Golgi Apparatus"],
@@ -235,6 +272,15 @@ const REAL_MCQ_BANK = [
     ans: 0,
     exp: "Photosynthesis converts CO₂ and H₂O using solar energy into Glucose (C₆H₁₂O₆) and Oxygen (O₂)."
   },
+  {
+    subject: "Biology",
+    text: "Which molecule carries genetic instructions in all living organisms?",
+    options: ["RNA", "DNA", "Protein", "Glucose"],
+    ans: 1,
+    exp: "Deoxyribonucleic acid (DNA) is the hereditary material in humans and almost all organisms."
+  },
+
+  // ── Mathematics ──
   {
     subject: "Mathematics",
     text: "What are the roots of the quadratic equation x² - 7x + 12 = 0?",
@@ -257,6 +303,15 @@ const REAL_MCQ_BANK = [
     exp: "∫ 6x² dx = 2x³, ∫ 2x dx = x². Total = 2x³ + x² + C."
   },
   {
+    subject: "Mathematics",
+    text: "What is the hypotenuse length of a right triangle with legs of length 6 and 8?",
+    options: ["10", "12", "14", "100"],
+    ans: 0,
+    exp: "By Pythagorean theorem: c = √(6² + 8²) = √(36 + 64) = √100 = 10."
+  },
+
+  // ── Computer Science ──
+  {
     subject: "Computer Science",
     text: "Which data structure operates on a First-In-First-Out (FIFO) basis?",
     options: ["Queue", "Stack", "Binary Search Tree", "Hash Map"],
@@ -269,6 +324,13 @@ const REAL_MCQ_BANK = [
     options: ["O(n log n)", "O(n²)", "O(n)", "O(1)"],
     ans: 1,
     exp: "When pivot selection is unbalanced on sorted inputs, QuickSort takes O(n²) time."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which layer of the OSI model is responsible for IP addressing and packet routing?",
+    options: ["Data Link Layer", "Network Layer", "Transport Layer", "Application Layer"],
+    ans: 1,
+    exp: "The Network Layer (Layer 3) handles IP addressing, packet routing, and forwarding across networks."
   },
 ];
 
@@ -312,6 +374,19 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
         .reduce((sum, q) => sum + (q.score || 0), 0) / (totalCompleted || 1)
     ) || 0;
 
+  // Helper function to infer subject from paper filename if user uploaded custom files
+  const detectSubjectFromFileName = (fileName: string): string => {
+    const lower = fileName.toLowerCase();
+    if (lower.includes('math') || lower.includes('algebra') || lower.includes('calc')) return 'Mathematics';
+    if (lower.includes('phys') || lower.includes('motion') || lower.includes('force')) return 'Physics';
+    if (lower.includes('java') || lower.includes('oop')) return 'Java Programming';
+    if (lower.includes('py') || lower.includes('data') || lower.includes('numpy')) return 'Python Data Science';
+    if (lower.includes('chem') || lower.includes('organic')) return 'Chemistry';
+    if (lower.includes('bio') || lower.includes('dna') || lower.includes('cell')) return 'Biology';
+    if (lower.includes('cs') || lower.includes('algo') || lower.includes('sql')) return 'Computer Science';
+    return 'Uploaded Paper';
+  };
+
   // Handler for uploading user's own PNG / JPEG question paper images
   const handleUploadUserImage = async () => {
     try {
@@ -323,16 +398,19 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
         input.onchange = (e: any) => {
           const files = e.target.files;
           if (files && files.length > 0) {
-            const userUploaded: ImageQuestionPaper[] = Array.from(files).map((file: any, idx: number) => ({
-              id: `user-img-${Date.now()}-${idx}`,
-              num: uploadedPapers.length + idx + 1,
-              fileName: file.name || `Question_Paper_${uploadedPapers.length + idx + 1}.png`,
-              title: file.name ? `Paper ${uploadedPapers.length + idx + 1}: ${file.name}` : `Uploaded Exam Sheet #${uploadedPapers.length + idx + 1}`,
-              subject: 'Uploaded Paper',
-              questionsCount: 50 + (idx % 25),
-              imageUrl: URL.createObjectURL(file),
-              isUserUploaded: true,
-            }));
+            const userUploaded: ImageQuestionPaper[] = Array.from(files).map((file: any, idx: number) => {
+              const detectedSubj = detectSubjectFromFileName(file.name);
+              return {
+                id: `user-img-${Date.now()}-${idx}`,
+                num: uploadedPapers.length + idx + 1,
+                fileName: file.name || `Question_Paper_${uploadedPapers.length + idx + 1}.png`,
+                title: file.name ? `Paper ${uploadedPapers.length + idx + 1}: ${file.name}` : `Uploaded Exam Sheet #${uploadedPapers.length + idx + 1}`,
+                subject: detectedSubj,
+                questionsCount: 50 + (idx % 25),
+                imageUrl: URL.createObjectURL(file),
+                isUserUploaded: true,
+              };
+            });
             const combined = [...uploadedPapers, ...userUploaded];
             setUploadedPapers(combined.slice(0, 20));
           }
@@ -354,16 +432,19 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
       });
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
-        const userUploaded: ImageQuestionPaper[] = result.assets.map((asset, idx) => ({
-          id: `user-img-${Date.now()}-${idx}`,
-          num: uploadedPapers.length + idx + 1,
-          fileName: asset.fileName || `Question_Paper_${uploadedPapers.length + idx + 1}.png`,
-          title: asset.fileName ? `Paper ${uploadedPapers.length + idx + 1}: ${asset.fileName}` : `Uploaded Exam Sheet #${uploadedPapers.length + idx + 1}`,
-          subject: 'Uploaded Paper',
-          questionsCount: 50 + (idx % 25),
-          imageUrl: asset.uri,
-          isUserUploaded: true,
-        }));
+        const userUploaded: ImageQuestionPaper[] = result.assets.map((asset, idx) => {
+          const detectedSubj = detectSubjectFromFileName(asset.fileName || '');
+          return {
+            id: `user-img-${Date.now()}-${idx}`,
+            num: uploadedPapers.length + idx + 1,
+            fileName: asset.fileName || `Question_Paper_${uploadedPapers.length + idx + 1}.png`,
+            title: asset.fileName ? `Paper ${uploadedPapers.length + idx + 1}: ${asset.fileName}` : `Uploaded Exam Sheet #${uploadedPapers.length + idx + 1}`,
+            subject: detectedSubj,
+            questionsCount: 50 + (idx % 25),
+            imageUrl: asset.uri,
+            isUserUploaded: true,
+          };
+        });
 
         const combined = [...uploadedPapers, ...userUploaded];
         setUploadedPapers(combined.slice(0, 20));
@@ -419,12 +500,29 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
     setTimeout(() => {
       const totalQuestionsInPapers = uploadedPapers.reduce((sum, p) => sum + p.questionsCount, 0);
 
-      // Pick unique questions from REAL_MCQ_BANK
-      const shuffledBank = [...REAL_MCQ_BANK].sort(() => 0.5 - Math.random());
+      // Extract unique subjects from uploaded papers
+      const rawSubjects = Array.from(new Set(uploadedPapers.map((p) => p.subject).filter(Boolean)));
+      const validSubjects = rawSubjects.filter((s) => s !== 'Uploaded Paper' && s !== 'General Review');
+
+      // Filter MCQ Bank strictly for the uploaded subjects (e.g. Mathematics & Physics only!)
+      let subjectFilteredBank = REAL_MCQ_BANK.filter((mcq) => {
+        if (validSubjects.length === 0) return true;
+        return validSubjects.some((s) => mcq.subject.toLowerCase() === s.toLowerCase());
+      });
+
+      if (subjectFilteredBank.length === 0) {
+        subjectFilteredBank = REAL_MCQ_BANK;
+      }
+
+      // Shuffle filtered bank
+      const shuffledBank = [...subjectFilteredBank].sort(() => 0.5 - Math.random());
       
       const generatedQuestions = Array.from({ length: genQuestionCount }).map((_, i) => {
         const sourcePaper = uploadedPapers[i % uploadedPapers.length];
-        const mcqData = shuffledBank[i % shuffledBank.length];
+        
+        // Try matching MCQ for the exact source paper subject if possible
+        const exactMatchMcq = shuffledBank.find((mcq) => mcq.subject === sourcePaper.subject);
+        const mcqData = exactMatchMcq || shuffledBank[i % shuffledBank.length];
 
         return {
           questionText: `[Extracted via OCR from ${sourcePaper.title}] Q${i + 1}. ${mcqData.text}`,
@@ -434,11 +532,13 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
         };
       });
 
+      const primarySubject = validSubjects.length > 0 ? validSubjects.join(' & ') : 'General Review';
+
       const newQuiz: QuizItem = {
         id: `ai-quiz-${Date.now()}`,
-        title: `MCQ Quiz from ${uploadedPapers.length} Question Paper Images`,
-        subject: uploadedPapers[0]?.subject || 'General Review',
-        topic: `OCR Synthesized Review (${totalQuestionsInPapers} Total MCQs in Pool)`,
+        title: `MCQ Quiz: ${primarySubject} (${uploadedPapers.length} Papers)`,
+        subject: validSubjects[0] || 'General Review',
+        topic: `Subject-Specific OCR Review (${totalQuestionsInPapers} Total MCQs in Pool)`,
         questionsCount: generatedQuestions.length,
         timeLimitMinutes: Math.min(30, generatedQuestions.length * 2),
         difficulty: genDifficulty,
@@ -451,8 +551,8 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
       setQuizzes([newQuiz, ...quizzes]);
       setGenerating(false);
       Alert.alert(
-        'AI Image Quiz Generated! 🚀',
-        `Successfully scanned ${uploadedPapers.length} image question papers (containing ${totalQuestionsInPapers} total MCQs) and generated "${newQuiz.title}".`
+        'Subject-Specific AI Quiz Generated! 🚀',
+        `Successfully analyzed ${uploadedPapers.length} image papers for [${primarySubject}] and generated "${newQuiz.title}".`
       );
     }, 1500);
   };
