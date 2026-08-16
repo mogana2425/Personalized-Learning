@@ -54,6 +54,7 @@ export type StudentTabParamList = {
   Dashboard: undefined;
   MyLearning: undefined;
   Upload: undefined;
+  Quizzes: undefined;
   AITutor: undefined;
   Community: undefined;
   Profile: undefined;

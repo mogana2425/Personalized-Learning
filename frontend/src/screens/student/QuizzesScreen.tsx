@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  Platform,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { COLORS } from '../../components/Theme';
@@ -27,6 +28,7 @@ import {
   UploadCloud,
   ImagePlus,
   Trash2,
+  FileText,
 } from 'lucide-react-native';
 
 interface QuizItem {
@@ -106,6 +108,32 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
   // Handler for uploading user's own PNG / JPEG question paper images
   const handleUploadUserImage = async () => {
     try {
+      if (Platform.OS === 'web') {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.multiple = true;
+        input.onchange = (e: any) => {
+          const files = e.target.files;
+          if (files && files.length > 0) {
+            const userUploaded: ImageQuestionPaper[] = Array.from(files).map((file: any, idx: number) => ({
+              id: `user-img-${Date.now()}-${idx}`,
+              num: uploadedPapers.length + idx + 1,
+              fileName: file.name || `Question_Paper_${uploadedPapers.length + idx + 1}.png`,
+              title: file.name ? `Paper ${uploadedPapers.length + idx + 1}: ${file.name}` : `Uploaded Exam Sheet #${uploadedPapers.length + idx + 1}`,
+              subject: 'Uploaded Paper',
+              questionsCount: 50 + (idx % 25),
+              imageUrl: URL.createObjectURL(file),
+              isUserUploaded: true,
+            }));
+            const combined = [...uploadedPapers, ...userUploaded];
+            setUploadedPapers(combined.slice(0, 20));
+          }
+        };
+        input.click();
+        return;
+      }
+
       const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (!permission.granted) {
         Alert.alert('Permission Required', 'Please grant access to your photo library to select question paper images.');
@@ -123,7 +151,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
           id: `user-img-${Date.now()}-${idx}`,
           num: uploadedPapers.length + idx + 1,
           fileName: asset.fileName || `Question_Paper_${uploadedPapers.length + idx + 1}.png`,
-          title: asset.fileName ? `Paper ${uploadedPapers.length + idx + 1}: ${asset.fileName}` : `Uploaded Exam Paper #${uploadedPapers.length + idx + 1}`,
+          title: asset.fileName ? `Paper ${uploadedPapers.length + idx + 1}: ${asset.fileName}` : `Uploaded Exam Sheet #${uploadedPapers.length + idx + 1}`,
           subject: 'Uploaded Paper',
           questionsCount: 50 + (idx % 25),
           imageUrl: asset.uri,
@@ -131,12 +159,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
         }));
 
         const combined = [...uploadedPapers, ...userUploaded];
-        if (combined.length > 20) {
-          Alert.alert('Maximum Limit Reached', 'You can upload up to 20 question paper images at a time.');
-          setUploadedPapers(combined.slice(0, 20));
-        } else {
-          setUploadedPapers(combined);
-        }
+        setUploadedPapers(combined.slice(0, 20));
 
         Alert.alert(
           'Image Paper Uploaded! 📄',
