@@ -29,6 +29,7 @@ import {
   ImagePlus,
   Trash2,
   FileText,
+  BookOpen,
 } from 'lucide-react-native';
 
 interface QuizItem {
@@ -62,12 +63,91 @@ interface ImageQuestionPaper {
   isUserUploaded?: boolean;
 }
 
-const SAMPLE_DEMO_PAPERS: ImageQuestionPaper[] = [
-  { id: 'demo-01', num: 1, fileName: 'Question_Paper_01.png', title: 'Sample Paper 01: Java Programming & OOP', subject: 'Java Programming', questionsCount: 60, imageUrl: '/question_papers/Question_Paper_01.png' },
-  { id: 'demo-02', num: 2, fileName: 'Question_Paper_02.png', title: 'Sample Paper 02: Python Data Science & AI', subject: 'Python Data Science', questionsCount: 55, imageUrl: '/question_papers/Question_Paper_02.png' },
-  { id: 'demo-03', num: 3, fileName: 'Question_Paper_03.png', title: 'Sample Paper 03: Newtonian Physics & Dynamics', subject: 'Physics', questionsCount: 50, imageUrl: '/question_papers/Question_Paper_03.png' },
-  { id: 'demo-04', num: 4, fileName: 'Question_Paper_04.png', title: 'Sample Paper 04: Organic & Analytical Chemistry', subject: 'Chemistry', questionsCount: 65, imageUrl: '/question_papers/Question_Paper_04.png' },
-  { id: 'demo-05', num: 5, fileName: 'Question_Paper_05.png', title: 'Sample Paper 05: Cellular Biology & Genetics', subject: 'Biology', questionsCount: 70, imageUrl: '/question_papers/Question_Paper_05.png' },
+// 70 Unique Question Papers (10 Papers x 7 Subjects)
+const ALL_70_SUBJECT_PAPERS: ImageQuestionPaper[] = [
+  // ── Java Programming (10 Papers) ──
+  { id: 'java-01', num: 1, fileName: 'Java_Paper_01.png', title: 'Paper 01: Java OOP & Class Inheritance', subject: 'Java Programming', questionsCount: 60, imageUrl: '/question_papers/Java_Paper_01.png' },
+  { id: 'java-02', num: 2, fileName: 'Java_Paper_02.png', title: 'Paper 02: Java Multithreading & Concurrency', subject: 'Java Programming', questionsCount: 55, imageUrl: '/question_papers/Java_Paper_02.png' },
+  { id: 'java-03', num: 3, fileName: 'Java_Paper_03.png', title: 'Paper 03: Java Collections Framework & Generics', subject: 'Java Programming', questionsCount: 50, imageUrl: '/question_papers/Java_Paper_03.png' },
+  { id: 'java-04', num: 4, fileName: 'Java_Paper_04.png', title: 'Paper 04: Java Exception Handling & Logging', subject: 'Java Programming', questionsCount: 65, imageUrl: '/question_papers/Java_Paper_04.png' },
+  { id: 'java-05', num: 5, fileName: 'Java_Paper_05.png', title: 'Paper 05: Java 8+ Streams & Lambda Expressions', subject: 'Java Programming', questionsCount: 70, imageUrl: '/question_papers/Java_Paper_05.png' },
+  { id: 'java-06', num: 6, fileName: 'Java_Paper_06.png', title: 'Paper 06: Java JVM Memory & Garbage Collection', subject: 'Java Programming', questionsCount: 75, imageUrl: '/question_papers/Java_Paper_06.png' },
+  { id: 'java-07', num: 7, fileName: 'Java_Paper_07.png', title: 'Paper 07: Java File I/O & Serialization', subject: 'Java Programming', questionsCount: 60, imageUrl: '/question_papers/Java_Paper_07.png' },
+  { id: 'java-08', num: 8, fileName: 'Java_Paper_08.png', title: 'Paper 08: Java Design Patterns & SOLID', subject: 'Java Programming', questionsCount: 50, imageUrl: '/question_papers/Java_Paper_08.png' },
+  { id: 'java-09', num: 9, fileName: 'Java_Paper_09.png', title: 'Paper 09: Java Spring Boot & REST APIs', subject: 'Java Programming', questionsCount: 55, imageUrl: '/question_papers/Java_Paper_09.png' },
+  { id: 'java-10', num: 10, fileName: 'Java_Paper_10.png', title: 'Paper 10: Java Database Connectivity (JDBC)', subject: 'Java Programming', questionsCount: 65, imageUrl: '/question_papers/Java_Paper_10.png' },
+
+  // ── Python Data Science (10 Papers) ──
+  { id: 'py-01', num: 1, fileName: 'Python_Paper_01.png', title: 'Paper 01: Python Fundamentals & Data Structures', subject: 'Python Data Science', questionsCount: 60, imageUrl: '/question_papers/Python_Paper_01.png' },
+  { id: 'py-02', num: 2, fileName: 'Python_Paper_02.png', title: 'Paper 02: NumPy Array Computation & Vectors', subject: 'Python Data Science', questionsCount: 55, imageUrl: '/question_papers/Python_Paper_02.png' },
+  { id: 'py-03', num: 3, fileName: 'Python_Paper_03.png', title: 'Paper 03: Pandas Data Cleaning & Aggregation', subject: 'Python Data Science', questionsCount: 50, imageUrl: '/question_papers/Python_Paper_03.png' },
+  { id: 'py-04', num: 4, fileName: 'Python_Paper_04.png', title: 'Paper 04: Matplotlib & Seaborn Visualization', subject: 'Python Data Science', questionsCount: 65, imageUrl: '/question_papers/Python_Paper_04.png' },
+  { id: 'py-05', num: 5, fileName: 'Python_Paper_05.png', title: 'Paper 05: Scikit-Learn Classification Models', subject: 'Python Data Science', questionsCount: 70, imageUrl: '/question_papers/Python_Paper_05.png' },
+  { id: 'py-06', num: 6, fileName: 'Python_Paper_06.png', title: 'Paper 06: Scikit-Learn Regression & Clustering', subject: 'Python Data Science', questionsCount: 75, imageUrl: '/question_papers/Python_Paper_06.png' },
+  { id: 'py-07', num: 7, fileName: 'Python_Paper_07.png', title: 'Paper 07: TensorFlow & Keras Deep Learning', subject: 'Python Data Science', questionsCount: 60, imageUrl: '/question_papers/Python_Paper_07.png' },
+  { id: 'py-08', num: 8, fileName: 'Python_Paper_08.png', title: 'Paper 08: Natural Language Processing (NLP)', subject: 'Python Data Science', questionsCount: 50, imageUrl: '/question_papers/Python_Paper_08.png' },
+  { id: 'py-09', num: 9, fileName: 'Python_Paper_09.png', title: 'Paper 09: Time Series Analysis & Forecasting', subject: 'Python Data Science', questionsCount: 55, imageUrl: '/question_papers/Python_Paper_09.png' },
+  { id: 'py-10', num: 10, fileName: 'Python_Paper_10.png', title: 'Paper 10: Feature Engineering & Tuning', subject: 'Python Data Science', questionsCount: 65, imageUrl: '/question_papers/Python_Paper_10.png' },
+
+  // ── Physics (10 Papers) ──
+  { id: 'phy-01', num: 1, fileName: 'Physics_Paper_01.png', title: 'Paper 01: Newtonian Mechanics & Kinematics', subject: 'Physics', questionsCount: 60, imageUrl: '/question_papers/Physics_Paper_01.png' },
+  { id: 'phy-02', num: 2, fileName: 'Physics_Paper_02.png', title: 'Paper 02: Work, Power & Energy Conservation', subject: 'Physics', questionsCount: 55, imageUrl: '/question_papers/Physics_Paper_02.png' },
+  { id: 'phy-03', num: 3, fileName: 'Physics_Paper_03.png', title: 'Paper 03: Thermodynamics & Heat Transfer', subject: 'Physics', questionsCount: 50, imageUrl: '/question_papers/Physics_Paper_03.png' },
+  { id: 'phy-04', num: 4, fileName: 'Physics_Paper_04.png', title: 'Paper 04: Electrostatics & Capacitance', subject: 'Physics', questionsCount: 65, imageUrl: '/question_papers/Physics_Paper_04.png' },
+  { id: 'phy-05', num: 5, fileName: 'Physics_Paper_05.png', title: 'Paper 05: Current Electricity & Magnetism', subject: 'Physics', questionsCount: 70, imageUrl: '/question_papers/Physics_Paper_05.png' },
+  { id: 'phy-06', num: 6, fileName: 'Physics_Paper_06.png', title: 'Paper 06: Electromagnetic Induction & AC', subject: 'Physics', questionsCount: 75, imageUrl: '/question_papers/Physics_Paper_06.png' },
+  { id: 'phy-07', num: 7, fileName: 'Physics_Paper_07.png', title: 'Paper 07: Optics & Wave Diffraction', subject: 'Physics', questionsCount: 60, imageUrl: '/question_papers/Physics_Paper_07.png' },
+  { id: 'phy-08', num: 8, fileName: 'Physics_Paper_08.png', title: 'Paper 08: Quantum Physics & Photoelectric', subject: 'Physics', questionsCount: 50, imageUrl: '/question_papers/Physics_Paper_08.png' },
+  { id: 'phy-09', num: 9, fileName: 'Physics_Paper_09.png', title: 'Paper 09: Atomic & Nuclear Physics', subject: 'Physics', questionsCount: 55, imageUrl: '/question_papers/Physics_Paper_09.png' },
+  { id: 'phy-10', num: 10, fileName: 'Physics_Paper_10.png', title: 'Paper 10: Special Relativity & Particle Physics', subject: 'Physics', questionsCount: 65, imageUrl: '/question_papers/Physics_Paper_10.png' },
+
+  // ── Chemistry (10 Papers) ──
+  { id: 'chem-01', num: 1, fileName: 'Chemistry_Paper_01.png', title: 'Paper 01: Organic Chemistry Reactions', subject: 'Chemistry', questionsCount: 60, imageUrl: '/question_papers/Chemistry_Paper_01.png' },
+  { id: 'chem-02', num: 2, fileName: 'Chemistry_Paper_02.png', title: 'Paper 02: Inorganic Chemistry & Bonding', subject: 'Chemistry', questionsCount: 55, imageUrl: '/question_papers/Chemistry_Paper_02.png' },
+  { id: 'chem-03', num: 3, fileName: 'Chemistry_Paper_03.png', title: 'Paper 03: Physical Chemistry & Equilibrium', subject: 'Chemistry', questionsCount: 50, imageUrl: '/question_papers/Chemistry_Paper_03.png' },
+  { id: 'chem-04', num: 4, fileName: 'Chemistry_Paper_04.png', title: 'Paper 04: Thermochemistry & Enthalpy', subject: 'Chemistry', questionsCount: 65, imageUrl: '/question_papers/Chemistry_Paper_04.png' },
+  { id: 'chem-05', num: 5, fileName: 'Chemistry_Paper_05.png', title: 'Paper 05: Electrochemistry & Nernst Equation', subject: 'Chemistry', questionsCount: 70, imageUrl: '/question_papers/Chemistry_Paper_05.png' },
+  { id: 'chem-06', num: 6, fileName: 'Chemistry_Paper_06.png', title: 'Paper 06: Acid-Base Chemistry & pH Buffers', subject: 'Chemistry', questionsCount: 75, imageUrl: '/question_papers/Chemistry_Paper_06.png' },
+  { id: 'chem-07', num: 7, fileName: 'Chemistry_Paper_07.png', title: 'Paper 07: Analytical Chemistry & Spectroscopy', subject: 'Chemistry', questionsCount: 60, imageUrl: '/question_papers/Chemistry_Paper_07.png' },
+  { id: 'chem-08', num: 8, fileName: 'Chemistry_Paper_08.png', title: 'Paper 08: Biochemistry & Biomolecules', subject: 'Chemistry', questionsCount: 50, imageUrl: '/question_papers/Chemistry_Paper_08.png' },
+  { id: 'chem-09', num: 9, fileName: 'Chemistry_Paper_09.png', title: 'Paper 09: Polymer Chemistry & Macromolecules', subject: 'Chemistry', questionsCount: 55, imageUrl: '/question_papers/Chemistry_Paper_09.png' },
+  { id: 'chem-10', num: 10, fileName: 'Chemistry_Paper_10.png', title: 'Paper 10: Environmental & Green Chemistry', subject: 'Chemistry', questionsCount: 65, imageUrl: '/question_papers/Chemistry_Paper_10.png' },
+
+  // ── Biology (10 Papers) ──
+  { id: 'bio-01', num: 1, fileName: 'Biology_Paper_01.png', title: 'Paper 01: Cellular Biology & Organelles', subject: 'Biology', questionsCount: 60, imageUrl: '/question_papers/Biology_Paper_01.png' },
+  { id: 'bio-02', num: 2, fileName: 'Biology_Paper_02.png', title: 'Paper 02: Molecular Genetics & DNA', subject: 'Biology', questionsCount: 55, imageUrl: '/question_papers/Biology_Paper_02.png' },
+  { id: 'bio-03', num: 3, fileName: 'Biology_Paper_03.png', title: 'Paper 03: Mendelian Genetics & Inheritance', subject: 'Biology', questionsCount: 50, imageUrl: '/question_papers/Biology_Paper_03.png' },
+  { id: 'bio-04', num: 4, fileName: 'Biology_Paper_04.png', title: 'Paper 04: Human Anatomy & Circulation', subject: 'Biology', questionsCount: 65, imageUrl: '/question_papers/Biology_Paper_04.png' },
+  { id: 'bio-05', num: 5, fileName: 'Biology_Paper_05.png', title: 'Paper 05: Human Physiology & Nervous System', subject: 'Biology', questionsCount: 70, imageUrl: '/question_papers/Biology_Paper_05.png' },
+  { id: 'bio-06', num: 6, fileName: 'Biology_Paper_06.png', title: 'Paper 06: Botany & Plant Photosynthesis', subject: 'Biology', questionsCount: 75, imageUrl: '/question_papers/Biology_Paper_06.png' },
+  { id: 'bio-07', num: 7, fileName: 'Biology_Paper_07.png', title: 'Paper 07: Microbiology & Immunology', subject: 'Biology', questionsCount: 60, imageUrl: '/question_papers/Biology_Paper_07.png' },
+  { id: 'bio-08', num: 8, fileName: 'Biology_Paper_08.png', title: 'Paper 08: Evolutionary Biology & Speciation', subject: 'Biology', questionsCount: 50, imageUrl: '/question_papers/Biology_Paper_08.png' },
+  { id: 'bio-09', num: 9, fileName: 'Biology_Paper_09.png', title: 'Paper 09: Ecology & Ecosystem Cycles', subject: 'Biology', questionsCount: 55, imageUrl: '/question_papers/Biology_Paper_09.png' },
+  { id: 'bio-10', num: 10, fileName: 'Biology_Paper_10.png', title: 'Paper 10: Biotechnology & Recombinant DNA', subject: 'Biology', questionsCount: 65, imageUrl: '/question_papers/Biology_Paper_10.png' },
+
+  // ── Mathematics (10 Papers) ──
+  { id: 'math-01', num: 1, fileName: 'Mathematics_Paper_01.png', title: 'Paper 01: Algebra & Polynomial Equations', subject: 'Mathematics', questionsCount: 60, imageUrl: '/question_papers/Mathematics_Paper_01.png' },
+  { id: 'math-02', num: 2, fileName: 'Mathematics_Paper_02.png', title: 'Paper 02: Differential Calculus & Derivatives', subject: 'Mathematics', questionsCount: 55, imageUrl: '/question_papers/Mathematics_Paper_02.png' },
+  { id: 'math-03', num: 3, fileName: 'Mathematics_Paper_03.png', title: 'Paper 03: Integral Calculus & Definite Integrals', subject: 'Mathematics', questionsCount: 50, imageUrl: '/question_papers/Mathematics_Paper_03.png' },
+  { id: 'math-04', num: 4, fileName: 'Mathematics_Paper_04.png', title: 'Paper 04: Trigonometry & Polar Coordinates', subject: 'Mathematics', questionsCount: 65, imageUrl: '/question_papers/Mathematics_Paper_04.png' },
+  { id: 'math-05', num: 5, fileName: 'Mathematics_Paper_05.png', title: 'Paper 05: Linear Algebra & Matrix Math', subject: 'Mathematics', questionsCount: 70, imageUrl: '/question_papers/Mathematics_Paper_05.png' },
+  { id: 'math-06', num: 6, fileName: 'Mathematics_Paper_06.png', title: 'Paper 06: Differential Equations & Modeling', subject: 'Mathematics', questionsCount: 75, imageUrl: '/question_papers/Mathematics_Paper_06.png' },
+  { id: 'math-07', num: 7, fileName: 'Mathematics_Paper_07.png', title: 'Paper 07: Probability & Combinatorics', subject: 'Mathematics', questionsCount: 60, imageUrl: '/question_papers/Mathematics_Paper_07.png' },
+  { id: 'math-08', num: 8, fileName: 'Mathematics_Paper_08.png', title: 'Paper 08: Statistics & Hypothesis Testing', subject: 'Mathematics', questionsCount: 50, imageUrl: '/question_papers/Mathematics_Paper_08.png' },
+  { id: 'math-09', num: 9, fileName: 'Mathematics_Paper_09.png', title: 'Paper 09: Discrete Mathematics & Graph Theory', subject: 'Mathematics', questionsCount: 55, imageUrl: '/question_papers/Mathematics_Paper_09.png' },
+  { id: 'math-10', num: 10, fileName: 'Mathematics_Paper_10.png', title: 'Paper 10: Complex Analysis & Vector Calculus', subject: 'Mathematics', questionsCount: 65, imageUrl: '/question_papers/Mathematics_Paper_10.png' },
+
+  // ── Computer Science (10 Papers) ──
+  { id: 'cs-01', num: 1, fileName: 'CompSci_Paper_01.png', title: 'Paper 01: Data Structures (Linear Lists)', subject: 'Computer Science', questionsCount: 60, imageUrl: '/question_papers/CompSci_Paper_01.png' },
+  { id: 'cs-02', num: 2, fileName: 'CompSci_Paper_02.png', title: 'Paper 02: Trees & Graph Traversal (BFS/DFS)', subject: 'Computer Science', questionsCount: 55, imageUrl: '/question_papers/CompSci_Paper_02.png' },
+  { id: 'cs-03', num: 3, fileName: 'CompSci_Paper_03.png', title: 'Paper 03: Algorithm Complexity & Sorting', subject: 'Computer Science', questionsCount: 50, imageUrl: '/question_papers/CompSci_Paper_03.png' },
+  { id: 'cs-04', num: 4, fileName: 'CompSci_Paper_04.png', title: 'Paper 04: Operating Systems & Processes', subject: 'Computer Science', questionsCount: 65, imageUrl: '/question_papers/CompSci_Paper_04.png' },
+  { id: 'cs-05', num: 5, fileName: 'CompSci_Paper_05.png', title: 'Paper 05: Computer Networks & OSI Model', subject: 'Computer Science', questionsCount: 70, imageUrl: '/question_papers/CompSci_Paper_05.png' },
+  { id: 'cs-06', num: 6, fileName: 'CompSci_Paper_06.png', title: 'Paper 06: Database Systems & SQL Joins', subject: 'Computer Science', questionsCount: 75, imageUrl: '/question_papers/CompSci_Paper_06.png' },
+  { id: 'cs-07', num: 7, fileName: 'CompSci_Paper_07.png', title: 'Paper 07: Software Engineering & Agile', subject: 'Computer Science', questionsCount: 60, imageUrl: '/question_papers/CompSci_Paper_07.png' },
+  { id: 'cs-08', num: 8, fileName: 'CompSci_Paper_08.png', title: 'Paper 08: Cybersecurity & Cryptography', subject: 'Computer Science', questionsCount: 50, imageUrl: '/question_papers/CompSci_Paper_08.png' },
+  { id: 'cs-09', num: 9, fileName: 'CompSci_Paper_09.png', title: 'Paper 09: Compiler Design & Automata Theory', subject: 'Computer Science', questionsCount: 55, imageUrl: '/question_papers/CompSci_Paper_09.png' },
+  { id: 'cs-10', num: 10, fileName: 'CompSci_Paper_10.png', title: 'Paper 10: Cloud Computing & Microservices', subject: 'Computer Science', questionsCount: 65, imageUrl: '/question_papers/CompSci_Paper_10.png' },
 ];
 
 const REAL_MCQ_BANK = [
@@ -190,34 +270,14 @@ const REAL_MCQ_BANK = [
     ans: 1,
     exp: "When pivot selection is unbalanced on sorted inputs, QuickSort takes O(n²) time."
   },
-  {
-    subject: "Economics",
-    text: "What does GDP stand for in macroeconomics?",
-    options: ["Gross Domestic Product", "Global Development Plan", "General Demand Price", "Gross Deposit Rate"],
-    ans: 0,
-    exp: "Gross Domestic Product (GDP) represents total value of goods and services produced in a country."
-  },
-  {
-    subject: "Social Studies",
-    text: "In which year did World War II end?",
-    options: ["1918", "1939", "1945", "1950"],
-    ans: 2,
-    exp: "World War II ended in 1945 with Allied victory."
-  },
-  {
-    subject: "English Language",
-    text: "Which of the following words is a conjunction?",
-    options: ["Quickly", "Because", "Beautiful", "Table"],
-    ans: 1,
-    exp: "'Because' is a subordinating conjunction introducing causal clauses."
-  }
 ];
 
 export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
   const [selectedSubject, setSelectedSubject] = useState<string>('All');
+  const [paperFilterSubject, setPaperFilterSubject] = useState<string>('All');
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
   
-  // Uploaded question paper images list
+  // Uploaded / Selected question paper images list
   const [uploadedPapers, setUploadedPapers] = useState<ImageQuestionPaper[]>([]);
 
   // Fullscreen Image Viewer Modal State
@@ -238,6 +298,10 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
 
   const filteredQuizzes = quizzes.filter(
     (q) => selectedSubject === 'All' || q.subject === selectedSubject
+  );
+
+  const availableRepositoryPapers = ALL_70_SUBJECT_PAPERS.filter(
+    (p) => paperFilterSubject === 'All' || p.subject === paperFilterSubject
   );
 
   const totalCompleted = quizzes.filter((q) => q.completed).length;
@@ -315,9 +379,26 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
     }
   };
 
-  const handleLoadDemoPreset = () => {
-    setUploadedPapers(SAMPLE_DEMO_PAPERS);
-    Alert.alert('Sample Papers Loaded ⚡', 'Loaded 5 sample question paper images for quick demonstration.');
+  const handleSelectSubjectTenPapers = (subjName: string) => {
+    const tenPapers = ALL_70_SUBJECT_PAPERS.filter((p) => p.subject === subjName).slice(0, 10);
+    setUploadedPapers(tenPapers);
+    Alert.alert(
+      `Selected 10 Papers for ${subjName}! 📚`,
+      `Loaded all 10 unique question paper images for ${subjName}. Click 'Generate AI MCQ Quiz' below.`
+    );
+  };
+
+  const handleToggleSelectPaper = (paper: ImageQuestionPaper) => {
+    const exists = uploadedPapers.some((p) => p.id === paper.id);
+    if (exists) {
+      setUploadedPapers(uploadedPapers.filter((p) => p.id !== paper.id));
+    } else {
+      if (uploadedPapers.length >= 20) {
+        Alert.alert('Limit Reached', 'You can select up to 20 question paper images at a time.');
+        return;
+      }
+      setUploadedPapers([...uploadedPapers, paper]);
+    }
   };
 
   const handleRemovePaper = (id: string) => {
@@ -327,8 +408,8 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
   const handleGenerateAiQuiz = () => {
     if (uploadedPapers.length < 5) {
       Alert.alert(
-        'Upload Minimum 5 Image Papers',
-        `You currently have ${uploadedPapers.length} question paper image(s) uploaded. Please upload at least 5 image papers (5 to 20) to generate your MCQ quiz.`
+        'Upload/Select Minimum 5 Image Papers',
+        `You currently have ${uploadedPapers.length} question paper image(s) selected. Please select at least 5 image papers (5 to 20) to generate your MCQ quiz.`
       );
       return;
     }
@@ -417,7 +498,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
         <View>
           <Text style={styles.title}>Practice & Assessment Quizzes 📝</Text>
           <Text style={styles.subtitle}>
-            Upload 5 to 20 question paper images (PNG/JPEG) from your device to synthesize custom MCQ practice quizzes
+            Repository of 70 Unique Question Papers (10 Papers per Subject) • Upload or select 5 to 20 image papers to generate AI MCQ quizzes
           </Text>
         </View>
       </View>
@@ -429,8 +510,18 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
             <FolderOpen color="#4F46E5" size={22} />
           </View>
           <View>
-            <Text style={styles.statValue}>{uploadedPapers.length} / 20</Text>
-            <Text style={styles.statLabel}>Image Papers Uploaded</Text>
+            <Text style={styles.statValue}>70 Papers</Text>
+            <Text style={styles.statLabel}>10 Papers × 7 Subjects</Text>
+          </View>
+        </View>
+
+        <View style={styles.statCard}>
+          <View style={[styles.statIconWrap, { backgroundColor: '#E0F2FE' }]}>
+            <FileText color="#0284C7" size={22} />
+          </View>
+          <View>
+            <Text style={styles.statValue}>{uploadedPapers.length} / 20 Selected</Text>
+            <Text style={styles.statLabel}>Ready for AI Synthesis</Text>
           </View>
         </View>
 
@@ -443,24 +534,14 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
             <Text style={styles.statLabel}>Generated Quizzes</Text>
           </View>
         </View>
-
-        <View style={styles.statCard}>
-          <View style={[styles.statIconWrap, { backgroundColor: '#FEF3C7' }]}>
-            <Award color="#D97706" size={22} />
-          </View>
-          <View>
-            <Text style={styles.statValue}>{avgScore}%</Text>
-            <Text style={styles.statLabel}>Average Score</Text>
-          </View>
-        </View>
       </View>
 
-      {/* ── 🚀 Clean Upload Question Paper Images Card ── */}
+      {/* ── 🚀 Clean Upload & Subject Repository Generator Card ── */}
       <View style={styles.generatorCard}>
         <View style={styles.generatorHeader}>
           <View style={styles.sparkleBadge}>
             <Sparkles color="#4F46E5" size={16} />
-            <Text style={styles.sparkleBadgeText}>Question Paper Image Upload</Text>
+            <Text style={styles.sparkleBadgeText}>Question Paper Repository (70 Total Papers)</Text>
           </View>
           <View style={styles.counterBadge}>
             <FileText color="#0369A1" size={14} />
@@ -475,8 +556,8 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
           <View style={styles.dropZoneIconCircle}>
             <UploadCloud size={32} color="#4F46E5" />
           </View>
-          <Text style={styles.dropZoneTitle}>Click to Upload Question Paper Images (PNG / JPEG)</Text>
-          <Text style={styles.dropZoneSub}>Select 5 to 20 scanned exam sheet images from your computer or phone</Text>
+          <Text style={styles.dropZoneTitle}>Upload Your Own Question Paper Images (PNG / JPEG)</Text>
+          <Text style={styles.dropZoneSub}>Or pick 10 unique papers for any subject below</Text>
           
           <View style={styles.dropZoneBtnRow}>
             <TouchableOpacity style={styles.primaryUploadBtn} onPress={handleUploadUserImage}>
@@ -484,64 +565,101 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
               <Text style={styles.primaryUploadBtnText}>Browse & Upload Images</Text>
             </TouchableOpacity>
 
-            {uploadedPapers.length === 0 && (
-              <TouchableOpacity style={styles.demoPresetBtn} onPress={handleLoadDemoPreset}>
-                <Sparkles size={16} color="#4F46E5" />
-                <Text style={styles.demoPresetBtnText}>Load 5 Sample Papers</Text>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity style={styles.demoPresetBtn} onPress={() => handleSelectSubjectTenPapers('Java Programming')}>
+              <BookOpen size={16} color="#4F46E5" />
+              <Text style={styles.demoPresetBtnText}>Load 10 Java Papers</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.demoPresetBtn} onPress={() => handleSelectSubjectTenPapers('Python Data Science')}>
+              <BookOpen size={16} color="#4F46E5" />
+              <Text style={styles.demoPresetBtnText}>Load 10 Python Papers</Text>
+            </TouchableOpacity>
           </View>
         </TouchableOpacity>
 
-        {/* Uploaded Images Gallery Grid */}
-        {uploadedPapers.length > 0 && (
-          <View style={styles.uploadedGallerySection}>
-            <View style={styles.galleryHeader}>
-              <Text style={styles.galleryTitle}>Uploaded Question Paper Images ({uploadedPapers.length}):</Text>
-              <TouchableOpacity onPress={() => setUploadedPapers([])}>
-                <Text style={styles.clearAllText}>Clear All</Text>
+        {/* 📚 70 Papers Subject Repository Filter Pills */}
+        <View style={styles.repositoryFilterHeader}>
+          <Text style={styles.repositoryFilterTitle}>Select Papers from Subject Repository (10 Papers Each):</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillsScroll}>
+            {subjects.map((subj) => (
+              <TouchableOpacity
+                key={subj}
+                style={[
+                  styles.pillBtn,
+                  paperFilterSubject === subj && styles.pillBtnActive,
+                ]}
+                onPress={() => setPaperFilterSubject(subj)}
+              >
+                <Text
+                  style={[
+                    styles.pillText,
+                    paperFilterSubject === subj && styles.pillTextActive,
+                  ]}
+                >
+                  {subj}
+                </Text>
               </TouchableOpacity>
-            </View>
+            ))}
+          </ScrollView>
+        </View>
 
-            <View style={styles.imageGrid}>
-              {uploadedPapers.map((paper) => (
-                <View key={paper.id} style={styles.imageCard}>
-                  {/* Paper Image Preview */}
-                  <TouchableOpacity
-                    style={styles.imagePreviewWrap}
-                    onPress={() => setViewingPaper(paper)}
-                    activeOpacity={0.8}
-                  >
-                    <Image
-                      source={{ uri: paper.imageUrl }}
-                      style={styles.paperImageThumbnail}
-                      resizeMode="cover"
-                    />
-                    <View style={styles.inspectOverlay}>
-                      <Eye size={16} color="#FFFFFF" />
-                      <Text style={styles.inspectOverlayText}>Inspect</Text>
-                    </View>
-                  </TouchableOpacity>
-
-                  {/* Card Content & Delete Button */}
-                  <View style={styles.imageCardContent}>
-                    <Text style={styles.imageCardTitle} numberOfLines={1}>
-                      {paper.title}
-                    </Text>
-                    <Text style={styles.imageCardSub}>
-                      {paper.questionsCount} Questions Printed
-                    </Text>
-
-                    <TouchableOpacity
-                      style={styles.removePaperBtn}
-                      onPress={() => handleRemovePaper(paper.id)}
-                    >
-                      <Trash2 size={14} color="#EF4444" />
-                      <Text style={styles.removePaperBtnText}>Remove</Text>
-                    </TouchableOpacity>
+        {/* Repository Papers Grid (10 Papers Per Subject) */}
+        <View style={styles.imageGrid}>
+          {availableRepositoryPapers.map((paper) => {
+            const isSelected = uploadedPapers.some((p) => p.id === paper.id);
+            return (
+              <View key={paper.id} style={[styles.imageCard, isSelected && styles.imageCardSelected]}>
+                {/* Paper Image Preview */}
+                <TouchableOpacity
+                  style={styles.imagePreviewWrap}
+                  onPress={() => setViewingPaper(paper)}
+                  activeOpacity={0.8}
+                >
+                  <Image
+                    source={{ uri: paper.imageUrl }}
+                    style={styles.paperImageThumbnail}
+                    resizeMode="cover"
+                  />
+                  <View style={styles.inspectOverlay}>
+                    <Eye size={14} color="#FFFFFF" />
+                    <Text style={styles.inspectOverlayText}>Inspect Paper</Text>
                   </View>
+                </TouchableOpacity>
+
+                {/* Card Content & Select Button */}
+                <View style={styles.imageCardContent}>
+                  <Text style={styles.imageCardTitle} numberOfLines={1}>
+                    {paper.title}
+                  </Text>
+                  <Text style={styles.imageCardSub}>
+                    {paper.subject} • {paper.questionsCount} MCQs
+                  </Text>
+
+                  <TouchableOpacity
+                    style={[styles.selectPaperBtn, isSelected && styles.selectPaperBtnSelected]}
+                    onPress={() => handleToggleSelectPaper(paper)}
+                  >
+                    <CheckCircle size={14} color={isSelected ? '#FFFFFF' : '#4F46E5'} />
+                    <Text style={[styles.selectPaperBtnText, isSelected && styles.selectPaperBtnTextSelected]}>
+                      {isSelected ? 'Selected' : 'Select Paper'}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-              ))}
+              </View>
+            );
+          })}
+        </View>
+
+        {/* Selected Gallery Summary Bar */}
+        {uploadedPapers.length > 0 && (
+          <View style={styles.selectedSummaryBox}>
+            <View style={styles.galleryHeader}>
+              <Text style={styles.galleryTitle}>
+                Currently Selected for AI Quiz Synthesis ({uploadedPapers.length} / 20 Papers):
+              </Text>
+              <TouchableOpacity onPress={() => setUploadedPapers([])}>
+                <Text style={styles.clearAllText}>Clear Selection</Text>
+              </TouchableOpacity>
             </View>
 
             {/* Target Difficulty & Question Count Options */}
@@ -598,7 +716,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
                 <>
                   <Sparkles size={18} color="#fff" />
                   <Text style={styles.generateSubmitBtnText}>
-                    Generate AI MCQ Quiz from {uploadedPapers.length} Uploaded Image Papers 🚀
+                    Generate AI MCQ Quiz from {uploadedPapers.length} Selected Image Papers 🚀
                   </Text>
                 </>
               )}
@@ -643,7 +761,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
         <View style={styles.noQuizzesBox}>
           <FileQuestion size={36} color="#94A3B8" />
           <Text style={styles.noQuizzesTitle}>No Quizzes Generated Yet</Text>
-          <Text style={styles.noQuizzesSub}>Upload 5 to 20 question paper images above and click 'Generate AI MCQ Quiz' to start your practice quiz!</Text>
+          <Text style={styles.noQuizzesSub}>Select 5 to 20 question paper images above and click 'Generate AI MCQ Quiz' to start your practice quiz!</Text>
         </View>
       ) : (
         <View style={styles.quizGrid}>
@@ -676,7 +794,7 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
 
               <Text style={styles.quizTitle}>{quiz.title}</Text>
               <Text style={styles.quizTopic}>
-                ⚡ Synthesized from {quiz.paperCount} Uploaded Image Papers
+                ⚡ Synthesized from {quiz.paperCount} Selected Image Papers
               </Text>
 
               <View style={styles.quizMetaRow}>
@@ -943,7 +1061,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   statValue: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     color: '#0F172A',
   },
@@ -1005,24 +1123,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#0369A1',
   },
-  generatorTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: '#0F172A',
-    marginBottom: 6,
-  },
-  generatorSub: {
-    fontSize: 13,
-    color: '#64748B',
-    lineHeight: 18,
-    marginBottom: 16,
-  },
 
   // Drop Zone Box
   dropZoneBox: {
     backgroundColor: '#F8FAFC',
     borderRadius: 16,
-    padding: 24,
+    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -1031,30 +1137,30 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   dropZoneIconCircle: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
     backgroundColor: '#EEF2FF',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   dropZoneTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: '#0F172A',
     marginBottom: 4,
     textAlign: 'center',
   },
   dropZoneSub: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#64748B',
-    marginBottom: 16,
+    marginBottom: 14,
     textAlign: 'center',
   },
   dropZoneBtnRow: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 10,
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
@@ -1063,13 +1169,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
     backgroundColor: '#4F46E5',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
     borderRadius: 10,
   },
   primaryUploadBtnText: {
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '700',
   },
   demoPresetBtn: {
@@ -1077,40 +1183,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
     backgroundColor: '#EEF2FF',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#C7D2FE',
   },
   demoPresetBtnText: {
     color: '#4F46E5',
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '700',
   },
 
-  // Uploaded Gallery
-  uploadedGallerySection: {
-    marginTop: 8,
+  // Repository Header & Grid
+  repositoryFilterHeader: {
+    marginBottom: 16,
   },
-  galleryHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  galleryTitle: {
+  repositoryFilterTitle: {
     fontSize: 14,
     fontWeight: '700',
     color: '#0F172A',
+    marginBottom: 10,
   },
-  clearAllText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#EF4444',
-  },
-
-  // Image Papers Grid
   imageGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -1124,12 +1218,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 14,
     overflow: 'hidden',
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: '#CBD5E1',
     position: 'relative',
   },
+  imageCardSelected: {
+    borderColor: '#4F46E5',
+    backgroundColor: '#F5F3FF',
+  },
   imagePreviewWrap: {
-    height: 140,
+    height: 130,
     width: '100%',
     backgroundColor: '#F1F5F9',
     position: 'relative',
@@ -1152,7 +1250,7 @@ const styles = StyleSheet.create({
   },
   inspectOverlayText: {
     color: '#FFFFFF',
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '600',
   },
   imageCardContent: {
@@ -1169,20 +1267,50 @@ const styles = StyleSheet.create({
     color: '#64748B',
     marginBottom: 8,
   },
-  removePaperBtn: {
+  selectPaperBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
-    backgroundColor: '#FEF2F2',
-    paddingVertical: 6,
+    backgroundColor: '#EEF2FF',
+    paddingVertical: 8,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#FCA5A5',
+    borderColor: '#C7D2FE',
   },
-  removePaperBtnText: {
+  selectPaperBtnSelected: {
+    backgroundColor: '#4F46E5',
+    borderColor: '#4F46E5',
+  },
+  selectPaperBtnText: {
     fontSize: 11,
     fontWeight: '700',
+    color: '#4F46E5',
+  },
+  selectPaperBtnTextSelected: {
+    color: '#FFFFFF',
+  },
+
+  selectedSummaryBox: {
+    marginTop: 8,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  galleryHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  galleryTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#0F172A',
+  },
+  clearAllText: {
+    fontSize: 12,
+    fontWeight: '600',
     color: '#EF4444',
   },
 
