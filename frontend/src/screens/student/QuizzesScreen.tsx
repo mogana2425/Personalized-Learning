@@ -1343,27 +1343,29 @@ const styles = StyleSheet.create({
 
   genOptionsRow: {
     flexDirection: 'row',
-    gap: 16,
-    marginBottom: 18,
+    flexWrap: 'wrap',
+    gap: 20,
+    marginBottom: 20,
   },
   optionBox: {
     flex: 1,
+    minWidth: 220,
   },
   optionBoxLabel: {
     fontSize: 13,
     fontWeight: '600',
     color: '#334155',
-    marginBottom: 6,
+    marginBottom: 8,
   },
   optionPillGroup: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 6,
+    gap: 8,
   },
   optPill: {
     backgroundColor: '#F1F5F9',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
     borderRadius: 8,
   },
   optPillActive: {
@@ -1383,14 +1385,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
     paddingVertical: 14,
     borderRadius: 12,
     gap: 8,
   },
   generateSubmitBtnText: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '700',
+    flexShrink: 1,
+    textAlign: 'center',
+    lineHeight: 20,
   },
   sectionHeaderRow: {
     marginBottom: 12,
@@ -1459,7 +1465,8 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   quizCard: {
-    width: '48%',
+    flex: 1,
+    minWidth: 280,
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 18,
@@ -1469,6 +1476,9 @@ const styles = StyleSheet.create({
   quizCardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 8,
     marginBottom: 12,
   },
   subjectBadge: {
@@ -1476,6 +1486,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
+    flexShrink: 1,
   },
   subjectBadgeText: {
     fontSize: 12,
