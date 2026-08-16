@@ -1342,14 +1342,13 @@ const styles = StyleSheet.create({
   },
 
   genOptionsRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 20,
+    flexDirection: 'column',
+    gap: 16,
     marginBottom: 20,
+    width: '100%',
   },
   optionBox: {
-    flex: 1,
-    minWidth: 220,
+    width: '100%',
   },
   optionBoxLabel: {
     fontSize: 13,
@@ -1361,6 +1360,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
+    width: '100%',
   },
   optPill: {
     backgroundColor: '#F1F5F9',
@@ -1385,10 +1385,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingVertical: 14,
     borderRadius: 12,
     gap: 8,
+    width: '100%',
+    boxSizing: 'border-box',
   },
   generateSubmitBtnText: {
     color: '#FFFFFF',
@@ -1397,6 +1399,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     textAlign: 'center',
     lineHeight: 20,
+    maxWidth: '90%',
   },
   sectionHeaderRow: {
     marginBottom: 12,
