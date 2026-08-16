@@ -259,6 +259,7 @@ const StudentTabNavigator = () => (
         if (route.name === 'Dashboard') return <LayoutDashboard color={color} size={s} />;
         if (route.name === 'MyLearning') return <BookOpen color={color} size={s} />;
         if (route.name === 'Upload') return <Upload color={color} size={s} />;
+        if (route.name === 'Quizzes') return <FileQuestion color={color} size={s} />;
         if (route.name === 'AITutor') return <MessageSquare color={color} size={s} />;
         if (route.name === 'Community') return <Users color={color} size={s} />;
         return <UserCog color={color} size={s} />;
@@ -281,6 +282,7 @@ const StudentTabNavigator = () => (
     <Tab.Screen name="Dashboard" component={StudentDashboardScreen} options={{ title: 'PLIS Portal' }} />
     <Tab.Screen name="MyLearning" component={LearningPathScreen} options={{ title: 'Learning Path' }} />
     <Tab.Screen name="Upload" component={AnswerSheetUploadScreen} options={{ title: 'Upload' }} />
+    <Tab.Screen name="Quizzes" component={QuizzesScreen} options={{ title: 'Quizzes' }} />
     <Tab.Screen name="AITutor" component={AITutorScreen} options={{ title: 'AI Tutor Chat' }} />
     <Tab.Screen name="Community" component={CommunityScreen} options={{ title: 'Community' }} />
     <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'Student Profile' }} />
