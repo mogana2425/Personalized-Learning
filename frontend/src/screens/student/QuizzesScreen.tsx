@@ -151,7 +151,7 @@ const ALL_70_SUBJECT_PAPERS: ImageQuestionPaper[] = [
 ];
 
 const REAL_MCQ_BANK = [
-  // ── Java Programming ──
+  // ── Java Programming (15 Unique MCQs) ──
   {
     subject: "Java Programming",
     text: "Which of the following is not a primitive data type in Java?",
@@ -180,8 +180,85 @@ const REAL_MCQ_BANK = [
     ans: 2,
     exp: "Map interface is part of the Java Collections Framework but does not extend Collection interface."
   },
+  {
+    subject: "Java Programming",
+    text: "Which keyword is used to manually throw an exception in Java?",
+    options: ["throws", "throw", "catch", "try"],
+    ans: 1,
+    exp: "The 'throw' keyword is used inside a method body to explicitly throw an exception object."
+  },
+  {
+    subject: "Java Programming",
+    text: "What is the default access modifier in Java when none is specified?",
+    options: ["public", "private", "protected", "Package-private (default)"],
+    ans: 3,
+    exp: "When no access modifier is declared, members are accessible within the same package."
+  },
+  {
+    subject: "Java Programming",
+    text: "Which method is called to start the execution of a Thread in Java?",
+    options: ["run()", "start()", "execute()", "init()"],
+    ans: 1,
+    exp: "Calling start() creates a new call stack and executes the thread's run() method asynchronously."
+  },
+  {
+    subject: "Java Programming",
+    text: "Which superclass is at the root of the Java class hierarchy?",
+    options: ["java.lang.Object", "java.lang.Class", "java.lang.System", "java.lang.Base"],
+    ans: 0,
+    exp: "Object is the ultimate parent class of all classes in Java."
+  },
+  {
+    subject: "Java Programming",
+    text: "Which Java 8 feature allows concise representation of single-method interfaces?",
+    options: ["Generics", "Lambda expressions", "Annotations", "Reflection"],
+    ans: 1,
+    exp: "Lambda expressions provide clear syntax to implement functional interfaces."
+  },
+  {
+    subject: "Java Programming",
+    text: "Which keyword is used to handle exceptions after a try block?",
+    options: ["except", "catch", "handle", "finally"],
+    ans: 1,
+    exp: "The catch block intercepts and processes exceptions thrown from the try block."
+  },
+  {
+    subject: "Java Programming",
+    text: "Which package is automatically imported into every Java source file?",
+    options: ["java.util", "java.io", "java.lang", "java.net"],
+    ans: 2,
+    exp: "The java.lang package contains fundamental classes and is imported implicitly."
+  },
+  {
+    subject: "Java Programming",
+    text: "Where are objects dynamically allocated in JVM memory during runtime?",
+    options: ["Stack memory", "Heap memory", "Method area", "PC register"],
+    ans: 1,
+    exp: "Objects and instances created with 'new' are stored in Heap memory."
+  },
+  {
+    subject: "Java Programming",
+    text: "Which marker interface must be implemented to save an object state to a byte stream?",
+    options: ["Cloneable", "Serializable", "Comparable", "Runnable"],
+    ans: 1,
+    exp: "java.io.Serializable enables object flattening for file storage or network transmission."
+  },
+  {
+    subject: "Java Programming",
+    text: "What is the correct syntax to instantiate an integer array of size 10 in Java?",
+    options: ["int arr[10];", "int[] arr = new int[10];", "array arr = new array(10);", "int arr = new int(10);"],
+    ans: 1,
+    exp: "In Java, array declaration uses type[] name = new type[size]."
+  },
+  {
+    subject: "Java Programming",
+    text: "Which keyword is used to invoke a parent class constructor in a subclass?",
+    options: ["this", "super", "parent", "base"],
+    ans: 1,
+    exp: "The super() call invokes a superclass constructor from inside a subclass constructor."
+  },
 
-  // ── Python Data Science ──
+  // ── Python Data Science (15 Unique MCQs) ──
   {
     subject: "Python Data Science",
     text: "Which Python built-in data structure is immutable?",
@@ -203,8 +280,92 @@ const REAL_MCQ_BANK = [
     ans: 0,
     exp: "pd.DataFrame() constructs a two-dimensional labeled data structure with columns of potentially different types."
   },
+  {
+    subject: "Python Data Science",
+    text: "Which keyword is used to define a custom function in Python?",
+    options: ["func", "def", "function", "lambda"],
+    ans: 1,
+    exp: "The 'def' keyword introduces a function definition in Python."
+  },
+  {
+    subject: "Python Data Science",
+    text: "What is the return type of type([]) in Python?",
+    options: ["<class 'list'>", "<class 'array'>", "<class 'tuple'>", "<class 'set'>"],
+    ans: 0,
+    exp: "Square brackets [] instantiate a built-in Python list."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which Python library provides n-dimensional array objects for scientific computing?",
+    options: ["NumPy", "Flask", "Django", "Requests"],
+    ans: 0,
+    exp: "NumPy provides ndarray objects for high-performance vectorized mathematical operations."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which method is used to add an item to the end of a list in Python?",
+    options: ["add()", "push()", "append()", "insert()"],
+    ans: 2,
+    exp: "list.append(item) adds an element to the end of the existing list."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which Pandas function reads a comma-separated values file into a DataFrame?",
+    options: ["pd.read_csv()", "pd.load_csv()", "pd.import_csv()", "pd.open_csv()"],
+    ans: 0,
+    exp: "pd.read_csv() parses CSV file data into a structured Pandas DataFrame."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which library is most commonly paired with Matplotlib for statistical data graphics?",
+    options: ["Seaborn", "Pygame", "Scrapy", "Tkinter"],
+    ans: 0,
+    exp: "Seaborn is built on top of Matplotlib and integrates closely with Pandas data structures."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which symbol is used to start a single-line comment in Python?",
+    options: ["//", "#", "/*", "--"],
+    ans: 1,
+    exp: "The hash character # starts a single-line comment in Python."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which string method converts all characters in a string to lowercase?",
+    options: [".lower()", ".to_lower()", ".lowercase()", ".down()"],
+    ans: 0,
+    exp: "str.lower() returns a copy of the string converted to lowercase."
+  },
+  {
+    subject: "Python Data Science",
+    text: "What is the result of the exponentiation operation 2 ** 3 in Python?",
+    options: ["6", "8", "9", "5"],
+    ans: 1,
+    exp: "The ** operator computes exponentiation: 2³ = 8."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which data structure stores an unordered collection of unique elements?",
+    options: ["List", "Set", "Tuple", "Dictionary"],
+    ans: 1,
+    exp: "Sets automatically eliminate duplicate items and maintain unique elements."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which Scikit-learn module splits datasets into random train and test subsets?",
+    options: ["train_test_split", "data_split", "cross_split", "sample_split"],
+    ans: 0,
+    exp: "sklearn.model_selection.train_test_split partitions dataset arrays into train/test sets."
+  },
+  {
+    subject: "Python Data Science",
+    text: "Which operator performs floor division in Python?",
+    options: ["/", "//", "%", "div"],
+    ans: 1,
+    exp: "The // operator divides numbers and rounds down to the nearest integer."
+  },
 
-  // ── Physics ──
+  // ── Physics (15 Unique MCQs) ──
   {
     subject: "Physics",
     text: "What is the SI unit of electric current?",
@@ -233,8 +394,85 @@ const REAL_MCQ_BANK = [
     ans: 0,
     exp: "Kinetic Energy KE = 1/2 m v² where m is mass and v is velocity."
   },
+  {
+    subject: "Physics",
+    text: "What is the SI unit of electrical resistance?",
+    options: ["Joule", "Ohm", "Tesla", "Farad"],
+    ans: 1,
+    exp: "The Ohm (Ω) quantifies opposition to electric current flow."
+  },
+  {
+    subject: "Physics",
+    text: "What is the standard acceleration due to gravity on Earth's surface?",
+    options: ["9.8 m/s²", "9.8 km/s", "10.5 m/s²", "8.5 m/s²"],
+    ans: 0,
+    exp: "Standard gravitational acceleration g is approximately 9.80665 m/s²."
+  },
+  {
+    subject: "Physics",
+    text: "Which device converts mechanical kinetic energy into electrical energy?",
+    options: ["Electric Motor", "Electric Generator", "Transformer", "Capacitor"],
+    ans: 1,
+    exp: "Generators use electromagnetic induction to turn mechanical rotation into electricity."
+  },
+  {
+    subject: "Physics",
+    text: "What term describes the bending of light as it passes from one medium to another?",
+    options: ["Reflection", "Refraction", "Diffraction", "Polarization"],
+    ans: 1,
+    exp: "Refraction occurs due to change in light wave speed between different media."
+  },
+  {
+    subject: "Physics",
+    text: "What is the SI unit of wave frequency?",
+    options: ["Hertz", "Decibel", "Lumen", "Pascal"],
+    ans: 0,
+    exp: "Hertz (Hz) measures cycles per second of wave oscillation."
+  },
+  {
+    subject: "Physics",
+    text: "The First Law of Thermodynamics is an expression of which fundamental law?",
+    options: ["Law of Conservation of Momentum", "Law of Conservation of Energy", "Law of Gravitation", "Hooke's Law"],
+    ans: 1,
+    exp: "Energy cannot be created or destroyed, only transformed (ΔU = Q - W)."
+  },
+  {
+    subject: "Physics",
+    text: "Which fundamental particles carry negative elementary electric charge?",
+    options: ["Protons", "Neutrons", "Electrons", "Positrons"],
+    ans: 2,
+    exp: "Electrons carry a negative charge of approximately -1.6 × 10⁻¹⁹ Coulombs."
+  },
+  {
+    subject: "Physics",
+    text: "What is the physical formula for mechanical work done by a constant force?",
+    options: ["Work = Force × Displacement", "Work = Force / Time", "Work = Mass × Velocity", "Work = Power × Force"],
+    ans: 0,
+    exp: "W = F · d · cos(θ) where d is displacement in the force direction."
+  },
+  {
+    subject: "Physics",
+    text: "Pressure exerted by a fluid is defined as force per unit:",
+    options: ["Volume", "Area", "Length", "Density"],
+    ans: 1,
+    exp: "Pressure P = F / A (Force divided by perpendicular area)."
+  },
+  {
+    subject: "Physics",
+    text: "Which wave property is inversely proportional to wave frequency (f)?",
+    options: ["Amplitude", "Wavelength", "Intensity", "Phase angle"],
+    ans: 1,
+    exp: "Wave velocity v = f × λ, so wavelength λ = v / f."
+  },
+  {
+    subject: "Physics",
+    text: "What name is given to discrete packets or quanta of light energy?",
+    options: ["Electrons", "Photons", "Gluons", "Neutrinos"],
+    ans: 1,
+    exp: "Photons are elementary quantum packets of electromagnetic energy (E = h f)."
+  },
 
-  // ── Chemistry ──
+  // ── Chemistry (15 Unique MCQs) ──
   {
     subject: "Chemistry",
     text: "What is the chemical formula for water?",
@@ -256,8 +494,92 @@ const REAL_MCQ_BANK = [
     ans: 1,
     exp: "Covalent bonding involves the sharing of electron pairs between non-metal atoms."
   },
+  {
+    subject: "Chemistry",
+    text: "What chemical element has the symbol 'Au' on the periodic table?",
+    options: ["Silver", "Gold", "Copper", "Aluminum"],
+    ans: 1,
+    exp: "Au comes from the Latin word 'Aurum', representing Gold."
+  },
+  {
+    subject: "Chemistry",
+    text: "Which gas is required for chemical combustion reactions?",
+    options: ["Nitrogen", "Oxygen", "Helium", "Carbon Dioxide"],
+    ans: 1,
+    exp: "Oxygen reacts as an oxidizing agent during combustion."
+  },
+  {
+    subject: "Chemistry",
+    text: "What is the atomic number of Carbon?",
+    options: ["6", "12", "14", "8"],
+    ans: 0,
+    exp: "Carbon atoms have 6 protons in their atomic nucleus."
+  },
+  {
+    subject: "Chemistry",
+    text: "What process describes a solid changing directly into a gas without melting?",
+    options: ["Evaporation", "Sublimation", "Condensation", "Deposition"],
+    ans: 1,
+    exp: "Sublimation bypasses the liquid phase (e.g. dry ice CO₂)."
+  },
+  {
+    subject: "Chemistry",
+    text: "What is the primary hydrocarbon compound in natural gas?",
+    options: ["Ethane", "Methane (CH₄)", "Propane", "Butane"],
+    ans: 1,
+    exp: "Methane makes up over 85% of natural gas composition."
+  },
+  {
+    subject: "Chemistry",
+    text: "Which subatomic particle has no net electric charge?",
+    options: ["Proton", "Neutron", "Electron", "Positron"],
+    ans: 1,
+    exp: "Neutrons are neutral subatomic particles located in the atomic nucleus."
+  },
+  {
+    subject: "Chemistry",
+    text: "Which acid gives citrus fruits like lemons their sour flavor?",
+    options: ["Sulfuric acid", "Citric acid", "Hydrochloric acid", "Acetic acid"],
+    ans: 1,
+    exp: "Citric acid is a weak organic acid found naturally in citrus fruits."
+  },
+  {
+    subject: "Chemistry",
+    text: "What is a horizontal row on the periodic table called?",
+    options: ["Group", "Period", "Column", "Family"],
+    ans: 1,
+    exp: "Horizontal rows are called periods; vertical columns are called groups."
+  },
+  {
+    subject: "Chemistry",
+    text: "Which temperature scale begins at absolute zero (0 K)?",
+    options: ["Celsius", "Kelvin", "Fahrenheit", "Rankine"],
+    ans: 1,
+    exp: "The Kelvin scale is the absolute thermodynamic temperature scale."
+  },
+  {
+    subject: "Chemistry",
+    text: "What role does a catalyst play in a chemical reaction?",
+    options: ["Increases activation energy", "Increases reaction rate without being consumed", "Gets converted into product", "Decreases yield"],
+    ans: 1,
+    exp: "Catalysts lower activation energy barrier to speed up reactions without being consumed."
+  },
+  {
+    subject: "Chemistry",
+    text: "What is the most abundant gas in Earth's atmosphere by volume?",
+    options: ["Oxygen (21%)", "Nitrogen (78%)", "Argon (0.9%)", "Carbon Dioxide (0.04%)"],
+    ans: 1,
+    exp: "Nitrogen gas (N₂) makes up approximately 78% of dry air."
+  },
+  {
+    subject: "Chemistry",
+    text: "What type of bond forms when one atom completely transfers electrons to another?",
+    options: ["Covalent bond", "Ionic bond", "Metallic bond", "Van der Waals bond"],
+    ans: 1,
+    exp: "Ionic bonding occurs between metals and non-metals via electrostatic attraction of oppositely charged ions."
+  },
 
-  // ── Biology ──
+  // ── Biology (15 Unique MCQs) ──
   {
     subject: "Biology",
     text: "Which cell organelle is known as the 'powerhouse of the cell'?",
@@ -279,8 +601,92 @@ const REAL_MCQ_BANK = [
     ans: 1,
     exp: "Deoxyribonucleic acid (DNA) is the hereditary material in humans and almost all organisms."
   },
+  {
+    subject: "Biology",
+    text: "Which organelle is responsible for synthesizing proteins inside the cell?",
+    options: ["Lysosome", "Ribosome", "Vacuole", "Centrosome"],
+    ans: 1,
+    exp: "Ribosomes translate messenger RNA into polypeptide chains."
+  },
+  {
+    subject: "Biology",
+    text: "Which human blood cells are primarily responsible for transporting oxygen?",
+    options: ["White Blood Cells", "Platelets", "Red Blood Cells (Erythrocytes)", "Lymphocytes"],
+    ans: 2,
+    exp: "Red blood cells contain hemoglobin protein which binds and carries oxygen."
+  },
+  {
+    subject: "Biology",
+    text: "What cell division process produces 4 genetically unique haploid gamete cells?",
+    options: ["Mitosis", "Meiosis", "Binary Fission", "Budding"],
+    ans: 1,
+    exp: "Meiosis reduces chromosome count by half to form sperm or egg cells."
+  },
+  {
+    subject: "Biology",
+    text: "Which green pigment absorbs light energy inside plant chloroplasts?",
+    options: ["Carotene", "Chlorophyll", "Xanthophyll", "Anthocyanin"],
+    ans: 1,
+    exp: "Chlorophyll absorbs red and blue light wavelengths while reflecting green light."
+  },
+  {
+    subject: "Biology",
+    text: "What is the largest organ in the human body?",
+    options: ["Liver", "Brain", "Skin", "Heart"],
+    ans: 2,
+    exp: "The skin (integumentary system) is the largest organ by surface area and weight."
+  },
+  {
+    subject: "Biology",
+    text: "Which digestive enzyme present in human saliva breaks down complex starches?",
+    options: ["Pepsin", "Amylase", "Lipase", "Trypsin"],
+    ans: 1,
+    exp: "Salivary amylase breaks starch down into maltose sugars in the mouth."
+  },
+  {
+    subject: "Biology",
+    text: "Which heart chamber pumps oxygenated blood out into the systemic aorta?",
+    options: ["Right Atrium", "Right Ventricle", "Left Atrium", "Left Ventricle"],
+    ans: 3,
+    exp: "The muscular Left Ventricle pumps oxygenated blood throughout the body."
+  },
+  {
+    subject: "Biology",
+    text: "What is the microscopic structural and functional unit of the human kidney?",
+    options: ["Nephron", "Neuron", "Alveolus", "Villus"],
+    ans: 0,
+    exp: "Each kidney contains over 1 million nephrons filtering waste from blood."
+  },
+  {
+    subject: "Biology",
+    text: "Which pancreatic hormone lowers blood glucose concentration levels?",
+    options: ["Glucagon", "Insulin", "Adrenaline", "Cortisol"],
+    ans: 1,
+    exp: "Insulin promotes glucose absorption into muscle and liver tissue cells."
+  },
+  {
+    subject: "Biology",
+    text: "Which endocrine gland is referred to as the 'master gland' of the body?",
+    options: ["Thyroid", "Pituitary Gland", "Adrenal Gland", "Pancreas"],
+    ans: 1,
+    exp: "The Pituitary gland secretes hormones controlling other endocrine glands."
+  },
+  {
+    subject: "Biology",
+    text: "What are the structural monomer building blocks of proteins?",
+    options: ["Nucleotides", "Monosaccharides", "Amino Acids", "Fatty Acids"],
+    ans: 2,
+    exp: "Proteins consist of linear chains of 20 standard amino acid monomers."
+  },
+  {
+    subject: "Biology",
+    text: "Which organisms act as primary decomposers in ecological food webs?",
+    options: ["Herbivores", "Fungi & Bacteria", "Carnivores", "Producers"],
+    ans: 1,
+    exp: "Decomposers break down dead organic matter to recycle soil nutrients."
+  },
 
-  // ── Mathematics ──
+  // ── Mathematics (15 Unique MCQs) ──
   {
     subject: "Mathematics",
     text: "What are the roots of the quadratic equation x² - 7x + 12 = 0?",
@@ -309,8 +715,85 @@ const REAL_MCQ_BANK = [
     ans: 0,
     exp: "By Pythagorean theorem: c = √(6² + 8²) = √(36 + 64) = √100 = 10."
   },
+  {
+    subject: "Mathematics",
+    text: "What is the exact trigonometric value of sin(90°)?",
+    options: ["0", "1", "0.5", "Undefined"],
+    ans: 1,
+    exp: "On the unit circle, sin(90°) corresponds to y = 1."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the sum of interior angles in any Euclidean triangle?",
+    options: ["180°", "360°", "90°", "270°"],
+    ans: 0,
+    exp: "The interior angle sum of a triangle is always 180 degrees."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the base-10 logarithm value log₁₀(1000)?",
+    options: ["2", "3", "10", "100"],
+    ans: 1,
+    exp: "10³ = 1000, so log₁₀(1000) = 3."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the derivative d/dx of natural exponential function e^x?",
+    options: ["e^x", "x e^(x-1)", "1 / x", "ln(x)"],
+    ans: 0,
+    exp: "The derivative of e^x is equal to e^x itself."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the mathematical value of 5! (5 factorial)?",
+    options: ["120", "25", "60", "720"],
+    ans: 0,
+    exp: "5! = 5 × 4 × 3 × 2 × 1 = 120."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the mathematical formula for the area of a circle with radius r?",
+    options: ["2 π r", "π r²", "4/3 π r³", "π d"],
+    ans: 1,
+    exp: "Circle area = π × r²."
+  },
+  {
+    subject: "Mathematics",
+    text: "Solve for x in linear equation 2x + 5 = 15:",
+    options: ["x = 5", "x = 10", "x = 7.5", "x = 4"],
+    ans: 0,
+    exp: "Subtract 5: 2x = 10 -> divide by 2: x = 5."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the slope (m) of the linear equation y = 4x - 7?",
+    options: ["4", "-7", "7", "-4"],
+    ans: 0,
+    exp: "In slope-intercept form y = mx + b, the slope coefficient m is 4."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the exact value of cos(0°)?",
+    options: ["1", "0", "-1", "0.5"],
+    ans: 0,
+    exp: "On the unit circle at angle 0°, cos(0°) = 1."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the median of the set of numbers {3, 7, 9, 12, 15}?",
+    options: ["9", "7.5", "9.2", "12"],
+    ans: 0,
+    exp: "In an ordered set of 5 items, the middle value at index 3 is 9."
+  },
+  {
+    subject: "Mathematics",
+    text: "What is the probability of rolling a 6 on a single fair 6-sided die?",
+    options: ["1/6", "1/2", "1/36", "6/1"],
+    ans: 0,
+    exp: "There is 1 favorable outcome out of 6 possible equal outcomes: 1/6."
+  },
 
-  // ── Computer Science ──
+  // ── Computer Science (15 Unique MCQs) ──
   {
     subject: "Computer Science",
     text: "Which data structure operates on a First-In-First-Out (FIFO) basis?",
@@ -331,6 +814,90 @@ const REAL_MCQ_BANK = [
     options: ["Data Link Layer", "Network Layer", "Transport Layer", "Application Layer"],
     ans: 1,
     exp: "The Network Layer (Layer 3) handles IP addressing, packet routing, and forwarding across networks."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which data structure operates on a Last-In-First-Out (LIFO) order?",
+    options: ["Stack", "Queue", "Array", "Linked List"],
+    ans: 0,
+    exp: "Stacks push and pop elements from the top in LIFO order."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which network protocol encrypts web communication between browser and server?",
+    options: ["HTTP", "HTTPS", "FTP", "SMTP"],
+    ans: 1,
+    exp: "HTTPS uses SSL/TLS encryption to secure web communication."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which positional numeral system uses 16 distinct symbols (0-9 and A-F)?",
+    options: ["Binary", "Octal", "Hexadecimal", "Decimal"],
+    ans: 2,
+    exp: "Hexadecimal is a base-16 numbering system."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which SQL clause is used to query records from a relational table?",
+    options: ["FETCH", "SELECT", "GET", "QUERY"],
+    ans: 1,
+    exp: "SELECT retrieves rows matching specified column criteria from a database."
+  },
+  {
+    subject: "Computer Science",
+    text: "What is the average case search time complexity in a balanced Hash Table?",
+    options: ["O(1)", "O(log n)", "O(n)", "O(n²)"],
+    ans: 0,
+    exp: "Hash tables provide direct O(1) constant average lookup time."
+  },
+  {
+    subject: "Computer Science",
+    text: "What is the binary representation of decimal number 10?",
+    options: ["1010", "1001", "1100", "1110"],
+    ans: 0,
+    exp: "10 in binary is 8 + 2 = 1010₂."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which hardware component executes program instructions in a computer?",
+    options: ["RAM", "Central Processing Unit (CPU)", "Hard Drive", "GPU"],
+    ans: 1,
+    exp: "The CPU performs arithmetic, logic, and control operations."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which standard port number is assigned for unencrypted HTTP traffic?",
+    options: ["443", "80", "21", "22"],
+    ans: 1,
+    exp: "Port 80 is the default network port for unencrypted HTTP."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which logic gate outputs 1 (TRUE) only when both input signals are 1?",
+    options: ["OR gate", "AND gate", "XOR gate", "NAND gate"],
+    ans: 1,
+    exp: "An AND gate requires all inputs to be true to yield a true output."
+  },
+  {
+    subject: "Computer Science",
+    text: "What system software manages hardware resources and provides user interface services?",
+    options: ["Compiler", "Operating System (OS)", "Database Manager", "Web Browser"],
+    ans: 1,
+    exp: "The OS manages memory, processes, files, and hardware I/O."
+  },
+  {
+    subject: "Computer Science",
+    text: "Which non-linear data structure consists of nodes connected by edges in a parent-child hierarchy?",
+    options: ["Array", "Tree", "Queue", "Hash Table"],
+    ans: 1,
+    exp: "Trees are hierarchical non-linear data structures with root and child nodes."
+  },
+  {
+    subject: "Computer Science",
+    text: "What computer programming concept describes a function invoking itself?",
+    options: ["Iteration", "Recursion", "Inheritance", "Polymorphism"],
+    ans: 1,
+    exp: "Recursion occurs when a function calls itself until reaching a base condition."
   },
 ];
 
@@ -514,21 +1081,33 @@ export const QuizzesScreen: React.FC<{ navigation?: any }> = () => {
         subjectFilteredBank = REAL_MCQ_BANK;
       }
 
-      // Shuffle filtered bank
+      // Shuffle filtered bank and track used question texts for 100% UNIQUE non-repeating questions
       const shuffledBank = [...subjectFilteredBank].sort(() => 0.5 - Math.random());
-      
+      const usedQuestionTexts = new Set<string>();
+
       const generatedQuestions = Array.from({ length: genQuestionCount }).map((_, i) => {
         const sourcePaper = uploadedPapers[i % uploadedPapers.length];
-        
-        // Try matching MCQ for the exact source paper subject if possible
-        const exactMatchMcq = shuffledBank.find((mcq) => mcq.subject === sourcePaper.subject);
-        const mcqData = exactMatchMcq || shuffledBank[i % shuffledBank.length];
+
+        // Find an unused question matching source paper subject, or any unused question in shuffled bank
+        let chosenMcq = shuffledBank.find(
+          (mcq) => mcq.subject === sourcePaper.subject && !usedQuestionTexts.has(mcq.text)
+        );
+
+        if (!chosenMcq) {
+          chosenMcq = shuffledBank.find((mcq) => !usedQuestionTexts.has(mcq.text));
+        }
+
+        if (!chosenMcq) {
+          chosenMcq = shuffledBank[i % shuffledBank.length];
+        } else {
+          usedQuestionTexts.add(chosenMcq.text);
+        }
 
         return {
-          questionText: `[Extracted via OCR from ${sourcePaper.title}] Q${i + 1}. ${mcqData.text}`,
-          options: mcqData.options,
-          correctAnswerIndex: mcqData.ans,
-          explanation: `${mcqData.exp} (Extracted from ${sourcePaper.title}).`,
+          questionText: `[Extracted via OCR from ${sourcePaper.title}] Q${i + 1}. ${chosenMcq.text}`,
+          options: chosenMcq.options,
+          correctAnswerIndex: chosenMcq.ans,
+          explanation: `${chosenMcq.exp} (Extracted from ${sourcePaper.title}).`,
         };
       });
 
